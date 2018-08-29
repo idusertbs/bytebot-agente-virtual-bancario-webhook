@@ -49,8 +49,37 @@ def makeResponse(req):
         if error == 1:
             speech = "Eres nuestro cliente"
         else:
-            speech = "No eres nuestro cliente"
+            speech = "Aún no eres cliente de nuestro banco ☹️"
 
+        return {
+            "speech": speech,
+            "displayText": speech,
+            "source": "bytebot-virtual-agent-webhook"
+
+        }
+    
+    if intentName == "bytebot.avb.consultar.cuentas":        
+        #verificar si puede consultar cuentas
+        speech = "Todavía no me implementan la opción de verificación, así que no podrás consultar tus cuentas 😢"
+        return {
+            "speech": speech,
+            "displayText": speech,
+            "source": "bytebot-virtual-agent-webhook"
+
+        }
+        
+    if intentName == "bytebot.avb.consultar.tarjetas":        
+        #verificar si puede consultar cuentas
+        speech = "Todavía no me implementan la opción de verificación, así que no podrás consultar tus tarjetas 😢"
+        return {
+            "speech": speech,
+            "displayText": speech,
+            "source": "bytebot-virtual-agent-webhook"
+
+        }
+    if intentName == "bytebot.avb.consultar.tipo.de.cambio":        
+        #verificar si puede consultar cuentas
+        speech = "Todavía no me implementan la opción de verificación, así que no podrás consultar el tipo de cambio 😢"
         return {
             "speech": speech,
             "displayText": speech,
