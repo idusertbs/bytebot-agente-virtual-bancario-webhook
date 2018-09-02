@@ -86,6 +86,34 @@ def makeResponse(req):
             "source": "bytebot-virtual-agent-webhook"
 
         }
+    
+    if intentName == "probando.carrusel.dinamico":   
+        r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
+        json_object = r.json()
+        debito=json_object['result']['clientes']['debito']
+        cuentas_debito = []
+        objeto = ''
+        for i in range(0,len(debito)):
+            if i<len(debito)-1:
+                objeto = "{'type': 1,'platform': 'facebook','title': " + str(debito[i]['nombre']) + ",'imageUrl': 'https://www.bbvacontinental.pe/fbin/mult/cuentas-sueldo-ancho-completo_tcm1105-662879.png','buttons': [{'text': 'Consultar Cuentas','postback': ''}]}" + ',' + objeto                            
+            else:
+                objeto = objeto + "{'type': 1,'platform': 'facebook','title': " + str(debito[i]['nombre']) + ",'imageUrl': 'https://www.bbvacontinental.pe/fbin/mult/cuentas-sueldo-ancho-completo_tcm1105-662879.png','buttons': [{'text': 'Consultar Cuentas','postback': ''}]}"                                         
+        #verificando el carrusel dinámico
+        speech = "Todavía no me implementan la opción de verificación, así que no podrás consultar el tipo de cambio 😢"
+        return {
+                
+                "speech": "hola",
+                "displayText": "hola",
+                "source": "apiai-weather-webhook",
+                "messages": [
+                        
+                            objeto
+                        
+                        
+                        ]
+                
+                
+                }
 
 
         
