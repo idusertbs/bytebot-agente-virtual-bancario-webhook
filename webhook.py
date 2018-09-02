@@ -98,8 +98,7 @@ def makeResponse(req):
         for i in range(0,len(debito)):
             json_string = u'{"type": 1,"platform": "facebook","title": "' + str(debito[i]["nombre"]) + '","imageUrl": "https://www.bbvacontinental.pe/fbin/mult/cuentas-sueldo-ancho-completo_tcm1105-662879.png","buttons": [{"text": "Consultar Cuentas","postback": ""}]}'
             objeto  = json.loads(json_string)
-            cuentas_debito.append(objeto)  
-        return cuentas_debito
+            cuentas_debito.append(objeto)
         
         #verificando el carrusel dinámico
         speech = "Todavía no me implementan la opción de verificación, así que no podrás consultar el tipo de cambio 😢"
