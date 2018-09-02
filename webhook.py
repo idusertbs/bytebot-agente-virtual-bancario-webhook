@@ -90,7 +90,7 @@ def makeResponse(req):
     if intentName == "probando.carrusel.dinamico":
         parameters = result.get("parameters")
         documento = parameters.get("number")   
-        r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
+        r=requests.get('http://181.177.228.114:5001/clientes/' + str(74563192))
         json_object = r.json()
         debito=json_object['result']['clientes']['debito']
         cuentas_debito = []
