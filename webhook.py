@@ -222,12 +222,17 @@ def makeResponse(req):
         verificacion = verificacion()
         documento = 74563192
         
-        if int(verificacion) != 0:              
+        if int(verificacion) != 0:   
+
+            r_query = requests.get('http://181.177.228.114:5000/query')
+            json_object_query = r_query.json()
+            documento = int(json_object_query["result"]["documento"])
+
             r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
             json_object = r.json()
             debito=json_object['result']['clientes']['debito']
             cuentas_debito = []
-            json_string_inicio = u'{"type": 0,"platform": "facebook","speech": "Seleccione el tipo de cuenta:"}'
+            json_string_inicio = u'{"type": 0,"platform": "facebook","speech": "Estos son todos tus tipos de cuenta, selecciona alguna :)"}'
             objeto_inicio = json.loads(json_string_inicio)
             cuentas_debito.append(objeto_inicio)
             objeto = ''
