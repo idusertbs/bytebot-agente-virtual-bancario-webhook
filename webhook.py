@@ -369,7 +369,7 @@ def makeResponse(req):
             '''
             
             debito_df=json_object['result']['clientes']['debito']
-            cuenta_sueldo = ''
+            cuentas_sueldo = ''
             cuentas_sueldo_tarjetas = ''
             cuentas_sueldo_url = ''
             cuentas_sueldo_array = []
@@ -378,7 +378,7 @@ def makeResponse(req):
             cuentas_sueldo_url_array = []
             objeto = ''
             for i in range(0,len(debito_df)):
-                if debito_df[i]['nombre'] == debito:
+                if debito_df[i]['nombre'] == "Cuenta Ahorros":
                     cuentas_json = debito_df[i]['cuentas']
                     for j in range(0,len(cuentas_json)):
                         cuentas_sueldo = cuentas_json[j]["alias"]
