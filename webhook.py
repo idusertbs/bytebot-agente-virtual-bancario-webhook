@@ -291,8 +291,7 @@ def makeResponse(req):
     if intentName == "bytebot.avb.cuenta.debito.sueldo":
         #Verificación: ¿El estado de la tabla BBOTSEFAC es true o false?        
         verificacion = verificacion()
-        r_clientes=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
-        json_object_clientes = r_clientes.json()
+        
         
         if int(verificacion) != 0:  
             contexts = result.get("contexts")
@@ -302,14 +301,15 @@ def makeResponse(req):
 
             r_query = requests.get('http://181.177.228.114:5000/query')
             json_object_query = r_query.json()
-            documento = int(json_object_query["result"]["documento"])
+            documento = int(json_object_query["result"]["documento"])            
+        
 
             r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
             json_object = r.json()
 
 
             if debito == "Cuenta sueldo":
-                debito=json_object_clientes['result']['clientes']['debito']
+                debito=json_object['result']['clientes']['debito']
                 cuentas_sueldo_array = []
                 cuentas_sueldo_nombres = []
                 cuentas_sueldo_tarjetas_array = []
