@@ -223,9 +223,11 @@ def makeResponse(req):
     if intentName == "bytebot.avb.consultar.cuentas":
         #Verificación: ¿El estado de la tabla BBOTSEFAC es true o false?        
         verificacion = verificacion()
-        documento = 74563192
         
-        if int(verificacion) != 0:   
+        if int(verificacion) != 0:  
+            contexts = result.get("contexts")
+            last_context = contexts[len(contexts)-1] 
+            producto = last_context["producto"]
 
             r_query = requests.get('http://181.177.228.114:5000/query')
             json_object_query = r_query.json()
@@ -233,24 +235,27 @@ def makeResponse(req):
 
             r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
             json_object = r.json()
-            debito=json_object['result']['clientes']['debito']
-            cuentas_debito = []
-            json_string_inicio = u'{"type": 0,"platform": "facebook","speech": "Estos son todos tus tipos de cuenta, selecciona alguna :)"}'
-            objeto_inicio = json.loads(json_string_inicio)
-            cuentas_debito.append(objeto_inicio)
-            objeto = ''
-            for i in range(0,len(debito)):
-                json_string = u'{"type": 1,"platform": "facebook","title": "' + str(debito[i]["nombre"]) + '","imageUrl":  "' + str(debito[i]["imageUrl"]) + '","buttons": [{"text": "Seleccionar Cuenta","postback": "' + str(debito[i]["nombre"]) + '"}]}'
-                objeto  = json.loads(json_string)
-                cuentas_debito.append(objeto)
-            #verificando el carrusel dinámico
-            return {
-                "speech": "hola",
-                "displayText": "hola",
-                "source": "apiai-weather-webhook",
-                "messages": cuentas_debito
+
+
+            if producto == "Cuentas":
+                debito=json_object['result']['clientes']['debito']
+                cuentas_debito = []
+                json_string_inicio = u'{"type": 0,"platform": "facebook","speech": "Estos son todos tus tipos de cuenta, selecciona alguna :)"}'
+                objeto_inicio = json.loads(json_string_inicio)
+                cuentas_debito.append(objeto_inicio)
+                objeto = ''
+                for i in range(0,len(debito)):
+                    json_string = u'{"type": 1,"platform": "facebook","title": "' + str(debito[i]["nombre"]) + '","imageUrl":  "' + str(debito[i]["imageUrl"]) + '","buttons": [{"text": "Seleccionar Cuenta","postback": "' + str(debito[i]["nombre"]) + '"}]}'
+                    objeto  = json.loads(json_string)
+                    cuentas_debito.append(objeto)
+
+                return {
+                    "speech": "hey",
+                    "displayText": "hey",
+                    "source": "apiai-weather-webhook",
+                    "messages": cuentas_debito
                 }
-        
+
         else:
             return verificacion_response
 
