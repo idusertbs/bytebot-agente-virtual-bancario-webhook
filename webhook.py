@@ -57,28 +57,38 @@ def makeResponse(req):
             }
 
     
-    if intentName == "verificacion":        
+    if intentName == "bytebot.avb.seleccion.documento-doc.digitado":        
         parameters = result.get("parameters")
         documento = parameters.get("number")
         r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
         json_object = r.json()
-        error = 0
-        try:
-            json_object["error"]
-        except KeyError as e:
-            error = 1
+        es_cliente = json_object["result"]["codigo"]
 
-        if error == 1:
-            speech = "Eres nuestro cliente"
-        else:
-            speech = "Aún no eres cliente de nuestro banco ☹️"
-
-        return {
-            "speech": speech,
-            "displayText": speech,
-            "source": "bytebot-virtual-agent-webhook"
+        if int(es_cliente) == 0:
+            speech = "Aún no eres cliente de nuestro banco :("
+            return {                
+                "speech": speech,
+                "displayText": speech,
+                "source": "bytebot-virtual-agent-webhook"
 
         }
+        else:
+            speech = "Voy a enviar un código de verificación. Indícame a donde prefieres que lo envíe"
+            return{
+                "speech": speech,
+                "messages": [
+                    { "type": 0, "platform": "facebook", "speech": speech},
+                    { "type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "button", "text": speech,
+                                "buttons": [ 
+                                    { "type": "postback", "title": "Celular", "payload": "Celular" },
+                                    {"type": "postback", "title": "E-mail", "payload": "E-mail"}
+                                ]}}}}
+                    },
+                    { "type": 0, "speech": "" }
+                ]
+            }
+
+
 
     if intentName == "bytebot.avb.consultar.cuentas":
         #Verificación: ¿El estado de la tabla BBOTSEFAC es true o false?        
