@@ -324,7 +324,7 @@ def makeResponse(req):
                             cuentas_sueldo_nombres.append(cuentas_sueldo)
                             cuentas_sueldo_tarjetas_array.append(cuentas_sueldo_tarjetas)
                             cuentas_sueldo_url_array.append(cuentas_sueldo_url)
-                            json_string = u'{"type": 1,"platform": "facebook","title": "' + str(cuentas_sueldo_nombres[j]) + '", "subtitle":"'+str(cuentas_sueldo_tarjetas_array[j]) +'", "imageUrl":  "' + str(cuentas_sueldo_url_array[j]) + '","buttons": [{"text": "Consultar saldos","postback": "Consultar Saldos ' + str(debito[i]["nombre"]) + '"},{"text": "Consultar Movimientos","postback": "Consultar Movmientos ' + str(debito[i]["nombre"]) + '"},{"text": "Análisis","postback": "Análisis ' + str(debito[i]["nombre"]) + '"}]}'
+                            json_string = u'{"type": 1,"platform": "facebook","title": "' + str(debito[i]['nombre']) + ' - '+ str(cuentas_sueldo_nombres[j]) + '", "subtitle":"'+str(cuentas_sueldo_tarjetas_array[j]) +'", "imageUrl":  "' + str(cuentas_sueldo_url_array[j]) + '","buttons": [{"text": "Consultar saldos","postback": "Consultar Saldos ' + str(debito[i]["nombre"]) + '"},{"text": "Consultar Movimientos","postback": "Consultar Movmientos ' + str(debito[i]["nombre"]) + '"},{"text": "Análisis","postback": "Análisis ' + str(debito[i]["nombre"]) + '"}]}'
                             objeto  = json.loads(json_string)
                             cuentas_sueldo_array.append(objeto)
                 return {
