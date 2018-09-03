@@ -379,7 +379,7 @@ def makeResponse(req):
             objeto = ''
             i = 0
             for i in range(0,len(debito_df)):
-                if debito_df[i]['nombre'] == "Cuenta Ahorros":
+                if debito_df[i]['nombre'] == debito:
                     cuentas_json = debito_df[i]['cuentas']
                     for j in range(0,len(cuentas_json)):
                         cuentas_sueldo = cuentas_json[j]["alias"]
@@ -391,12 +391,12 @@ def makeResponse(req):
                         json_string = u'{"type": 1,"platform": "facebook","title": "' + str(debito_df[i]['nombre']) + ' - '+ str(cuentas_sueldo_nombres[j]) + '", "subtitle":"'+str(cuentas_sueldo_tarjetas_array[j]) +'", "imageUrl":  "' + str(cuentas_sueldo_url_array[j]) + '","buttons": [{"text": "Consultar saldos","postback": "Consultar Saldos ' + str(debito_df[i]["nombre"]) + '"},{"text": "Consultar Movimientos","postback": "Consultar Movmientos ' + str(debito_df[i]["nombre"]) + '"},{"text": "Análisis","postback": "Análisis ' + str(debito_df[i]["nombre"]) + '"}]}'
                         objeto  = json.loads(json_string)
                         cuentas_sueldo_array.append(objeto)
-                return {
+            return {
                     "speech": debito_df[i]['nombre'],
                     "displayText": "heyo",
                     "source": "apiai-weather-webhook",
                     "messages": cuentas_sueldo_array
-                }
+            }
 
         else:
             return verificacion_response
