@@ -172,6 +172,45 @@ def makeResponse(req):
                     #{ "type": 0, "platform": "facebook", "speech": "Por favor, ingresa tu clave de registro de 4 dígitos que te envié :)"}
                 ]
             }
+    
+    if intentName == "bytebot.avb.seleccion.documento-doc.digitado-canal.digitado-respuesta":        
+        parameters = result.get("parameters")
+        respuesta = parameters.get("respuesta")
+        documento = 74563192
+        r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
+        json_object = r.json()
+        telefono = json_object["result"]["clientes"]["telefono"]
+
+
+        if respuesta == "No":
+            speech = "Aún no tenemos implementado ese servicio :("
+            return {                
+                "speech": speech,
+                "displayText": speech,
+                "source": "bytebot-virtual-agent-webhook"
+
+        }
+        elif respuesta == "Sí":
+            speech = "Ok! Estoy enviando el código de verificación al celular (******" + str(telefono[9:]) + ")"
+            #r_token=requests.get('http://181.177.228.114:5000/enviatoken/' + str(telefono))
+            return{
+                "speech": speech,
+                "messages": [                    
+                    { "type": 0, "platform": "facebook", "speech": speech},
+                    { "type": 0, "platform": "facebook", "speech": "Por favor, ingresa tu clave de registro de 4 dígitos que te envié :)"}
+                ]
+            }
+        else:
+            speech = "Ya nos salimos del tema :("
+            return{
+                "speech": speech,
+                "messages": [                    
+                    { "type": 0, "platform": "facebook", "speech": speech}
+                ]
+            }
+
+
+    
 
 
 
