@@ -136,7 +136,14 @@ def makeResponse(req):
 
 
     
-    if intentName == "bytebot.avb.seleccion.documento-doc.digitado-canal.digitado-token":        
+    if intentName == "bytebot.avb.seleccion.documento-doc.digitado-canal.digitado-token":      
+        #Parámetros del contexto
+        contexts = result.get("contexts")
+        last_context = contexts[len(contexts)-1] 
+        parameters_context = last_context["parameters"]
+        producto = parameters_context.get("producto")  
+
+        #Parámetros normales
         parameters = result.get("parameters")
         token = parameters.get("number")
         documento = 74563192
@@ -169,15 +176,41 @@ def makeResponse(req):
             #Recuperando la opción presionada al inicio:
             #r_context = requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
 
+            if producto == "Cuentas":
+                debito=json_object_clientes['result']['clientes']['debito']
+                cuentas_debito = []
+                json_string_inicio_00 = u'{"type": 0,"platform": "facebook","speech": "' + speech1 +  '"}'
+                json_string_inicio_0 = u'{"type": 0,"platform": "facebook","speech": "' + speech2 +  '"}'
+                json_string_inicio = u'{"type": 0,"platform": "facebook","speech": "Estos son todos tus tipos de cuenta, selecciona alguna :)"}'
+                objeto_inicio_00 = json.loads(json_string_inicio_00)
+                objeto_inicio_0 = json.loads(json_string_inicio_0)
+                objeto_inicio = json.loads(json_string_inicio)
+                cuentas_debito.append(objeto_inicio_00)
+                cuentas_debito.append(objeto_inicio_0)
+                cuentas_debito.append(objeto_inicio)
+                objeto = ''
+                for i in range(0,len(debito)):
+                    json_string = u'{"type": 1,"platform": "facebook","title": "' + str(debito[i]["nombre"]) + '","imageUrl":  "' + str(debito[i]["imageUrl"]) + '","buttons": [{"text": "Seleccionar Cuenta","postback": "' + str(debito[i]["nombre"]) + '"}]}'
+                    objeto  = json.loads(json_string)
+                    cuentas_debito.append(objeto)
+
+                return {
+                    "speech": "hey",
+                    "displayText": "hey",
+                    "source": "apiai-weather-webhook",
+                    "messages": cuentas_debito
+                }
+
+
             
-            return{
-                "speech": speech1,
-                "messages": [  
-                    { "type": 0, "platform": "facebook", "speech": speech1},                  
-                    { "type": 0, "platform": "facebook", "speech": speech2}
-                    #{ "type": 0, "platform": "facebook", "speech": "Por favor, ingresa tu clave de registro de 4 dígitos que te envié :)"}
-                ]
-            }
+            #return{
+            #    "speech": speech1,
+            #    "messages": [  
+            #        { "type": 0, "platform": "facebook", "speech": speech1},                  
+            #        { "type": 0, "platform": "facebook", "speech": speech2}
+            #        #{ "type": 0, "platform": "facebook", "speech": "Por favor, ingresa tu clave de registro de 4 dígitos que te envié :)"}
+            #    ]
+            #}
     
     if intentName == "bytebot.avb.seleccion.documento-doc.digitado-canal.digitado-respuesta":        
         parameters = result.get("parameters")
