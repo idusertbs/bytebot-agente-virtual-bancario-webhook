@@ -183,7 +183,7 @@ def makeResponse(req):
 
 
         if respuesta == "No":
-            speech = "Aún no tenemos implementado ese servicio :("
+            speech = "Oh ni modo, en caso de que te llegue el mensaje puedes mandármelo o ignorarlo :("
             return {                
                 "speech": speech,
                 "displayText": speech,
