@@ -391,7 +391,7 @@ def makeResponse(req):
                         objeto  = json.loads(json_string)
                         cuentas_sueldo_array.append(objeto)
                 return {
-                    "speech": "heyo",
+                    "speech": debito_df[i]['nombre'],
                     "displayText": "heyo",
                     "source": "apiai-weather-webhook",
                     "messages": cuentas_sueldo_array
