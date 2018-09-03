@@ -96,7 +96,7 @@ def makeResponse(req):
         cuentas_debito = []
         objeto = ''
         for i in range(0,len(debito)):
-            json_string = u'{"type": 1,"platform": "facebook","title": "' + str(debito[i]["nombre"]) + '","imageUrl": "https://www.bbvacontinental.pe/fbin/mult/cuentas-sueldo-ancho-completo_tcm1105-662879.png","buttons": [{"text": "Consultar Cuentas","postback": ""}]}'
+            json_string = u'{"type": 1,"platform": "facebook","title": "' + str(debito[i]["nombre"]) + '","imageUrl":  "' + str(debito[i]["imageUrl"]) + '","buttons": [{"text": "Consultar Cuentas","postback": ""}]}'
             objeto  = json.loads(json_string)
             cuentas_debito.append(objeto)
         
