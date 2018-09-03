@@ -57,16 +57,29 @@ def makeResponse(req):
             "source": "bytebot-virtual-agent-webhook"
 
         }
-    
-    if intentName == "bytebot.avb.consultar.cuentas":        
-        #verificar si puede consultar cuentas
-        speech = "Todavía no me implementan la opción de verificación, así que no podrás consultar tus cuentas 😢"
-        return {
-            "speech": speech,
-            "displayText": speech,
-            "source": "bytebot-virtual-agent-webhook"
 
-        }
+    if intentName == "bytebot.avb.consultar.cuentas":
+        parameters = result.get("parameters")
+        documento = parameters.get("number")   
+        r=requests.get('http://181.177.228.114:5001/clientes/' + str(74563192))
+        json_object = r.json()
+        debito=json_object['result']['clientes']['debito']
+        cuentas_debito = []
+        objeto = ''
+        for i in range(0,len(debito)):
+            json_string = u'{"type": 1,"platform": "facebook","title": "' + str(debito[i]["nombre"]) + '","imageUrl":  "' + str(debito[i]["imageUrl"]) + '","buttons": [{"text": "Seleccionar Cuenta","postback": "' + str(debito[i]["nombre"]) + '"}]}'
+            objeto  = json.loads(json_string)
+            cuentas_debito.append(objeto)
+        
+        #verificando el carrusel dinámico
+        speech = "Todavía no me implementan la opción de verificación, así que no podrás consultar el tipo de cambio 😢"
+        return {
+                
+                "speech": "hola",
+                "displayText": "hola",
+                "source": "apiai-weather-webhook",
+                "messages": cuentas_debito
+                }
 
     if intentName == "bytebot.avb.consultar.tarjetas":        
         #verificar si puede consultar cuentas
@@ -87,28 +100,7 @@ def makeResponse(req):
 
         }
     
-    if intentName == "probando.carrusel.dinamico":
-        parameters = result.get("parameters")
-        documento = parameters.get("number")   
-        r=requests.get('http://181.177.228.114:5001/clientes/' + str(74563192))
-        json_object = r.json()
-        debito=json_object['result']['clientes']['debito']
-        cuentas_debito = []
-        objeto = ''
-        for i in range(0,len(debito)):
-            json_string = u'{"type": 1,"platform": "facebook","title": "' + str(debito[i]["nombre"]) + '","imageUrl":  "' + str(debito[i]["imageUrl"]) + '","buttons": [{"text": "Consultar Cuentas","postback": "' + str(debito[i]["nombre"]) + '"}]}'
-            objeto  = json.loads(json_string)
-            cuentas_debito.append(objeto)
-        
-        #verificando el carrusel dinámico
-        speech = "Todavía no me implementan la opción de verificación, así que no podrás consultar el tipo de cambio 😢"
-        return {
-                
-                "speech": "hola",
-                "displayText": "hola",
-                "source": "apiai-weather-webhook",
-                "messages": cuentas_debito
-                }
+    
 
 
         
