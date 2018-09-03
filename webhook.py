@@ -44,22 +44,16 @@ def makeResponse(req):
     verificacion_response = {
                 "speech": "verificación", "displayText": "verificación", "source": "apiai-weather-webhook",
                 "messages": [
-                    {
-                        "type": 0, "platform": "facebook", "speech": "Bien! Pero primero necesito saber tu identidad"
-                    },
-                    {
-                        "type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "button", "text": "¿Con qué tipo de documento estás registrado?",
+                    { "type": 0, "platform": "facebook", "speech": "Bien! Pero primero necesito saber tu identidad"},
+                    { "type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "button", "text": "¿Con qué tipo de documento estás registrado?",
                                 "buttons": [ 
                                     { "type": "postback", "title": "DNI", "payload": "DNI" },
                                     {"type": "postback", "title": "Carné de extranjería", "payload": "Carné de extranjería"},
                                     {"type": "postback", "title": "Pasaporte", "payload": "Pasaporte" }
                                 ]}}}}
                     },
-                    {
-                        "type": 0, "speech": ""
-                    }
+                    { "type": 0, "speech": "" }
                 ]
-
             }
 
     
