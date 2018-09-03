@@ -65,6 +65,9 @@ def makeResponse(req):
         json_object = r.json()
         debito=json_object['result']['clientes']['debito']
         cuentas_debito = []
+        json_string_inicio = u'{"type": 0,"platform": "facebook","speech": "Seleccione el tipo de cuenta:"}'
+        objeto_inicio = json.loads(json_string_inicio)
+        cuentas_debito.append(objeto_inicio)
         objeto = ''
         for i in range(0,len(debito)):
             json_string = u'{"type": 1,"platform": "facebook","title": "' + str(debito[i]["nombre"]) + '","imageUrl":  "' + str(debito[i]["imageUrl"]) + '","buttons": [{"text": "Seleccionar Cuenta","postback": "' + str(debito[i]["nombre"]) + '"}]}'
