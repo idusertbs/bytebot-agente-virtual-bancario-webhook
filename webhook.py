@@ -90,9 +90,11 @@ def makeResponse(req):
     if intentName == "bytebot.avb.seleccion.documento-doc.digitado-canal.digitado":        
         parameters = result.get("parameters")
         canal = parameters.get("canal")
-        r=requests.get('http://181.177.228.114:5001/clientes/' + str(74563192))
+        documento = 74563192
+        r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
         json_object = r.json()
         telefono = json_object["result"]["clientes"]["telefono"]
+
 
         if canal == "E-mail":
             speech = "Aún no tenemos implementado ese servicio :("
@@ -104,6 +106,42 @@ def makeResponse(req):
         }
         else:
             speech = "Estoy enviando el código de verificación al celular (******" + str(telefono[9:]) + ")"
+            #r_token=requests.get('http://181.177.228.114:5000/enviatoken/' + str(telefono))
+            return{
+                "speech": speech,
+                "messages": [                    
+                    { "type": 0, "platform": "facebook", "speech": speech},
+                    { "type": 0, "platform": "facebook", "speech": "Por favor, ingresa tu clave de registro de 4 dígitos que te envié :)"}
+                ]
+            }
+    
+    if intentName == "bytebot.avb.seleccion.documento-doc.digitado-canal.digitado-token":        
+        parameters = result.get("parameters")
+        token = parameters.get("number")
+        r_clientes=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
+        json_object_clientes = r_clientes.json()
+        nombre = json_object_clientes["result"]["clientes"]["cliente"]
+        r=requests.get('http://181.177.228.114:5000/validatoken/' + str(token))
+        json_object = r.json()
+        acceso = json_object["result"]["codigo"]
+
+        if acceso == "0":
+            speech = "El código es incorrecto 😓. ¿Deseas qué te reenvíe el código?"
+            return {
+                "speech": speech,
+                "messages": [
+                    { "type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "button", "text": speech,
+                                "buttons": [ 
+                                    { "type": "postback", "title": "Sí", "payload": "Si" },
+                                    {"type": "postback", "title": "No", "payload": "No"}
+                                ]}}}}
+                    },
+                    { "type": 0, "speech": "" }
+                ]
+            }
+        else:
+            speech = "Bienvenido " + nombre + "!"
+            #r_token=requests.get('http://181.177.228.114:5000/enviatoken/' + str(telefono))
             return{
                 "speech": speech,
                 "messages": [                    
@@ -117,9 +155,10 @@ def makeResponse(req):
     if intentName == "bytebot.avb.consultar.cuentas":
         #Verificación: ¿El estado de la tabla BBOTSEFAC es true o false?        
         verificacion = verificacion()
+        documento = 74563192
         
         if int(verificacion) != 0:              
-            r=requests.get('http://181.177.228.114:5001/clientes/' + str(74563192))
+            r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
             json_object = r.json()
             debito=json_object['result']['clientes']['debito']
             cuentas_debito = []
