@@ -288,7 +288,7 @@ def makeResponse(req):
         else:
             return verificacion_response
 
-    if intentName == "bytebot.avb.cuenta.debito.sueldo":
+    if intentName == "bytebot.avb.cuenta.debito.tipos":
         #Verificación: ¿El estado de la tabla BBOTSEFAC es true o false?        
         verificacion = verificacion()
         
@@ -332,6 +332,39 @@ def makeResponse(req):
                     "displayText": "hey",
                     "source": "apiai-weather-webhook",
                     "messages": cuentas_sueldo_array
+                }
+            elif debito == "Cuenta ahorros":
+                debito=json_object['result']['clientes']['debito']
+                cuentas_ahorro_array = []
+                cuentas_ahorro_nombres = []
+                cuentas_ahorro_tarjetas_array = []
+                cuentas_ahorro_url_array = []
+                for i in range(0,len(debito)): 
+                    if debito[i]['nombre'] == 'Cuenta Ahorros':
+                        cuentas_json = debito[i]['cuentas']
+                        for j in range(0,len(cuentas_json)):
+                            cuentas_ahorro = cuentas_json[j]["alias"]
+                            cuentas_ahorro_tarjetas = cuentas_json[j]["numero"]
+                            cuentas_ahorro_url = cuentas_json[j]["imageUrl"]
+                            cuentas_ahorro_nombres.append(cuentas_ahorro)
+                            cuentas_ahorro_tarjetas_array.append(cuentas_ahorro_tarjetas)
+                            cuentas_ahorro_url_array.append(cuentas_ahorro_url)
+                            json_string = u'{"type": 1,"platform": "facebook","title": "' + str(cuentas_ahorro_nombres[j]) + '", "subtitle":"'+str(cuentas_ahorro_tarjetas_array[j]) +'", "imageUrl":  "' + str(cuentas_ahorro_url_array[j]) + '","buttons": [{"text": "Consultar saldos","postback": "Consultar Saldos ' + str(debito[i]["nombre"]) + '"},{"text": "Consultar Movimientos","postback": "Consultar Movmientos ' + str(debito[i]["nombre"]) + '"},{"text": "Análisis","postback": "Análisis ' + str(debito[i]["nombre"]) + '"}]}'
+                            objeto  = json.loads(json_string)
+                            cuentas_ahorro_array.append(objeto)
+                return {
+                    "speech": "hey",
+                    "displayText": "hey",
+                    "source": "apiai-weather-webhook",
+                    "messages": cuentas_ahorro_array
+                }
+            else:
+                speech = "Qué extraño.. no tengo configurado este tipo de tarjeta en mi sistema :("
+                return{
+                    "speech": speech,
+                    "messages": [
+                        { "type": 0, "platform": "facebook", "speech": speech} 
+                        ]
                 }
 
         else:
