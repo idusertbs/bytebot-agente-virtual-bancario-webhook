@@ -34,6 +34,34 @@ def makeResponse(req):
     result = req.get("result")
     metadata = result.get("metadata")
     intentName = metadata.get("intentName")
+
+    def verificacion():
+        r_verificacion = requests.get('http://181.177.228.114:5000/query')
+        json_object_verificacion = r_verificacion.json()
+        verificacion = json_object_verificacion['result']['codigo']
+        return verificacion
+
+    verificacion_response = {
+                "speech": "verificación", "displayText": "verificación", "source": "apiai-weather-webhook",
+                "messages": [
+                    {
+                        "type": 0, "platform": "facebook", "speech": "Bien! Pero primero necesito saber tu identidad"
+                    },
+                    {
+                        "type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "button", "text": "¿Con qué tipo de documento estás registrado?",
+                                "buttons": [ 
+                                    { "type": "postback", "title": "DNI", "payload": "DNI" },
+                                    {"type": "postback", "title": "Carné de extranjería", "payload": "Carné de extranjería"},
+                                    {"type": "postback", "title": "Pasaporte", "payload": "Pasaporte" }
+                                ]}}}}
+                    },
+                    {
+                        "type": 0, "speech": ""
+                    }
+                ]
+
+            }
+
     
     if intentName == "verificacion":        
         parameters = result.get("parameters")
@@ -59,12 +87,8 @@ def makeResponse(req):
         }
 
     if intentName == "bytebot.avb.consultar.cuentas":
-        #Verificación: ¿El estado de la tabla BBOTSEFAC es true o false?
-        r_verificacion = requests.get('http://181.177.228.114:5000/query')
-        json_object_verificacion = r_verificacion.json()
-        parameters = result.get("parameters")
-        documento = parameters.get("number") 
-        verificacion = json_object_verificacion['result']['codigo']
+        #Verificación: ¿El estado de la tabla BBOTSEFAC es true o false?        
+        verificacion = verificacion()
         
         if int(verificacion) != 0:              
             r=requests.get('http://181.177.228.114:5001/clientes/' + str(74563192))
@@ -88,26 +112,7 @@ def makeResponse(req):
                 }
         
         else:
-            return {
-                "speech": "hola", "displayText": "hola", "source": "apiai-weather-webhook",
-                "messages": [
-                    {
-                        "type": 0, "platform": "facebook", "speech": "Bien! Pero primero necesito saber tu identidad"
-                    },
-                    {
-                        "type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "button", "text": "¿Con qué tipo de documento estás registrado?",
-                                "buttons": [ 
-                                    { "type": "postback", "title": "DNI", "payload": "DNI" },
-                                    {"type": "postback", "title": "Carné de extranjería", "payload": "Carné de extranjería"},
-                                    {"type": "postback", "title": "Pasaporte", "payload": "Pasaporte" }
-                                ]}}}}
-                    },
-                    {
-                        "type": 0, "speech": ""
-                    }
-                ]
-
-            }
+            return verificacion_response
 
 
         
