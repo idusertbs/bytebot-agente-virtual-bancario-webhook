@@ -77,7 +77,6 @@ def makeResponse(req):
             return{
                 "speech": speech,
                 "messages": [
-                    { "type": 0, "platform": "facebook", "speech": speech},
                     { "type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "button", "text": speech,
                                 "buttons": [ 
                                     { "type": "postback", "title": "Celular", "payload": "Celular" },
