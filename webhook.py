@@ -115,6 +115,35 @@ def makeResponse(req):
                     { "type": 0, "platform": "facebook", "speech": "Por favor, ingresa tu clave de registro de 4 dígitos que te envié :)"}
                 ]
             }
+
+
+    if intentName == "bytebot.avb.seleccion.documento-doc.digitado-canal.digitado-no.me.llega":        
+        parameters = result.get("parameters")
+        token = parameters.get("number")
+        documento = 74563192
+        r_clientes=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
+        json_object_clientes = r_clientes.json()
+        nombre = json_object_clientes["result"]["clientes"]["cliente"]
+        r=requests.get('http://181.177.228.114:5000/validatoken/' + str(token))
+        json_object = r.json()
+        acceso = json_object["result"]["codigo"]
+        speech = "Que extraño 🤔. ¿Deseas que te envíe el código nuevamente?"
+        return {
+                "speech": speech,
+                "messages": [
+                    { "type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "button", "text": speech,
+                                "buttons": [ 
+                                    { "type": "postback", "title": "Sí", "payload": "Si" },
+                                    {"type": "postback", "title": "No", "payload": "No"}
+                                ]}}}}
+                    },
+                    { "type": 0, "speech": "" }
+                ]
+            }
+
+        
+
+
     
     if intentName == "bytebot.avb.seleccion.documento-doc.digitado-canal.digitado-token":        
         parameters = result.get("parameters")
