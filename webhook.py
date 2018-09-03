@@ -227,7 +227,8 @@ def makeResponse(req):
         if int(verificacion) != 0:  
             contexts = result.get("contexts")
             last_context = contexts[len(contexts)-1] 
-            producto = last_context["producto"]
+            parameters_context = last_context["parameters"]
+            producto = parameters_context.get("producto")
 
             r_query = requests.get('http://181.177.228.114:5000/query')
             json_object_query = r_query.json()
