@@ -60,7 +60,7 @@ def makeResponse(req):
     
     if intentName == "bytebot.avb.seleccion.documento-doc.digitado":        
         parameters = result.get("parameters")
-        documento = parameters.get("number")
+        documento = parameters.get("phone-number")
         r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
         json_object = r.json()
         es_cliente = json_object["result"]["codigo"]
@@ -166,6 +166,9 @@ def makeResponse(req):
             speech1 = "✌ Autenticación realizada con éxito ✌"
             speech2 = "Bienvenido " + primer_nombre + "! ✨" 
             r=requests.get('http://181.177.228.114:5000/login/' + str(documento))
+            #Recuperando la opción presionada al inicio:
+            #r_context = requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
+
             
             return{
                 "speech": speech1,
