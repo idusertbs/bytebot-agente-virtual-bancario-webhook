@@ -163,12 +163,15 @@ def makeResponse(req):
             }
         else:
             primer_nombre = re.split('\s+', nombre)[0]
-            speech = "Bienvenido " + primer_nombre + "!"
+            speech1 = "✌ Autenticación realizada con éxito ✌"
+            speech2 = "Bienvenido " + primer_nombre + "! ✨" 
             r=requests.get('http://181.177.228.114:5000/login/' + str(documento))
+            
             return{
-                "speech": speech,
-                "messages": [                    
-                    { "type": 0, "platform": "facebook", "speech": speech}
+                "speech": speech1,
+                "messages": [  
+                    { "type": 0, "platform": "facebook", "speech": speech1},                  
+                    { "type": 0, "platform": "facebook", "speech": speech2}
                     #{ "type": 0, "platform": "facebook", "speech": "Por favor, ingresa tu clave de registro de 4 dígitos que te envié :)"}
                 ]
             }
