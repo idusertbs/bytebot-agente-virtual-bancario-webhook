@@ -67,7 +67,7 @@ def makeResponse(req):
             "source": "bytebot-virtual-agent-webhook"
 
         }
-        
+
     if intentName == "bytebot.avb.consultar.tarjetas":        
         #verificar si puede consultar cuentas
         speech = "Todavía no me implementan la opción de verificación, así que no podrás consultar tus tarjetas 😢"
