@@ -306,7 +306,7 @@ def makeResponse(req):
             json_object = r.json()
 
 
-            if debito == "Cuenta Sueldo":
+            if debito == "Cuenta sueldo":
                 cuentas_sueldo_array = []
                 cuentas_sueldo_nombres = []
                 cuentas_sueldo_tarjetas_array = []
