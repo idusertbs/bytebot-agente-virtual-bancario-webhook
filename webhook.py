@@ -307,8 +307,8 @@ def makeResponse(req):
             r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
             json_object = r.json()
 
-
-            if debito == "Cuenta sueldo":
+            '''
+            if debito == "Cuenta Sueldo":
                 debito=json_object['result']['clientes']['debito']
                 cuentas_sueldo_array = []
                 cuentas_sueldo_nombres = []
@@ -333,7 +333,7 @@ def makeResponse(req):
                     "source": "apiai-weather-webhook",
                     "messages": cuentas_sueldo_array
                 }
-            elif debito == "Cuenta ahorro":
+            elif debito == "Cuenta Ahorros":
                 debito=json_object['result']['clientes']['debito']
                 cuentas_ahorro_array = []
                 cuentas_ahorro_nombres = []
@@ -365,6 +365,32 @@ def makeResponse(req):
                     "messages": [
                         { "type": 0, "platform": "facebook", "speech": speech} 
                         ]
+                }
+            '''
+
+            debito_df=json_object['result']['clientes']['debito']
+            cuentas_sueldo_array = []
+            cuentas_sueldo_nombres = []
+            cuentas_sueldo_tarjetas_array = []
+            cuentas_sueldo_url_array = []
+            for i in range(0,len(debito_df)):
+                if debito_df[i]['nombre'] == debito:
+                    cuentas_json = debito_df[i]['cuentas']
+                    for j in range(0,len(cuentas_json)):
+                        cuentas_sueldo = cuentas_json[j]["alias"]
+                        cuentas_sueldo_tarjetas = cuentas_json[j]["numero"]
+                        cuentas_sueldo_url = cuentas_json[j]["imageUrl"]
+                        cuentas_sueldo_nombres.append(cuentas_sueldo)
+                        cuentas_sueldo_tarjetas_array.append(cuentas_sueldo_tarjetas)
+                        cuentas_sueldo_url_array.append(cuentas_sueldo_url)
+                        json_string = u'{"type": 1,"platform": "facebook","title": "' + str(debito_df[i]['nombre']) + ' - '+ str(cuentas_sueldo_nombres[j]) + '", "subtitle":"'+str(cuentas_sueldo_tarjetas_array[j]) +'", "imageUrl":  "' + str(cuentas_sueldo_url_array[j]) + '","buttons": [{"text": "Consultar saldos","postback": "Consultar Saldos ' + str(debito_df[i]["nombre"]) + '"},{"text": "Consultar Movimientos","postback": "Consultar Movmientos ' + str(debito_df[i]["nombre"]) + '"},{"text": "Análisis","postback": "Análisis ' + str(debito_df[i]["nombre"]) + '"}]}'
+                        objeto  = json.loads(json_string)
+                        cuentas_sueldo_array.append(objeto)
+                return {
+                    "speech": "hey",
+                    "displayText": "hey",
+                    "source": "apiai-weather-webhook",
+                    "messages": cuentas_sueldo_array
                 }
 
         else:
