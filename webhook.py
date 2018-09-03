@@ -214,7 +214,7 @@ def makeResponse(req):
         speech1 = "Has cerrado sesión correctamente! "
         speech2 = "Si deseas que te vuelva a ayudar, debes volver a autenticarte :)"
         return {
-            "speech": speech,
+            "speech": speech1,
             "messages": [                    
                     { "type": 0, "platform": "facebook", "speech": speech1},
                     { "type": 0, "platform": "facebook", "speech": speech2}
