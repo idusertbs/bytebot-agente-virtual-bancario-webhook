@@ -377,6 +377,7 @@ def makeResponse(req):
             cuentas_sueldo_tarjetas_array = []
             cuentas_sueldo_url_array = []
             objeto = ''
+            i = 0
             for i in range(0,len(debito_df)):
                 if debito_df[i]['nombre'] == "Cuenta Ahorros":
                     cuentas_json = debito_df[i]['cuentas']
