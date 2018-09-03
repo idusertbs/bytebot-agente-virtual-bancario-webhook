@@ -59,30 +59,59 @@ def makeResponse(req):
         }
 
     if intentName == "bytebot.avb.consultar.cuentas":
+        #Verificación: ¿El estado de la tabla BBOTSEFAC es true o false?
+        r_verificacion = requests.get('http://181.177.228.114:5000/query')
+        json_object_verificacion = r_verificacion.json()
         parameters = result.get("parameters")
-        documento = parameters.get("number")   
-        r=requests.get('http://181.177.228.114:5001/clientes/' + str(74563192))
-        json_object = r.json()
-        debito=json_object['result']['clientes']['debito']
-        cuentas_debito = []
-        json_string_inicio = u'{"type": 0,"platform": "facebook","speech": "Seleccione el tipo de cuenta:"}'
-        objeto_inicio = json.loads(json_string_inicio)
-        cuentas_debito.append(objeto_inicio)
-        objeto = ''
-        for i in range(0,len(debito)):
-            json_string = u'{"type": 1,"platform": "facebook","title": "' + str(debito[i]["nombre"]) + '","imageUrl":  "' + str(debito[i]["imageUrl"]) + '","buttons": [{"text": "Seleccionar Cuenta","postback": "' + str(debito[i]["nombre"]) + '"}]}'
-            objeto  = json.loads(json_string)
-            cuentas_debito.append(objeto)
+        documento = parameters.get("number") 
+        verificacion = json_object_verificacion['result']['codigo']
         
-        #verificando el carrusel dinámico
-        speech = "Todavía no me implementan la opción de verificación, así que no podrás consultar el tipo de cambio 😢"
-        return {
-                
+        if int(verificacion) != 0:              
+            r=requests.get('http://181.177.228.114:5001/clientes/' + str(74563192))
+            json_object = r.json()
+            debito=json_object['result']['clientes']['debito']
+            cuentas_debito = []
+            json_string_inicio = u'{"type": 0,"platform": "facebook","speech": "Seleccione el tipo de cuenta:"}'
+            objeto_inicio = json.loads(json_string_inicio)
+            cuentas_debito.append(objeto_inicio)
+            objeto = ''
+            for i in range(0,len(debito)):
+                json_string = u'{"type": 1,"platform": "facebook","title": "' + str(debito[i]["nombre"]) + '","imageUrl":  "' + str(debito[i]["imageUrl"]) + '","buttons": [{"text": "Seleccionar Cuenta","postback": "' + str(debito[i]["nombre"]) + '"}]}'
+                objeto  = json.loads(json_string)
+                cuentas_debito.append(objeto)
+            #verificando el carrusel dinámico
+            return {
                 "speech": "hola",
                 "displayText": "hola",
                 "source": "apiai-weather-webhook",
                 "messages": cuentas_debito
                 }
+        
+        else:
+            return {
+                "speech": "hola", "displayText": "hola", "source": "apiai-weather-webhook",
+                "messages": [
+                    {
+                        "type": 0, "platform": "facebook", "speech": "Bien! Pero primero necesito saber tu identidad"
+                    },
+                    {
+                        "type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "button", "text": "¿Con qué tipo de documento estás registrado?",
+                                "buttons": [ 
+                                    { "type": "postback", "title": "DNI", "payload": "DNI" },
+                                    {"type": "postback", "title": "Carné de extranjería", "payload": "Carné de extranjería"},
+                                    {"type": "postback", "title": "Pasaporte", "payload": "Pasaporte" }
+                                ]}}}}
+                    },
+                    {
+                        "type": 0, "speech": ""
+                    }
+                ]
+
+            }
+
+
+        
+                 
 
     if intentName == "bytebot.avb.consultar.tarjetas":        
         #verificar si puede consultar cuentas
