@@ -8,6 +8,7 @@ Created on Tue Jun 12 10:37:23 2018
 import json
 import os
 import requests
+import re
 
 from flask import Flask
 from flask import request
@@ -141,13 +142,14 @@ def makeResponse(req):
                 ]
             }
         else:
-            speech = "Bienvenido " + nombre + "!"
-            #r_token=requests.get('http://181.177.228.114:5000/enviatoken/' + str(telefono))
+            primer_nombre = re.split('\s+', nombre)[0]
+            speech = "Bienvenido " + primer_nombre + "!"
+            r=requests.get('http://181.177.228.114:5000/login/' + str(documento))
             return{
                 "speech": speech,
                 "messages": [                    
-                    { "type": 0, "platform": "facebook", "speech": speech},
-                    { "type": 0, "platform": "facebook", "speech": "Por favor, ingresa tu clave de registro de 4 dígitos que te envié :)"}
+                    { "type": 0, "platform": "facebook", "speech": speech}
+                    #{ "type": 0, "platform": "facebook", "speech": "Por favor, ingresa tu clave de registro de 4 dígitos que te envié :)"}
                 ]
             }
 
