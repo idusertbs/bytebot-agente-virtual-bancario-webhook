@@ -118,15 +118,6 @@ def makeResponse(req):
 
 
     if intentName == "bytebot.avb.seleccion.documento-doc.digitado-canal.digitado-no.me.llega":        
-        parameters = result.get("parameters")
-        token = parameters.get("number")
-        documento = 74563192
-        r_clientes=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
-        json_object_clientes = r_clientes.json()
-        nombre = json_object_clientes["result"]["clientes"]["cliente"]
-        r=requests.get('http://181.177.228.114:5000/validatoken/' + str(token))
-        json_object = r.json()
-        acceso = json_object["result"]["codigo"]
         speech = "Que extraño 🤔. ¿Deseas que te envíe el código nuevamente?"
         return {
                 "speech": speech,
