@@ -211,7 +211,6 @@ def makeResponse(req):
         documento = 74563192   
         r=requests.get('http://181.177.228.114:5000/logout/' + str(documento))
         json_object = r.json()
-        debito=json_object['result']['clientes']['debito']
         speech1 = "Has cerrado sesión correctamente! "
         speech2 = "Si deseas que te vuelva a ayudar, debes volver a autenticarte :)"
         return {
