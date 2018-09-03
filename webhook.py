@@ -217,7 +217,8 @@ def makeResponse(req):
             "speech": speech1,
             "messages": [                    
                     { "type": 0, "platform": "facebook", "speech": speech1},
-                    { "type": 0, "platform": "facebook", "speech": speech2}
+                    { "type": 0, "platform": "facebook", "speech": speech2},
+                    { "type": 0, "speech": "" }
                 ]
 
         }
