@@ -333,7 +333,7 @@ def makeResponse(req):
                     "source": "apiai-weather-webhook",
                     "messages": cuentas_sueldo_array
                 }
-            elif debito == "Cuenta ahorros":
+            elif debito == "Cuenta ahorro":
                 debito=json_object['result']['clientes']['debito']
                 cuentas_ahorro_array = []
                 cuentas_ahorro_nombres = []
