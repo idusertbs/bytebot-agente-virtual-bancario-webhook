@@ -211,18 +211,36 @@ def makeResponse(req):
         documento = 74563192   
         r=requests.get('http://181.177.228.114:5000/logout/' + str(documento))
         json_object = r.json()
-        speech1 = "Has cerrado sesión correctamente! "
-        speech2 = "Si deseas que te vuelva a ayudar, debes volver a autenticarte :)"
-        return {
-            "speech": speech1,
-            "messages": [                    
+        sesion = json_object["result"]["codigo"]
+
+        if  int(sesion) == 1:
+            speech1 = "Has cerrado sesión correctamente! "
+            speech2 = "Si deseas que te vuelva a ayudar, debes volver a autenticarte :)"
+            return {
+                "speech": speech1,
+                "messages": [                    
                     { "type": 0, "platform": "facebook", "speech": speech1},
                     { "type": 0, "platform": "facebook", "speech": speech2},
                     { "type": 0, "speech": "" }
                 ]
+            }
+        elif int(sesion) == 0:
+            speech1 = "Usted nunca inició sesión 😟"            
+            return {
+                "speech": speech1,
+                "messages": [                    
+                    { "type": 0, "platform": "facebook", "speech": speech1},
+                    { "type": 0, "speech": "" }
+                ]
+            }
 
-        }
-    
+        
+        
+        
+            
+            
+
+        
     
     
 
