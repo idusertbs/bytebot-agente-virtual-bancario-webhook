@@ -90,7 +90,7 @@ def makeResponse(req):
     if intentName == "bytebot.avb.seleccion.documento-doc.digitado-canal.digitado":        
         parameters = result.get("parameters")
         canal = parameters.get("canal")
-        r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
+        r=requests.get('http://181.177.228.114:5001/clientes/' + str(74563192))
         json_object = r.json()
         telefono = json_object["result"]["clientes"]["telefono"]
 
