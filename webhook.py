@@ -190,7 +190,7 @@ def makeResponse(req):
                 "source": "bytebot-virtual-agent-webhook"
 
         }
-        elif respuesta == "Sí":
+        elif respuesta == "Si":
             speech = "Ok! Estoy enviando el código de verificación al celular (******" + str(telefono[9:]) + ")"
             #r_token=requests.get('http://181.177.228.114:5000/enviatoken/' + str(telefono))
             return{
