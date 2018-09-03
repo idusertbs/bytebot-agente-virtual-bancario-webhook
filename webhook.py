@@ -367,12 +367,16 @@ def makeResponse(req):
                         ]
                 }
             '''
-
+            
             debito_df=json_object['result']['clientes']['debito']
+            cuenta_sueldo = ''
+            cuentas_sueldo_tarjetas = ''
+            cuentas_sueldo_url = ''
             cuentas_sueldo_array = []
             cuentas_sueldo_nombres = []
             cuentas_sueldo_tarjetas_array = []
             cuentas_sueldo_url_array = []
+            objeto = ''
             for i in range(0,len(debito_df)):
                 if debito_df[i]['nombre'] == debito:
                     cuentas_json = debito_df[i]['cuentas']
@@ -387,8 +391,8 @@ def makeResponse(req):
                         objeto  = json.loads(json_string)
                         cuentas_sueldo_array.append(objeto)
                 return {
-                    "speech": "hey",
-                    "displayText": "hey",
+                    "speech": "heyo",
+                    "displayText": "heyo",
                     "source": "apiai-weather-webhook",
                     "messages": cuentas_sueldo_array
                 }
