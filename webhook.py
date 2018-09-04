@@ -526,7 +526,8 @@ def makeResponse(req):
                             cuentas_tipo_movimiento_monedas = cuentas_json[j]["moneda"]
                             cuentas_tipo_movimiento_dias = cuentas_json[j]["movimientos_dias"]
                             cuentas_tipo_movimiento_monto = cuentas_json[j]["movimientos_monto"]
-                            for k in range(0,len(cuentas_tipo_movimiento_monto)):
+                            #for k in range(0,len(cuentas_tipo_movimiento_monto)):
+                            for k in range(0,4):
                                 if float(cuentas_tipo_movimiento_monto[k]) > 0:
                                     json_string = u'{"title": "' + cuentas_tipo_movimiento_monedas + " " + cuentas_tipo_movimiento_monto[k] + '", "subtitle": "' + cuentas_tipo_movimiento_dias[k] +'","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/plus.png"}'
                                 else:
