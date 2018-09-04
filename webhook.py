@@ -688,7 +688,7 @@ def makeResponse(req):
                     {
                         "type": 3,
                         "platform": "facebook",
-                        "imageUrl": debito[i]['nombre']
+                        "imageUrl": cuentas_json[0]["alias"]
                     }
                 ]
 
