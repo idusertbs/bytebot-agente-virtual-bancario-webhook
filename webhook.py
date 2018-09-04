@@ -207,6 +207,26 @@ def makeResponse(req):
             #Recuperando la opción presionada al inicio:
             #r_context = requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
 
+            if producto == None:
+                debito=json_object_clientes['result']['clientes']['debito']
+                cuentas_debito = []
+                json_string_inicio_00 = u'{"type": 0,"platform": "facebook","speech": "' + speech1 +  '"}'
+                json_string_inicio_0 = u'{"type": 0,"platform": "facebook","speech": "' + speech2 +  '"}'
+                #json_string_inicio = u'{"type": 0,"platform": "facebook","speech": "Estos son todos tus tipos de cuenta, selecciona alguna :)"}'
+                objeto_inicio_00 = json.loads(json_string_inicio_00)
+                objeto_inicio_0 = json.loads(json_string_inicio_0)
+                #objeto_inicio = json.loads(json_string_inicio)
+                cuentas_debito.append(objeto_inicio_00)
+                cuentas_debito.append(objeto_inicio_0)
+                #cuentas_debito.append(objeto_inicio)
+                
+                return {
+                    "speech": "hey",
+                    "displayText": "hey",
+                    "source": "apiai-weather-webhook",
+                    "messages": cuentas_debito
+                }
+
             if producto == "Cuentas" or debito_sueldo != None or debito_context != None :
                 debito=json_object_clientes['result']['clientes']['debito']
                 cuentas_debito = []
