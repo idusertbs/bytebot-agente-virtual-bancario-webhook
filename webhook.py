@@ -540,7 +540,78 @@ def makeResponse(req):
             if numero_pantallas == 1:
                 button_ver_mas = []
             else: 
-                button_ver_mas = [{"title": "+ Movimientos", "type": "postback", "payload": "page_2"} ]
+                button_ver_mas = [{"title": "+ Movimientos", "type": "postback", "payload": "pagina2"} ]
+
+            return {
+                "speech": "azahel",
+                "displayText": "heyo",
+                "source": "apiai-weather-webhook",
+                "messages": [
+                    {"type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "list", "top_element_style": "compact",
+                  "elements": 
+                    cuentas_tipo_movimiento_array
+                  ,
+                  "buttons": button_ver_mas
+                    }}}}}
+                ]
+
+            } 
+            
+
+        else:
+            return verificacion_response
+
+    if intentName == "bytebot.avb.cuenta.debito.tipos.movimientos-next":
+        #Verificación: ¿El estado de la tabla BBOTSEFAC es true o false?        
+        verificacion = verificacion()
+        
+        
+        if int(verificacion) != 0:  
+            contexts = result.get("contexts")
+            last_context = contexts[len(contexts)-1] 
+            parameters_context = last_context["parameters"]
+            debito_context = parameters_context.get("debito")
+            debito_sueldo = parameters_context.get("debito_sueldo")
+            pagina = int(parameters_context.get("pagina")[6:])
+
+            r_query = requests.get('http://181.177.228.114:5000/query')
+            json_object_query = r_query.json()
+            documento = int(json_object_query["result"]["documento"])            
+        
+
+            r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
+            json_object = r.json()
+
+            debito=json_object['result']['clientes']['debito']
+            cuentas_tipo_movimiento_array = []
+            for i in range(0,len(debito)): 
+                if debito[i]['nombre'] == debito_context:
+                    cuentas_json = debito[i]['cuentas']        
+                    for j in range(0,len(cuentas_json)):
+                        if cuentas_json[j]["alias"] == debito_sueldo:
+                            numero_pantallas = ceil(len(cuentas_json[j]["movimientos_dias"])/4)
+                            #cuentas_tipo_movimiento = cuentas_json[j]["alias"]
+                            #cuentas_tipo_movimiento_tarjetas = cuentas_json[j]["numero"]
+                            #cuentas_tipo_movimiento_url = cuentas_json[j]["imageUrl"]
+                            #cuentas_tipo_movimiento_saldos = cuentas_json[j]["saldo"]
+                            cuentas_tipo_movimiento_monedas = cuentas_json[j]["moneda"]
+                            cuentas_tipo_movimiento_dias = cuentas_json[j]["movimientos_dias"]
+                            cuentas_tipo_movimiento_monto = cuentas_json[j]["movimientos_monto"]
+                            #for k in range(0,len(cuentas_tipo_movimiento_monto)):
+                            for k in range(5*(pagina-1)-1,len(cuentas_tipo_movimiento_monto)):
+                                if float(cuentas_tipo_movimiento_monto[k]) > 0:
+                                    json_string = u'{"title": "' + cuentas_tipo_movimiento_monedas + " " + cuentas_tipo_movimiento_monto[k] + '", "subtitle": "' + cuentas_tipo_movimiento_dias[k] +'","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/plus.png"}'
+                                else:
+                                    json_string = u'{"title": "' + cuentas_tipo_movimiento_monedas + " " + cuentas_tipo_movimiento_monto[k] + '", "subtitle": "' + cuentas_tipo_movimiento_dias[k] +'","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/minus.png"}'
+                                    
+                                objeto  = json.loads(json_string,strict=False)
+                                cuentas_tipo_movimiento_array.append(objeto)   
+
+
+            if numero_pantallas == pagina:
+                button_ver_mas = []
+            else: 
+                button_ver_mas = [{"title": "+ Movimientos", "type": "postback", "payload": "pagina" + str(pagina+1)} ]
 
             return {
                 "speech": "azahel",
