@@ -173,11 +173,11 @@ def makeResponse(req):
         producto = parameters_context.get("producto")  
         debito_context = parameters_context.get("debito")
         debito_sueldo = parameters_context.get("debito_sueldo")
+        documento = parameters_context.get("phone-number")
 
         #Parámetros normales
         parameters = result.get("parameters")
-        token = parameters.get("number")
-        documento = 74563192
+        token = parameters.get("number")        
         r_clientes=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
         json_object_clientes = r_clientes.json()
         nombre = json_object_clientes["result"]["clientes"]["cliente"]
