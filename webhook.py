@@ -518,16 +518,24 @@ def makeResponse(req):
                     cuentas_json = debito[i]['cuentas']        
                     for j in range(0,len(cuentas_json)):
                         if cuentas_json[j]["alias"] == debito_sueldo:
-                            numero_pantallas = ceil(len(cuentas_json[j]["movimientos_dias"])/4)
-                            #cuentas_tipo_movimiento = cuentas_json[j]["alias"]
-                            #cuentas_tipo_movimiento_tarjetas = cuentas_json[j]["numero"]
-                            #cuentas_tipo_movimiento_url = cuentas_json[j]["imageUrl"]
-                            #cuentas_tipo_movimiento_saldos = cuentas_json[j]["saldo"]
+                            if len(cuentas_json[j]["movimientos_dias"])%2 == 0:
+                                numero_pantallas = ceil(len(cuentas_json[j]["movimientos_dias"])/4)
+                                if len(cuentas_json[j]["movimientos_monto"]) > 4:
+                                    indice_final_pagina = 0 + 4
+                                else:
+                                    indice_final_pagina =  len(cuentas_json[j]["movimientos_monto"]) 
+                            else:
+                                numero_pantallas = ceil(len(cuentas_json[j]["movimientos_dias"])/3)
+                                if len(cuentas_json[j]["movimientos_monto"]) > 3:
+                                    indice_final_pagina = 0 + 3
+                                else:
+                                    indice_final_pagina =  len(cuentas_json[j]["movimientos_monto"]) 
+                                
+                            #numero_pantallas = ceil(len(cuentas_json[j]["movimientos_dias"])/4)
                             cuentas_tipo_movimiento_monedas = cuentas_json[j]["moneda"]
                             cuentas_tipo_movimiento_dias = cuentas_json[j]["movimientos_dias"]
                             cuentas_tipo_movimiento_monto = cuentas_json[j]["movimientos_monto"]
-                            #for k in range(0,len(cuentas_tipo_movimiento_monto)):
-                            for k in range(0,4):
+                            for k in range(0,indice_final_pagina):
                                 if float(cuentas_tipo_movimiento_monto[k]) > 0:
                                     json_string = u'{"title": "' + cuentas_tipo_movimiento_monedas + " " + cuentas_tipo_movimiento_monto[k] + '", "subtitle": "' + cuentas_tipo_movimiento_dias[k] +'","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/plus.png"}'
                                 else:
@@ -589,16 +597,26 @@ def makeResponse(req):
                     cuentas_json = debito[i]['cuentas']        
                     for j in range(0,len(cuentas_json)):
                         if cuentas_json[j]["alias"] == debito_sueldo:
-                            numero_pantallas = ceil(len(cuentas_json[j]["movimientos_dias"])/4)
-                            #cuentas_tipo_movimiento = cuentas_json[j]["alias"]
-                            #cuentas_tipo_movimiento_tarjetas = cuentas_json[j]["numero"]
-                            #cuentas_tipo_movimiento_url = cuentas_json[j]["imageUrl"]
-                            #cuentas_tipo_movimiento_saldos = cuentas_json[j]["saldo"]
+                            if len(cuentas_json[j]["movimientos_dias"])%2 == 0:
+                                numero_pantallas = ceil(len(cuentas_json[j]["movimientos_dias"])/4)
+                                indice_inicio_pagina = 5*(pagina-1)-(pagina-1)
+                                if len(cuentas_json[j]["movimientos_monto"]) - (indice_inicio_pagina+1) > 4:
+                                    indice_final_pagina = indice_inicio_pagina + 4 
+                                else:
+                                    indice_final_pagina =  len(cuentas_json[j]["movimientos_monto"]) 
+                            else:
+                                numero_pantallas = ceil(len(cuentas_json[j]["movimientos_dias"])/3) 
+                                indice_inicio_pagina = 4*(pagina-1)-(pagina-1)
+                                if len(cuentas_json[j]["movimientos_monto"]) - (indice_inicio_pagina+1) > 3:
+                                    indice_final_pagina = indice_inicio_pagina + 3
+                                else:
+                                    indice_final_pagina =  len(cuentas_json[j]["movimientos_monto"]) 
+
                             cuentas_tipo_movimiento_monedas = cuentas_json[j]["moneda"]
                             cuentas_tipo_movimiento_dias = cuentas_json[j]["movimientos_dias"]
                             cuentas_tipo_movimiento_monto = cuentas_json[j]["movimientos_monto"]
                             #for k in range(0,len(cuentas_tipo_movimiento_monto)):
-                            for k in range(5*(pagina-1)-1,len(cuentas_tipo_movimiento_monto)):
+                            for k in range(indice_inicio_pagina,indice_final_pagina):
                                 if float(cuentas_tipo_movimiento_monto[k]) > 0:
                                     json_string = u'{"title": "' + cuentas_tipo_movimiento_monedas + " " + cuentas_tipo_movimiento_monto[k] + '", "subtitle": "' + cuentas_tipo_movimiento_dias[k] +'","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/plus.png"}'
                                 else:
