@@ -673,10 +673,11 @@ def makeResponse(req):
                             cuentas_tipo_saldo_url_array.append(cuentas_tipo_saldo_url)
                             cuentas_tipo_saldo_saldos_array.append(cuentas_tipo_saldo_saldos)
                             cuentas_tipo_saldo_monedas_array.append(cuentas_tipo_saldo_monedas)
+                            r_grafica = requests.get('http://181.177.228.114:5000/grafica/' + cuentas_tipo_saldo_movimientos_dias +'/ '+ cuentas_tipo_saldo_movimientos_monto +' /' + cuentas_tipo_saldo_saldos +'/ '+ str(documento) + '/Cuentas/' + debito + '/ ' + debito_sueldo +' / ' + cuentas_tipo_saldo_monedas)
+                            json_url_imagen = r_grafica.json()
+                            url_imagen = json_url_imagen["result"]["url"]
             
-            r_grafica = requests.get('http://181.177.228.114:5000/grafica/' + cuentas_tipo_saldo_movimientos_dias +'/ '+ cuentas_tipo_saldo_movimientos_monto +' /' + cuentas_tipo_saldo_saldos +'/ '+ str(documento) + '/Cuentas/' + debito + '/ ' + debito_sueldo +' / ' + cuentas_tipo_saldo_monedas)
-            json_url_imagen = r_grafica.json()
-            url_imagen = json_url_imagen["result"]["url"]
+            
 
             return {
                 "speech": "-",
