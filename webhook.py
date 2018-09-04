@@ -401,6 +401,58 @@ def makeResponse(req):
         else:
             return verificacion_response
 
+    if intentName == "bytebot.avb.cuenta.debito.tipos.saldos":
+        #Verificación: ¿El estado de la tabla BBOTSEFAC es true o false?        
+        verificacion = verificacion()
+        
+        
+        if int(verificacion) != 0:  
+            contexts = result.get("contexts")
+            last_context = contexts[len(contexts)-1] 
+            parameters_context = last_context["parameters"]
+            debito = parameters_context.get("debito")
+
+            r_query = requests.get('http://181.177.228.114:5000/query')
+            json_object_query = r_query.json()
+            documento = int(json_object_query["result"]["documento"])            
+        
+
+            r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
+            json_object = r.json()
+
+            debito_df=json_object['result']['clientes']['debito']
+            cuentas_sueldo = ''
+            cuentas_sueldo_tarjetas = ''
+            cuentas_sueldo_url = ''
+            cuentas_sueldo_array = []
+            cuentas_sueldo_nombres = []
+            cuentas_sueldo_tarjetas_array = []
+            cuentas_sueldo_url_array = []
+            objeto = ''
+            i = 0
+            for i in range(0,len(debito_df)):
+                if debito_df[i]['nombre'] == debito:
+                    cuentas_json = debito_df[i]['cuentas']
+                    for j in range(0,len(cuentas_json)):
+                        cuentas_sueldo = cuentas_json[j]["alias"]
+                        cuentas_sueldo_tarjetas = cuentas_json[j]["numero"]
+                        cuentas_sueldo_url = cuentas_json[j]["imageUrl"]
+                        cuentas_sueldo_nombres.append(cuentas_sueldo)
+                        cuentas_sueldo_tarjetas_array.append(cuentas_sueldo_tarjetas)
+                        cuentas_sueldo_url_array.append(cuentas_sueldo_url)
+                        json_string = u'{"type": 1,"platform": "facebook","title": "' + str(debito_df[i]['nombre']) + ' - '+ str(cuentas_sueldo_nombres[j]) + '", "subtitle":"'+str(cuentas_sueldo_tarjetas_array[j]) +'", "imageUrl":  "' + str(cuentas_sueldo_url_array[j]) + '","buttons": [{"text": "Consultar saldos","postback": "Consultar Saldos ' + str(cuentas_sueldo_nombres[j]) + '"},{"text": "Consultar Movimientos","postback": "Consultar Movmientos ' + str(cuentas_sueldo_nombres[j]) + '"},{"text": "Análisis","postback": "Análisis ' + str(cuentas_sueldo_nombres[j]) + '"}]}'
+                        objeto  = json.loads(json_string)
+                        cuentas_sueldo_array.append(objeto)
+            return {
+                    "speech": debito_df[i]['nombre'],
+                    "displayText": "heyo",
+                    "source": "apiai-weather-webhook",
+                    "messages": cuentas_sueldo_array
+            }
+
+        else:
+            return verificacion_response
+
 
         
                  
