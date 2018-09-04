@@ -569,11 +569,8 @@ def makeResponse(req):
                     "speech": "azahel",
                     "displayText": "heyo",
                     "source": "apiai-weather-webhook",
-                    "messages": [
+                    "messages": 
                         cuentas_tipo_movimiento_array
-                    ]
-
-
                 }
             else: 
                 return {
