@@ -263,10 +263,17 @@ def makeResponse(req):
             #    ]
             #}
     
-    if intentName == "bytebot.avb.seleccion.documento-doc.digitado-canal.digitado-respuesta":        
+    if intentName == "bytebot.avb.seleccion.documento-doc.digitado-canal.digitado-respuesta":  
+        #Parámetros del contexto
+        contexts = result.get("contexts")
+        last_context = contexts[len(contexts)-1] 
+        parameters_context = last_context["parameters"]        
+        documento = parameters_context.get("phone-number")
+
+        # Parámetros normales
         parameters = result.get("parameters")
         respuesta = parameters.get("respuesta")
-        documento = 74563192
+        
         r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
         json_object = r.json()
         telefono = json_object["result"]["clientes"]["telefono"]
