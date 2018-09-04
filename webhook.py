@@ -432,7 +432,7 @@ def makeResponse(req):
             contexts = result.get("contexts")
             last_context = contexts[len(contexts)-1] 
             parameters_context = last_context["parameters"]
-            debito = parameters_context.get("debito")
+            debito_sueldo = parameters_context.get("debito_sueldo")
 
             r_query = requests.get('http://181.177.228.114:5000/query')
             json_object_query = r_query.json()
@@ -442,35 +442,47 @@ def makeResponse(req):
             r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
             json_object = r.json()
 
-            debito_df=json_object['result']['clientes']['debito']
-            cuentas_sueldo = ''
-            cuentas_sueldo_tarjetas = ''
-            cuentas_sueldo_url = ''
-            cuentas_sueldo_array = []
-            cuentas_sueldo_nombres = []
-            cuentas_sueldo_tarjetas_array = []
-            cuentas_sueldo_url_array = []
-            objeto = ''
-            i = 0
-            for i in range(0,len(debito_df)):
-                if debito_df[i]['nombre'] == debito:
-                    cuentas_json = debito_df[i]['cuentas']
+            debito=json_object['result']['clientes']['debito']
+            cuentas_tipo_saldo_array = []
+            cuentas_tipo_saldo_nombres = []
+            cuentas_tipo_saldo_tarjetas_array = []
+            cuentas_tipo_saldo_url_array = []
+            cuentas_tipo_saldo_saldos_array = []
+            cuentas_tipo_saldo_monedas_array = []
+            for i in range(0,len(debito)): 
+                if debito[i]['nombre'] == 'Cuenta Ahorros':
+                    cuentas_json = debito[i]['cuentas']
                     for j in range(0,len(cuentas_json)):
-                        cuentas_sueldo = cuentas_json[j]["alias"]
-                        cuentas_sueldo_tarjetas = cuentas_json[j]["numero"]
-                        cuentas_sueldo_url = cuentas_json[j]["imageUrl"]
-                        cuentas_sueldo_nombres.append(cuentas_sueldo)
-                        cuentas_sueldo_tarjetas_array.append(cuentas_sueldo_tarjetas)
-                        cuentas_sueldo_url_array.append(cuentas_sueldo_url)
-                        json_string = u'{"type": 1,"platform": "facebook","title": "' + str(debito_df[i]['nombre']) + ' - '+ str(cuentas_sueldo_nombres[j]) + '", "subtitle":"'+str(cuentas_sueldo_tarjetas_array[j]) +'", "imageUrl":  "' + str(cuentas_sueldo_url_array[j]) + '","buttons": [{"text": "Consultar saldos","postback": "Consultar Saldos ' + str(cuentas_sueldo_nombres[j]) + '"},{"text": "Consultar Movimientos","postback": "Consultar Movmientos ' + str(cuentas_sueldo_nombres[j]) + '"},{"text": "Análisis","postback": "Análisis ' + str(cuentas_sueldo_nombres[j]) + '"}]}'
-                        objeto  = json.loads(json_string)
-                        cuentas_sueldo_array.append(objeto)
+                        if cuentas_json[j]["alias"] == "Ahorros Depa":                            
+                            cuentas_tipo_saldo = cuentas_json[j]["alias"]
+                            cuentas_tipo_saldo_tarjetas = cuentas_json[j]["numero"]
+                            cuentas_tipo_saldo_url = cuentas_json[j]["imageUrl"]
+                            cuentas_tipo_saldo_saldos = cuentas_json[j]["saldo"]
+                            cuentas_tipo_saldo_monedas = cuentas_json[j]["moneda"]
+                            cuentas_tipo_saldo_nombres.append(cuentas_tipo_saldo)
+                            cuentas_tipo_saldo_tarjetas_array.append(cuentas_tipo_saldo_tarjetas)
+                            cuentas_tipo_saldo_url_array.append(cuentas_tipo_saldo_url)
+                            cuentas_tipo_saldo_saldos_array.append(cuentas_tipo_saldo_saldos)
+                            cuentas_tipo_saldo_monedas_array.append(cuentas_tipo_saldo_monedas)
+                            speech = "Tu saldo actual es:"
+                            speech_saldo_1 = str(cuentas_tipo_saldo_monedas_array[j]) + " " + str(cuentas_tipo_saldo_saldos_array[j]) 
+                            speech_saldo_2 = str(debito[i]['nombre']) + " - " + str(cuentas_tipo_saldo_nombres[j])
+                            speech_saldo_3 = str(cuentas_tipo_saldo_tarjetas_array[j])
+                            #json_string = u'{"type": 1,"platform": "facebook","title": "' + str(cuentas_tipo_saldo_nombres[j]) + '", "subtitle":"'+str(cuentas_tipo_saldo_tarjetas_array[j]) +'", "imageUrl":  "' + str(cuentas_tipo_saldo_url_array[j]) + '","buttons": [{"text": "Consultar saldos","postback": "Consultar Saldos ' + str(debito[i]["nombre"]) + '"},{"text": "Consultar Movimientos","postback": "Consultar Movmientos ' + str(debito[i]["nombre"]) + '"},{"text": "Análisis","postback": "Análisis ' + str(debito[i]["nombre"]) + '"}]}'
+                            json_string_0 = u'{"type": 0,"platform": "facebook","speech":"'+ speech +'"}'
+                            #json_string = u'{"type": 0,"platform": "facebook","speech":"'+ speech_saldo_1 + "\n" + speech_saldo_2  + "\n" + speech_saldo_3 +'"}'
+                            json_string = u'{ "type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "button", "text": "'+ speech_saldo_1 + "\n" + speech_saldo_2  + "\n" + speech_saldo_3 +'","buttons": [{ "type": "postback", "title": "Generar Reporte", "payload": "Generar Reporte ' + str(cuentas_tipo_saldo_nombres[j]) + '" },{"type": "postback", "title": "Consultar Movimientos", "payload": "Consultar Movimientos ' + str(cuentas_tipo_saldo_nombres[j])  +'"}]}}}} }'
+                            objeto_0 = json.loads(json_string_0)
+                            objeto  = json.loads(json_string,strict=False)
+                            cuentas_tipo_saldo_array.append(objeto_0) 
+                            cuentas_tipo_saldo_array.append(objeto)   
             return {
-                    "speech": debito_df[i]['nombre'],
-                    "displayText": "heyo",
-                    "source": "apiai-weather-webhook",
-                    "messages": cuentas_sueldo_array
-            }
+                "speech": "azahel",
+                "displayText": "heyo",
+                "source": "apiai-weather-webhook",
+                "messages": cuentas_tipo_saldo_array
+            } 
+            
 
         else:
             return verificacion_response
