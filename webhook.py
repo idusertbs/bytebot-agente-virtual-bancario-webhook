@@ -658,7 +658,7 @@ def makeResponse(req):
             cuentas_tipo_saldo_monedas_array = []
             url_imagen = ''
             for i in range(0,len(debito)): 
-                if debito[i]['nombre'] == debito:
+                if debito[i]['nombre'] == debito_context:
                     cuentas_json = debito[i]['cuentas']
                     for j in range(0,len(cuentas_json)):
                         if cuentas_json[j]["alias"] == debito_sueldo:
@@ -688,7 +688,7 @@ def makeResponse(req):
                     {
                         "type": 3,
                         "platform": "facebook",
-                        "imageUrl": debito
+                        "imageUrl": url_imagen
                     }
                 ]
 
