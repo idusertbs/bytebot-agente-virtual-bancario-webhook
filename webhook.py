@@ -164,6 +164,8 @@ def makeResponse(req):
         last_context = contexts[len(contexts)-1] 
         parameters_context = last_context["parameters"]
         producto = parameters_context.get("producto")  
+        debito_context = parameters_context.get("debito")
+        debito_sueldo = parameters_context.get("debito_sueldo")
 
         #Parámetros normales
         parameters = result.get("parameters")
@@ -198,7 +200,7 @@ def makeResponse(req):
             #Recuperando la opción presionada al inicio:
             #r_context = requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
 
-            if producto == "Cuentas":
+            if producto == "Cuentas" or len(debito_sueldo) > 0 or len(debito_context) > 0 :
                 debito=json_object_clientes['result']['clientes']['debito']
                 cuentas_debito = []
                 json_string_inicio_00 = u'{"type": 0,"platform": "facebook","speech": "' + speech1 +  '"}'
