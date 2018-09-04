@@ -523,6 +523,7 @@ def makeResponse(req):
                                 solo_carrusel = True
                                 indice_final_pagina = 1
                             elif len(cuentas_json[j]["movimientos_dias"])%2 == 0:
+                                solo_carrusel = False
                                 numero_pantallas = ceil(len(cuentas_json[j]["movimientos_dias"])/4)
                                 if len(cuentas_json[j]["movimientos_monto"]) > 4:
                                     indice_final_pagina = 0 + 4
@@ -530,6 +531,7 @@ def makeResponse(req):
                                     indice_final_pagina =  len(cuentas_json[j]["movimientos_monto"]) 
                             else:
                                 numero_pantallas = ceil(len(cuentas_json[j]["movimientos_dias"])/3)
+                                solo_carrusel = False
                                 if len(cuentas_json[j]["movimientos_monto"]) > 3:
                                     indice_final_pagina = 0 + 3
                                 else:
