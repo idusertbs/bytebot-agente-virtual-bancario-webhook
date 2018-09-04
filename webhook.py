@@ -688,7 +688,7 @@ def makeResponse(req):
                     {
                         "type": 3,
                         "platform": "facebook",
-                        "imageUrl": url_imagen
+                        "imageUrl": debito[i]['nombre']
                     }
                 ]
 
