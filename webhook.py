@@ -111,10 +111,16 @@ def makeResponse(req):
                 ]
             }
 
-    if intentName == "bytebot.avb.seleccion.documento-doc.digitado-canal.digitado":        
+    if intentName == "bytebot.avb.seleccion.documento-doc.digitado-canal.digitado":   
+        #Parámetros del contexto
+        contexts = result.get("contexts")
+        last_context = contexts[len(contexts)-1] 
+        parameters_context = last_context["parameters"]
+        documento = parameters_context.get("phone-number")
+
+        #Parámetros normales
         parameters = result.get("parameters")
         canal = parameters.get("canal")
-        documento = 74563192
         r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
         json_object = r.json()
         telefono = json_object["result"]["clientes"]["telefono"]
@@ -201,7 +207,7 @@ def makeResponse(req):
             #Recuperando la opción presionada al inicio:
             #r_context = requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
 
-            if producto == "Cuentas" or len(debito_sueldo) > 0 or len(debito_context) > 0 :
+            if producto == "Cuentas" or debito_sueldo != None or debito_context != None :
                 debito=json_object_clientes['result']['clientes']['debito']
                 cuentas_debito = []
                 json_string_inicio_00 = u'{"type": 0,"platform": "facebook","speech": "' + speech1 +  '"}'
@@ -699,8 +705,16 @@ def makeResponse(req):
 
         }
 
-    if intentName == "bytebot.avb.consultar.cerrar.sesion":     
-        documento = 74563192   
+    if intentName == "bytebot.avb.consultar.cerrar.sesion":             
+        r_query = requests.get('http://181.177.228.114:5000/query')
+        json_object_query = r_query.json()
+        haysesion = int(json_object_query["result"]["codigo"])
+
+        if haysesion == 0:
+            documento = 99999999
+        else:
+            documento = int(json_object_query["result"]["documento"])
+
         r=requests.get('http://181.177.228.114:5000/logout/' + str(documento))
         json_object = r.json()
         sesion = json_object["result"]["codigo"]
