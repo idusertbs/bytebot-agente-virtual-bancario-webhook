@@ -518,7 +518,11 @@ def makeResponse(req):
                     cuentas_json = debito[i]['cuentas']        
                     for j in range(0,len(cuentas_json)):
                         if cuentas_json[j]["alias"] == debito_sueldo:
-                            if len(cuentas_json[j]["movimientos_dias"])%2 == 0:
+                            if len(cuentas_json[j]["movimientos_dias"]) == 1:
+                                numero_pantallas = 1
+                                solo_carrusel = True
+                                indice_final_pagina = 1
+                            elif len(cuentas_json[j]["movimientos_dias"])%2 == 0:
                                 numero_pantallas = ceil(len(cuentas_json[j]["movimientos_dias"])/4)
                                 if len(cuentas_json[j]["movimientos_monto"]) > 4:
                                     indice_final_pagina = 0 + 4
@@ -537,9 +541,17 @@ def makeResponse(req):
                             cuentas_tipo_movimiento_monto = cuentas_json[j]["movimientos_monto"]
                             for k in range(0,indice_final_pagina):
                                 if float(cuentas_tipo_movimiento_monto[k]) > 0:
-                                    json_string = u'{"title": "' + cuentas_tipo_movimiento_monedas + " " + cuentas_tipo_movimiento_monto[k] + '", "subtitle": "' + cuentas_tipo_movimiento_dias[k] +'","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/plus.png"}'
+                                    if solo_carrusel:
+                                        json_string = u'{ "type": 1, "platform": "facebook", "title": "' + cuentas_tipo_movimiento_monedas + " " + cuentas_tipo_movimiento_monto[k] + '", "subtitle": "' + cuentas_tipo_movimiento_dias[k] +'","imageUrl": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/plus_carrusel.png", "buttons": [] }'
+                                    else: 
+                                        json_string = u'{"title": "' + cuentas_tipo_movimiento_monedas + " " + cuentas_tipo_movimiento_monto[k] + '", "subtitle": "' + cuentas_tipo_movimiento_dias[k] +'","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/plus.png"}'
                                 else:
-                                    json_string = u'{"title": "' + cuentas_tipo_movimiento_monedas + " " + cuentas_tipo_movimiento_monto[k] + '", "subtitle": "' + cuentas_tipo_movimiento_dias[k] +'","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/minus.png"}'
+                                    if solo_carrusel:
+                                        json_string = u'{ "type": 1, "platform": "facebook", "title": "' + cuentas_tipo_movimiento_monedas + " " + cuentas_tipo_movimiento_monto[k] + '", "subtitle": "' + cuentas_tipo_movimiento_dias[k] +'","imageUrl": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/minus_carrusel.png", "buttons": [] }'
+                                    else: 
+                                        json_string = u'{"title": "' + cuentas_tipo_movimiento_monedas + " " + cuentas_tipo_movimiento_monto[k] + '", "subtitle": "' + cuentas_tipo_movimiento_dias[k] +'","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/minus.png"}'
+
+                                    
                                     
                                 objeto  = json.loads(json_string,strict=False)
                                 cuentas_tipo_movimiento_array.append(objeto)   
@@ -550,7 +562,19 @@ def makeResponse(req):
             else: 
                 button_ver_mas = [{"title": "+ Movimientos", "type": "postback", "payload": "pagina2"} ]
 
-            return {
+            if solo_carrusel:
+                return {
+                    "speech": "azahel",
+                    "displayText": "heyo",
+                    "source": "apiai-weather-webhook",
+                    "messages": [
+                        cuentas_tipo_movimiento_array
+                    ]
+
+
+                }
+            else: 
+                return {
                 "speech": "azahel",
                 "displayText": "heyo",
                 "source": "apiai-weather-webhook",
@@ -564,6 +588,9 @@ def makeResponse(req):
                 ]
 
             } 
+
+
+            
             
 
         else:
