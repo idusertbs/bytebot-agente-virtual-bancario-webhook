@@ -656,6 +656,7 @@ def makeResponse(req):
             cuentas_tipo_saldo_url_array = []
             cuentas_tipo_saldo_saldos_array = []
             cuentas_tipo_saldo_monedas_array = []
+            url_imagen = ''
             for i in range(0,len(debito)): 
                 if debito[i]['nombre'] == debito:
                     cuentas_json = debito[i]['cuentas']
