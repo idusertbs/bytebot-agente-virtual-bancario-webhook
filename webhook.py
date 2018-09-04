@@ -628,6 +628,75 @@ def makeResponse(req):
         else:
             return verificacion_response
 
+
+    if intentName == "bytebot.avb.cuenta.sueldo.grafica":
+        #Verificación: ¿El estado de la tabla BBOTSEFAC es true o false?        
+        verificacion = verificacion()
+        
+        
+        if int(verificacion) != 0:  
+            contexts = result.get("contexts")
+            last_context = contexts[len(contexts)-1] 
+            parameters_context = last_context["parameters"]
+            debito_context = parameters_context.get("debito")
+            debito_sueldo = parameters_context.get("debito_sueldo")            
+
+            r_query = requests.get('http://181.177.228.114:5000/query')
+            json_object_query = r_query.json()
+            documento = int(json_object_query["result"]["documento"])            
+        
+
+            r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
+            json_object = r.json()
+
+            debito=json_object['result']['clientes']['debito']
+            cuentas_tipo_saldo_array = []
+            cuentas_tipo_saldo_nombres = []
+            cuentas_tipo_saldo_tarjetas_array = []
+            cuentas_tipo_saldo_url_array = []
+            cuentas_tipo_saldo_saldos_array = []
+            cuentas_tipo_saldo_monedas_array = []
+            for i in range(0,len(debito)): 
+                if debito[i]['nombre'] == debito:
+                    cuentas_json = debito[i]['cuentas']
+                    for j in range(0,len(cuentas_json)):
+                        if cuentas_json[j]["alias"] == debito_sueldo:
+                            cuentas_tipo_saldo = cuentas_json[j]["alias"]
+                            cuentas_tipo_saldo_tarjetas = cuentas_json[j]["numero"]
+                            cuentas_tipo_saldo_url = cuentas_json[j]["imageUrl"]
+                            cuentas_tipo_saldo_saldos = cuentas_json[j]["saldo"]
+                            cuentas_tipo_saldo_monedas = cuentas_json[j]["moneda"]
+                            cuentas_tipo_saldo_movimientos_dias = cuentas_json[j]["movimientos_dias"]
+                            cuentas_tipo_saldo_movimientos_monto = cuentas_json[j]["movimientos_monto"]
+                            cuentas_tipo_saldo_nombres.append(cuentas_tipo_saldo)
+                            cuentas_tipo_saldo_tarjetas_array.append(cuentas_tipo_saldo_tarjetas)
+                            cuentas_tipo_saldo_url_array.append(cuentas_tipo_saldo_url)
+                            cuentas_tipo_saldo_saldos_array.append(cuentas_tipo_saldo_saldos)
+                            cuentas_tipo_saldo_monedas_array.append(cuentas_tipo_saldo_monedas)
+            
+            r_grafica = requests.get('http://181.177.228.114:5000/grafica/' + cuentas_tipo_saldo_movimientos_dias +'/ '+ cuentas_tipo_saldo_movimientos_monto +' /' + cuentas_tipo_saldo_saldos +'/ '+ str(documento) + '/Cuentas/' + debito + '/ ' + debito_sueldo +' / ' + cuentas_tipo_saldo_monedas)
+            json_url_imagen = r_grafica.json()
+            url_imagen = json_url_imagen["result"]["url"]
+
+            return {
+                "speech": "-",
+                "displayText": "-",
+                "source": "apiai-weather-webhook",
+                "messages": [
+                    {
+                        "type": 3,
+                        "platform": "facebook",
+                        "imageUrl": url_imagen
+                    }
+                ]
+
+            }
+                            
+            
+
+        else:
+            return verificacion_response
+
     if intentName == "bytebot.avb.cuenta.debito.tipos.movimientos-next":
         #Verificación: ¿El estado de la tabla BBOTSEFAC es true o false?        
         verificacion = verificacion()
