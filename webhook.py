@@ -572,7 +572,7 @@ def makeResponse(req):
             parameters_context = last_context["parameters"]
             debito_context = parameters_context.get("debito")
             debito_sueldo = parameters_context.get("debito_sueldo")
-            pagina = int(parameters_context.get("pagina")[6:])
+            pagina = int(parameters_context.get("paginas")[6:])
 
             r_query = requests.get('http://181.177.228.114:5000/query')
             json_object_query = r_query.json()
