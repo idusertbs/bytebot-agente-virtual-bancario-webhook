@@ -410,7 +410,7 @@ def makeResponse(req):
                         cuentas_sueldo_nombres.append(cuentas_sueldo)
                         cuentas_sueldo_tarjetas_array.append(cuentas_sueldo_tarjetas)
                         cuentas_sueldo_url_array.append(cuentas_sueldo_url)
-                        json_string = u'{"type": 1,"platform": "facebook","title": "' + str(debito_df[i]['nombre']) + ' - '+ str(cuentas_sueldo_nombres[j]) + '", "subtitle":"'+str(cuentas_sueldo_tarjetas_array[j]) +'", "imageUrl":  "' + str(cuentas_sueldo_url_array[j]) + '","buttons": [{"text": "Consultar saldos","postback": "Consultar Saldos ' + str(cuentas_sueldo_nombres[j]) + '"},{"text": "Consultar Movimientos","postback": "Consultar Movmientos ' + str(cuentas_sueldo_nombres[j]) + '"},{"text": "Análisis","postback": "Análisis ' + str(cuentas_sueldo_nombres[j]) + '"}]}'
+                        json_string = u'{"type": 1,"platform": "facebook","title": "' + str(debito_df[i]['nombre']) + ' - '+ str(cuentas_sueldo_nombres[j]) + '", "subtitle":"'+str(cuentas_sueldo_tarjetas_array[j]) +'", "imageUrl":  "' + str(cuentas_sueldo_url_array[j]) + '","buttons": [{"text": "Consultar saldos","postback": "Consultar Saldos ' + str(cuentas_sueldo_nombres[j]) + '"},{"text": "Consultar Movimientos","postback": "Consultar Movimientos ' + str(cuentas_sueldo_nombres[j]) + '"},{"text": "Análisis","postback": "Análisis ' + str(cuentas_sueldo_nombres[j]) + '"}]}'
                         objeto  = json.loads(json_string)
                         cuentas_sueldo_array.append(objeto)
             return {
@@ -432,6 +432,7 @@ def makeResponse(req):
             contexts = result.get("contexts")
             last_context = contexts[len(contexts)-1] 
             parameters_context = last_context["parameters"]
+            debito_context = parameters_context.get("debito")
             debito_sueldo = parameters_context.get("debito_sueldo")
 
             r_query = requests.get('http://181.177.228.114:5000/query')
@@ -450,10 +451,10 @@ def makeResponse(req):
             cuentas_tipo_saldo_saldos_array = []
             cuentas_tipo_saldo_monedas_array = []
             for i in range(0,len(debito)): 
-                if debito[i]['nombre'] == 'Cuenta Ahorros':
+                if debito[i]['nombre'] == debito_context:
                     cuentas_json = debito[i]['cuentas']
                     for j in range(0,len(cuentas_json)):
-                        if cuentas_json[j]["alias"] == "Ahorros Depa":                            
+                        if cuentas_json[j]["alias"] == debito_sueldo:                            
                             cuentas_tipo_saldo = cuentas_json[j]["alias"]
                             cuentas_tipo_saldo_tarjetas = cuentas_json[j]["numero"]
                             cuentas_tipo_saldo_url = cuentas_json[j]["imageUrl"]
@@ -471,7 +472,7 @@ def makeResponse(req):
                             #json_string = u'{"type": 1,"platform": "facebook","title": "' + str(cuentas_tipo_saldo_nombres[j]) + '", "subtitle":"'+str(cuentas_tipo_saldo_tarjetas_array[j]) +'", "imageUrl":  "' + str(cuentas_tipo_saldo_url_array[j]) + '","buttons": [{"text": "Consultar saldos","postback": "Consultar Saldos ' + str(debito[i]["nombre"]) + '"},{"text": "Consultar Movimientos","postback": "Consultar Movmientos ' + str(debito[i]["nombre"]) + '"},{"text": "Análisis","postback": "Análisis ' + str(debito[i]["nombre"]) + '"}]}'
                             json_string_0 = u'{"type": 0,"platform": "facebook","speech":"'+ speech +'"}'
                             #json_string = u'{"type": 0,"platform": "facebook","speech":"'+ speech_saldo_1 + "\n" + speech_saldo_2  + "\n" + speech_saldo_3 +'"}'
-                            json_string = u'{ "type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "button", "text": "'+ speech_saldo_1 + "\n" + speech_saldo_2  + "\n" + speech_saldo_3 +'","buttons": [{ "type": "postback", "title": "Generar Reporte", "payload": "Generar Reporte ' + str(cuentas_tipo_saldo_nombres[j]) + '" },{"type": "postback", "title": "Consultar Movimientos", "payload": "Consultar Movimientos ' + str(cuentas_tipo_saldo_nombres[j])  +'"}]}}}} }'
+                            json_string = u'{ "type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "button", "text": "'+ speech_saldo_1 + "\n" + speech_saldo_2  + "\n" + speech_saldo_3 +'","buttons": [{ "type": "postback", "title": "Generar Reporte", "payload": "Generar Reporte ' + str(debito[i]['nombre']) + " " + str(cuentas_tipo_saldo_nombres[j]) + '" },{"type": "postback", "title": "Consultar Movimientos", "payload": "Consultar Movimientos ' + str(debito[i]['nombre']) + " " + str(cuentas_tipo_saldo_nombres[j])  +'"}]}}}} }'
                             objeto_0 = json.loads(json_string_0)
                             objeto  = json.loads(json_string,strict=False)
                             cuentas_tipo_saldo_array.append(objeto_0) 
