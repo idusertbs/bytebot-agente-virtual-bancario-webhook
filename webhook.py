@@ -866,7 +866,7 @@ def makeResponse(req):
                                     indice_final_pagina =  len(cuentas_json[j]["movimientos_monto"]) 
 
                             cuentas_tipo_movimiento_monedas = cuentas_json[j]["moneda"]
-                            cuentas_tipo_movimiento_dias = cuentas_json[j]["movimientos_dias"]
+                            cuentas_tipo_movimiento_dias = formatear_array_fechas(cuentas_json[j]["movimientos_dias"])
                             cuentas_tipo_movimiento_monto = cuentas_json[j]["movimientos_monto"]
                             #for k in range(0,len(cuentas_tipo_movimiento_monto)):
                             for k in range(indice_inicio_pagina,indice_final_pagina):
