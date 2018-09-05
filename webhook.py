@@ -765,7 +765,7 @@ def makeResponse(req):
                             cuentas_tipo_saldo_url = cuentas_json[j]["imageUrl"]
                             cuentas_tipo_saldo_saldos = cuentas_json[j]["saldo"]
                             cuentas_tipo_saldo_monedas = cuentas_json[j]["moneda"]
-                            cuentas_tipo_saldo_movimientos_dias = formatear_array_fechas(cuentas_json[j]["movimientos_dias"])
+                            cuentas_tipo_saldo_movimientos_dias = cuentas_json[j]["movimientos_dias"]
                             cuentas_tipo_saldo_movimientos_monto = cuentas_json[j]["movimientos_monto"]
                             cuentas_tipo_saldo_nombres.append(cuentas_tipo_saldo)
                             cuentas_tipo_saldo_tarjetas_array.append(cuentas_tipo_saldo_tarjetas)
