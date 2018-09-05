@@ -605,9 +605,9 @@ def makeResponse(req):
             r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
             json_object = r.json()
 
-            speech = "Estos son los movimientos de tu cuenta " + debito_sueldo
-            json_string_inicio = u'{ "type": 0, "platform": "facebook", "speech": "Estos son los movimientos de tu cuenta ' + debito_sueldo  + '"}'
-            objeto_inicio = json.loads(json_string_inicio, strict = False)
+            #speech = "Estos son los movimientos de tu cuenta " + debito_sueldo
+            #json_string_inicio = u'{ "type": 0, "platform": "facebook", "speech": "Estos son los movimientos de tu cuenta ' + debito_sueldo  + '"}'
+            #objeto_inicio = json.loads(json_string_inicio, strict = False)
 
             
             debito=json_object['result']['clientes']['debito']
@@ -678,6 +678,7 @@ def makeResponse(req):
                 "displayText": "heyo",
                 "source": "apiai-weather-webhook",
                 "messages": [
+                    {"type": 0, "platform": "facebook", "speech": "Estos son los movimientos de tu cuenta " + debito_sueldo },
                     {"type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "list", "top_element_style": "compact",
                   "elements": 
                     cuentas_tipo_movimiento_array
