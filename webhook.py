@@ -519,7 +519,7 @@ def makeResponse(req):
             debito_context = parameters_context.get("debito")
             debito_sueldo = parameters_context.get("debito_sueldo")
 
-            if debito_context == None:
+            if debito_context == None or debito_context == "":
                 if debito_sueldo == "Gastos Personales" or debito_sueldo == "Laboral":
                     debito_context == "Cuenta Sueldo"
                 else:
@@ -591,7 +591,7 @@ def makeResponse(req):
             debito_context = parameters_context.get("debito")
             debito_sueldo = parameters_context.get("debito_sueldo")
 
-            if debito_context == None:
+            if debito_context == None or debito_context == "":
                 if debito_sueldo == "Gastos Personales" or debito_sueldo == "Laboral":
                     debito_context == "Cuenta Sueldo"
                 else:
