@@ -15,6 +15,9 @@ from flask import request
 from flask import make_response
 from math import ceil
 
+import time
+from datetime import datetime
+
 # Flask app should start in global layout
 app = Flask(__name__)
 
@@ -236,7 +239,7 @@ def makeResponse(req):
         else:
             primer_nombre = re.split('\s+', nombre)[0]
             speech1 = "Autenticación realizada con éxito ✌"
-            speech2 = "Bienvenido " + primer_nombre + "!" 
+            speech2 = "¡Bienvenido " + primer_nombre + "!" 
             speech3 = "¿Qué deseas hacer?" 
             r=requests.get('http://181.177.228.114:5000/login/' + str(documento))
             #Recuperando la opción presionada al inicio:
@@ -724,6 +727,13 @@ def makeResponse(req):
                             r_grafica = requests.get(url_final_final)
                             json_url_imagen = r_grafica.json()
                             url_imagen = json_url_imagen["result"]["url"]
+
+            ultima_fecha  = cuentas_tipo_saldo_movimientos_dias[0]
+            primera_fecha = cuentas_tipo_saldo_movimientos_dias[len(cuentas_tipo_saldo_movimientos_dias) - 1]
+            datetime_object = datetime.strptime(ultima_fecha, '%b %d %Y %I:%M%p')
+            datetime_object_2 = datetime.strptime(primera_fecha, '%b %d %Y %I:%M%p')
+            fecha_final_formateada = str(datetime_object.day).zfill(2) + "/" + str(datetime_object.month).zfill(2) + "/" + str(datetime_object.year)
+            fecha_inicial_formateada = str(datetime_object_2.day).zfill(2) + "/" + str(datetime_object_2.month).zfill(2) + "/" + str(datetime_object_2.year)
             
             
 
@@ -732,6 +742,11 @@ def makeResponse(req):
                 "displayText": "-",
                 "source": "apiai-weather-webhook",
                 "messages": [
+                    {
+                        "type": 0,
+                        "platform": "facebook",
+                        "speech": "Esta es una gráfica de la evolución de tu saldo a lo largo del mes.\nDesde el " + fecha_inicial_formateada + " al " + datetime_object_2
+                    },
                     {
                         "type": 3,
                         "platform": "facebook",
