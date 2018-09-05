@@ -745,7 +745,7 @@ def makeResponse(req):
                     {
                         "type": 0,
                         "platform": "facebook",
-                        "speech": "Esta es una gráfica de la evolución de tu saldo a lo largo del mes.\nDesde el " + fecha_inicial_formateada + " al " + datetime_object_2
+                        "speech": "Esta es una gráfica de la evolución de tu saldo a lo largo del mes.\nDesde el " + fecha_inicial_formateada + " al " + fecha_final_formateada
                     },
                     {
                         "type": 3,
