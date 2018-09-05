@@ -612,7 +612,7 @@ def makeResponse(req):
             
             debito=json_object['result']['clientes']['debito']
             cuentas_tipo_movimiento_array = []
-            cuentas_tipo_movimiento_array.append(objeto_inicio)  
+            #cuentas_tipo_movimiento_array.append(objeto_inicio)  
             for i in range(0,len(debito)): 
                 if debito[i]['nombre'] == debito_context:
                     cuentas_json = debito[i]['cuentas']        
