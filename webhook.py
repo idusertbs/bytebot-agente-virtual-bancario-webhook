@@ -606,7 +606,7 @@ def makeResponse(req):
             json_object = r.json()
 
             speech = "Estos son los movimientos de tu cuenta " + debito_sueldo
-            json_string_inicio = u'{ "type": 0, "platform": "facebook", "speech": "Estos son los movimientos de tu cuenta "' + debito_sueldo  + '"}'
+            json_string_inicio = u'{ "type": 0, "platform": "facebook", "speech": "Estos son los movimientos de tu cuenta ' + debito_sueldo  + '"}'
             objeto_inicio = json.loads(json_string_inicio, strict = False)
 
             
