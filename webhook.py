@@ -78,6 +78,36 @@ def makeResponse(req):
                 "displayText": speech,
                 "source": "bytebot-virtual-agent-webhook"
             }
+    
+    if intentName == "bytebot.avb.nueva.autenticacion":  
+        contexts = result.get("contexts")
+        last_context = contexts[len(contexts)-1] 
+        parameters_context = last_context["parameters"]
+        documento_tipo = parameters_context.get("documento")  
+        verificacion = verificacion()      
+        if int(verificacion) == 1:
+            speech = "Ya hay una sesión iniciada, cierra sesión para autenticarte denuevo."
+            return {                
+                "speech": speech,
+                "displayText": speech,
+                "source": "bytebot-virtual-agent-webhook"
+            }
+        else:
+            speech = "Por favor,  escribe el número de tu " + documento_tipo
+            return {
+                "speech": "verificación", "displayText": "verificación", "source": "apiai-weather-webhook",
+                "messages": [
+                    { "type": 0, "platform": "facebook", "speech": "Está bien, te autenticaré :) "},
+                    { "type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "button", "text": "¿Con qué tipo de documento estás registrado?",
+                                "buttons": [ 
+                                    { "type": "postback", "title": "DNI", "payload": "DNI" },
+                                    {"type": "postback", "title": "Carné de extranjería", "payload": "Carné de extranjería"},
+                                    {"type": "postback", "title": "Pasaporte", "payload": "Pasaporte" }
+                                ]}}}}
+                    },
+                    { "type": 0, "speech": "" }
+                ]
+            }
 
 
 
