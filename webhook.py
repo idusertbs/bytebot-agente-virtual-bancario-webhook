@@ -201,8 +201,8 @@ def makeResponse(req):
             }
         else:
             primer_nombre = re.split('\s+', nombre)[0]
-            speech1 = "✌ Autenticación realizada con éxito ✌"
-            speech2 = "Bienvenido " + primer_nombre + "! ✨" 
+            speech1 = "Autenticación realizada con éxito ✌"
+            speech2 = "Bienvenido " + primer_nombre + "!" 
             r=requests.get('http://181.177.228.114:5000/login/' + str(documento))
             #Recuperando la opción presionada al inicio:
             #r_context = requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
