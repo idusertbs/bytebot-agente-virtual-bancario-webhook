@@ -58,6 +58,15 @@ def makeResponse(req):
                 ]
             }
 
+    primer_carrusel_cuentas = {"type": 1, "platform": "facebook", "title": "Mantenerte al día con tus cuentas", "subtitle": "Consulta los últimos saldos y movimientos de tus cuentas", "imageUrl": "https://www.bbvacontinental.pe/fbin/mult/cuentas-sueldo-ancho-completo_tcm1105-662879.png", "buttons": [ { "text": "Consultar Cuentas", "postback": "Consultar Cuentas" }]}
+    primer_carrusel_cuentas_objeto = json.loads(json.dumps(primer_carrusel_cuentas))
+    primer_carrusel_tarjetas = {"type": 1, "platform": "facebook", "title": "Gestiona tus Tarjetas de Crédito", "subtitle": "Movimientos, fecha de pago, pago mínimo y máximo","imageUrl": "https://www.bbvacontinental.pe/fbin/mult/tarjetas-puntos-vida-destacado_tcm1105-646001.png", "buttons": [{"text": "Consultar Tarjetas", "postback": "Consultar Tarjetas"}]}
+    primer_carrusel_tarjetas_objeto = json.loads(json.dumps(primer_carrusel_tarjetas))
+    primer_carrusel_tipo_cambio = {"type": 1, "platform": "facebook", "title": "Tipo de Cambio", "subtitle": "Obtén el mejor tipo de cambio del mercado", "imageUrl": "https://www.bbvacontinental.pe/fbin/mult/bbva-continental-prestamo-libre-disponibilidad-movil_tcm1105-618544.png","buttons": [{"text": "Consultar Tipo de Cambio","postback": "Consultar Tipo de Cambio"}]}
+    primer_carrusel_tipo_cambio_objeto = json.loads(json.dumps(primer_carrusel_tipo_cambio))
+    primer_carrusel_cerrar_sesion = {"type": 1,"platform": "facebook","title": "Cerrar Sesión","imageUrl": "https://www.bbva.com/wp-content/uploads/2015/12/cerocomisiones1-1024x423.jpg","buttons": [{"text": "Seleccionar","postback": "Cerrar Sesion"}]}
+    primer_carrusel_cerrar_sesion_objeto = json.loads(json.dumps(primer_carrusel_cerrar_sesion))
+
     if intentName == "bytebot.avb.seleccion.documento":  
         contexts = result.get("contexts")
         last_context = contexts[len(contexts)-1] 
@@ -228,28 +237,34 @@ def makeResponse(req):
             primer_nombre = re.split('\s+', nombre)[0]
             speech1 = "Autenticación realizada con éxito ✌"
             speech2 = "Bienvenido " + primer_nombre + "!" 
+            speech3 = "Esto es lo que puedo hacer actualmente por ti: " 
             r=requests.get('http://181.177.228.114:5000/login/' + str(documento))
             #Recuperando la opción presionada al inicio:
             #r_context = requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
 
             if producto == None:
                 debito=json_object_clientes['result']['clientes']['debito']
-                cuentas_debito = []
+                carrusel = []
                 json_string_inicio_00 = u'{"type": 0,"platform": "facebook","speech": "' + speech1 +  '"}'
                 json_string_inicio_0 = u'{"type": 0,"platform": "facebook","speech": "' + speech2 +  '"}'
-                #json_string_inicio = u'{"type": 0,"platform": "facebook","speech": "Estos son todos tus tipos de cuenta, selecciona alguna :)"}'
+                json_string_inicio = u'{"type": 0,"platform": "facebook","speech": "' + speech3 +  '"}'
                 objeto_inicio_00 = json.loads(json_string_inicio_00)
-                objeto_inicio_0 = json.loads(json_string_inicio_0)
-                #objeto_inicio = json.loads(json_string_inicio)
-                cuentas_debito.append(objeto_inicio_00)
-                cuentas_debito.append(objeto_inicio_0)
-                #cuentas_debito.append(objeto_inicio)
+                objeto_inicio_0 = json.loads(json_string_inicio_0)                
+                objeto_inicio = json.loads(json_string_inicio)
+                carrusel.append(objeto_inicio_00)
+                carrusel.append(objeto_inicio_0)
+                carrusel.append(primer_carrusel_cuentas_objeto)
+                carrusel.append(primer_carrusel_tarjetas_objeto)
+                carrusel.append(primer_carrusel_tipo_cambio_objeto)
+                carrusel.append(primer_carrusel_cerrar_sesion_objeto)
+                
+                #carrusel.append(objeto_inicio)
                 
                 return {
                     "speech": "hey",
                     "displayText": "hey",
                     "source": "apiai-weather-webhook",
-                    "messages": cuentas_debito
+                    "messages": carrusel
                 }
 
             if producto == "Cuentas" or debito_sueldo != None or debito_context != None :
