@@ -524,6 +524,11 @@ def makeResponse(req):
                     debito_context = "Cuenta Sueldo"
                 else:
                     debito_context = "Cuenta Ahorros"
+
+            if debito_sueldo == "Gastos Personales" or debito_sueldo == "Laboral":
+                debito_context = "Cuenta Sueldo"
+            else:
+                debito_context = "Cuenta Ahorros"
             
 
             r_query = requests.get('http://181.177.228.114:5000/query')
@@ -712,7 +717,18 @@ def makeResponse(req):
             last_context = contexts[len(contexts)-1] 
             parameters_context = last_context["parameters"]
             debito_context = parameters_context.get("debito")
-            debito_sueldo = parameters_context.get("debito_sueldo")            
+            debito_sueldo = parameters_context.get("debito_sueldo")      
+
+            if debito_context == None or debito_context == "":
+                if debito_sueldo == "Gastos Personales" or debito_sueldo == "Laboral":
+                    debito_context = "Cuenta Sueldo"
+                else:
+                    debito_context = "Cuenta Ahorros"
+
+            if debito_sueldo == "Gastos Personales" or debito_sueldo == "Laboral":
+                debito_context = "Cuenta Sueldo"
+            else:
+                debito_context = "Cuenta Ahorros"      
 
             r_query = requests.get('http://181.177.228.114:5000/query')
             json_object_query = r_query.json()
