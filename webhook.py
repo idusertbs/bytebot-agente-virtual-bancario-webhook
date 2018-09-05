@@ -46,6 +46,14 @@ def makeResponse(req):
         verificacion = json_object_verificacion['result']['codigo']
         return verificacion
 
+    def formatear_array_fechas(fecha):
+        formato_fechas_movimientos = []
+        for i in range(0,len(fecha)):
+            datetime_object = datetime.strptime(fecha[i], '%b %d %Y %I:%M%p')
+            final = str(datetime_object.day).zfill(2) + "/" + str(datetime_object.month).zfill(2) + "/" + str(datetime_object.year)
+            formato_fechas_movimientos.append(final)
+        return formato_fechas_movimientos
+
     verificacion_response = {
                 "speech": "verificación", "displayText": "verificación", "source": "apiai-weather-webhook",
                 "messages": [
@@ -649,8 +657,9 @@ def makeResponse(req):
                                 
                             #numero_pantallas = ceil(len(cuentas_json[j]["movimientos_dias"])/4)
                             cuentas_tipo_movimiento_monedas = cuentas_json[j]["moneda"]
-                            cuentas_tipo_movimiento_dias = cuentas_json[j]["movimientos_dias"]
-                            cuentas_tipo_movimiento_monto = cuentas_json[j]["movimientos_monto"]                            
+                            cuentas_tipo_movimiento_dias = formatear_array_fechas(cuentas_json[j]["movimientos_dias"])
+                            cuentas_tipo_movimiento_monto = cuentas_json[j]["movimientos_monto"]   
+                            #cuentas_tipo_movimiento_descripcion = cuentas_json[j]["movimientos_descripcion"]                            
                             for k in range(0,indice_final_pagina):
                                 if float(cuentas_tipo_movimiento_monto[k]) > 0:
                                     if solo_carrusel:
@@ -756,7 +765,7 @@ def makeResponse(req):
                             cuentas_tipo_saldo_url = cuentas_json[j]["imageUrl"]
                             cuentas_tipo_saldo_saldos = cuentas_json[j]["saldo"]
                             cuentas_tipo_saldo_monedas = cuentas_json[j]["moneda"]
-                            cuentas_tipo_saldo_movimientos_dias = cuentas_json[j]["movimientos_dias"]
+                            cuentas_tipo_saldo_movimientos_dias = formatear_array_fechas(cuentas_json[j]["movimientos_dias"])
                             cuentas_tipo_saldo_movimientos_monto = cuentas_json[j]["movimientos_monto"]
                             cuentas_tipo_saldo_nombres.append(cuentas_tipo_saldo)
                             cuentas_tipo_saldo_tarjetas_array.append(cuentas_tipo_saldo_tarjetas)
