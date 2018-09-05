@@ -499,7 +499,7 @@ def makeResponse(req):
                         cuentas_sueldo_array.append(objeto)
             return {
                     "speech": debito_df[i]['nombre'],
-                    "displayText": "heyo",
+                    "displayText": "Cancelado",
                     "source": "apiai-weather-webhook",
                     "messages": cuentas_sueldo_array
             }
@@ -569,8 +569,8 @@ def makeResponse(req):
                             cuentas_tipo_saldo_array.append(objeto_0) 
                             cuentas_tipo_saldo_array.append(objeto)   
             return {
-                "speech": "azahel",
-                "displayText": "heyo",
+                "speech": "Cancelado :/",
+                "displayText": "Cancelado",
                 "source": "apiai-weather-webhook",
                 "messages": cuentas_tipo_saldo_array
             } 
@@ -660,7 +660,7 @@ def makeResponse(req):
 
             if solo_carrusel:
                 return {
-                    "speech": "azahel",
+                    "speech": "Cancelado :/",
                     "displayText": "heyo",
                     "source": "apiai-weather-webhook",
                     "messages": 
@@ -668,7 +668,7 @@ def makeResponse(req):
                 }
             else: 
                 return {
-                "speech": "azahel",
+                "speech": "Cancelado :/",
                 "displayText": "heyo",
                 "source": "apiai-weather-webhook",
                 "messages": [
@@ -837,8 +837,8 @@ def makeResponse(req):
                 button_ver_mas = [{"title": "+ Movimientos", "type": "postback", "payload": "pagina" + str(pagina+1)} ]
 
             return {
-                "speech": "azahel",
-                "displayText": "heyo",
+                "speech": "Cancelado :/",
+                "displayText": "Cancelado :/",
                 "source": "apiai-weather-webhook",
                 "messages": [
                     {"type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "list", "top_element_style": "compact",
