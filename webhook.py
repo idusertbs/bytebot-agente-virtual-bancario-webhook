@@ -136,7 +136,7 @@ def makeResponse(req):
         }
         else:
             speech = "Estoy enviando el código de verificación al celular (******" + str(telefono[9:]) + ")"
-            r_token=requests.get('http://181.177.228.114:5000/enviatoken/' + str(telefono))
+            #r_token=requests.get('http://181.177.228.114:5000/enviatoken/' + str(telefono))
             return{
                 "speech": speech,
                 "messages": [                    
