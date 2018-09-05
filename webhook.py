@@ -605,8 +605,14 @@ def makeResponse(req):
             r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
             json_object = r.json()
 
+            speech = "Estos son los movimientos de tu cuenta " + debito_sueldo
+            json_string_inicio = u'{ "type": 0, "platform": "facebook", "speech": "Estos son los movimientos de tu cuenta "' + debito_sueldo  + '"}'
+            objeto_inicio = json.loads(json_string_inicio, strict = False)
+
+            
             debito=json_object['result']['clientes']['debito']
             cuentas_tipo_movimiento_array = []
+            cuentas_tipo_movimiento_array.append(objeto_inicio)  
             for i in range(0,len(debito)): 
                 if debito[i]['nombre'] == debito_context:
                     cuentas_json = debito[i]['cuentas']        
@@ -634,7 +640,7 @@ def makeResponse(req):
                             #numero_pantallas = ceil(len(cuentas_json[j]["movimientos_dias"])/4)
                             cuentas_tipo_movimiento_monedas = cuentas_json[j]["moneda"]
                             cuentas_tipo_movimiento_dias = cuentas_json[j]["movimientos_dias"]
-                            cuentas_tipo_movimiento_monto = cuentas_json[j]["movimientos_monto"]
+                            cuentas_tipo_movimiento_monto = cuentas_json[j]["movimientos_monto"]                            
                             for k in range(0,indice_final_pagina):
                                 if float(cuentas_tipo_movimiento_monto[k]) > 0:
                                     if solo_carrusel:
