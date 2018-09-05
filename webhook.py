@@ -439,6 +439,10 @@ def makeResponse(req):
             for i in range(0,len(debito_df)):
                 if debito_df[i]['nombre'] == debito:
                     cuentas_json = debito_df[i]['cuentas']
+                    speech = "Estas son tus  " + str(debito_df[i]['nombre']) + ". Puedes consultar las que desees :)"                    
+                    json_string_0 = u'{"type": 0,"platform": "facebook","speech":"'+ speech +'"}'
+                    objeto_0 = json.loads(json_string_0)
+                    cuentas_sueldo_array.append(objeto_0)
                     for j in range(0,len(cuentas_json)):
                         cuentas_sueldo = cuentas_json[j]["alias"]
                         cuentas_sueldo_tarjetas = cuentas_json[j]["numero"]
@@ -446,12 +450,8 @@ def makeResponse(req):
                         cuentas_sueldo_nombres.append(cuentas_sueldo)
                         cuentas_sueldo_tarjetas_array.append(cuentas_sueldo_tarjetas)
                         cuentas_sueldo_url_array.append(cuentas_sueldo_url)
-                        speech = "Estas son tus  " + str(debito_df[i]['nombre']) + ". Puedes consultar las que desees :)"
-                        json_string_0 = u'{"type": 0,"platform": "facebook","speech":"'+ speech +'"}'
-                        json_string = u'{"type": 1,"platform": "facebook","title": "' + str(debito_df[i]['nombre']) + ' - '+ str(cuentas_sueldo_nombres[j]) + '", "subtitle":"'+str(cuentas_sueldo_tarjetas_array[j]) +'", "imageUrl":  "' + str(cuentas_sueldo_url_array[j]) + '","buttons": [{"text": "Consultar saldos","postback": "Consultar Saldos ' + str(debito_df[i]['nombre']) + " " + str(cuentas_sueldo_nombres[j]) + '"},{"text": "Consultar Movimientos","postback": "Consultar Movimientos ' + str(debito_df[i]['nombre']) + " " + str(cuentas_sueldo_nombres[j]) + '"},{"text": "Análisis","postback": "Generar Grafica ' + str(debito_df[i]['nombre']) + " " + str(cuentas_sueldo_nombres[j]) + '"}]}'
-                        objeto_0 = json.loads(json_string_0)
-                        objeto  = json.loads(json_string)
-                        cuentas_sueldo_array.append(objeto_0)
+                        json_string = u'{"type": 1,"platform": "facebook","title": "' + str(debito_df[i]['nombre']) + ' - '+ str(cuentas_sueldo_nombres[j]) + '", "subtitle":"'+str(cuentas_sueldo_tarjetas_array[j]) +'", "imageUrl":  "' + str(cuentas_sueldo_url_array[j]) + '","buttons": [{"text": "Consultar saldos","postback": "Consultar Saldos ' + str(debito_df[i]['nombre']) + " " + str(cuentas_sueldo_nombres[j]) + '"},{"text": "Consultar Movimientos","postback": "Consultar Movimientos ' + str(debito_df[i]['nombre']) + " " + str(cuentas_sueldo_nombres[j]) + '"},{"text": "Análisis","postback": "Generar Grafica ' + str(debito_df[i]['nombre']) + " " + str(cuentas_sueldo_nombres[j]) + '"}]}'                        
+                        objeto  = json.loads(json_string)                        
                         cuentas_sueldo_array.append(objeto)
             return {
                     "speech": debito_df[i]['nombre'],
