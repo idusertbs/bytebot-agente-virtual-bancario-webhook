@@ -79,11 +79,7 @@ def makeResponse(req):
                 "source": "bytebot-virtual-agent-webhook"
             }
     
-    if intentName == "bytebot.avb.nueva.autenticacion":  
-        contexts = result.get("contexts")
-        last_context = contexts[len(contexts)-1] 
-        parameters_context = last_context["parameters"]
-        documento_tipo = parameters_context.get("documento")  
+    if intentName == "bytebot.avb.nueva.autenticacion":          
         verificacion = verificacion()      
         if int(verificacion) == 1:
             speech = "Ya hay una sesión iniciada, cierra sesión para autenticarte denuevo."
@@ -92,8 +88,7 @@ def makeResponse(req):
                 "displayText": speech,
                 "source": "bytebot-virtual-agent-webhook"
             }
-        else:
-            speech = "Por favor,  escribe el número de tu " + documento_tipo
+        else:            
             return {
                 "speech": "verificación", "displayText": "verificación", "source": "apiai-weather-webhook",
                 "messages": [
