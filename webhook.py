@@ -1127,9 +1127,9 @@ def makeResponse(req):
                     for k in range(0,indice_final_pagina):
                         if float(movimientos_monto[k]) > 0:
                             if solo_carrusel:
-                                json_string = u'{ "type": 1, "platform": "facebook", "title": "' + moneda + " " + movimientos_monto[k] + '", "subtitle": "' + movimientos_descripcion[k] + movimientos_dias[k] +'","imageUrl": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/plus_carrusel.png", "buttons": [] }'
+                                json_string = u'{ "type": 1, "platform": "facebook", "title": "' + moneda + " " + movimientos_monto[k] + '", "subtitle": "' + movimientos_descripcion[k] + movimientos_dias[k] +'","imageUrl": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/minus_carrusel.png", "buttons": [] }'
                             else: 
-                                json_string = u'{"title": "' + moneda + " " + movimientos_monto[k] + '", "subtitle": "' + movimientos_descripcion[k] + movimientos_dias[k] +'","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/plus_2.png"}'
+                                json_string = u'{"title": "' + moneda + " " + movimientos_monto[k] + '", "subtitle": "' + movimientos_descripcion[k] + movimientos_dias[k] +'","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/minus_3.png"}'
                         else:
                             if solo_carrusel:
                                 json_string = u'{ "type": 1, "platform": "facebook", "title": "' + moneda + " " + movimientos_monto[k] + '", "subtitle": "' + movimientos_descripcion[k] + movimientos_dias[k] +'","imageUrl": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/minus_carrusel.png", "buttons": [] }'
