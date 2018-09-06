@@ -671,7 +671,7 @@ def makeResponse(req):
                                     if solo_carrusel:
                                         json_string = u'{ "type": 1, "platform": "facebook", "title": "' + cuentas_tipo_movimiento_monedas + " " + cuentas_tipo_movimiento_monto[k] + '", "subtitle": "' + cuentas_tipo_movimiento_descripcion[k] + cuentas_tipo_movimiento_dias[k] +'","imageUrl": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/minus_carrusel.png", "buttons": [] }'
                                     else: 
-                                        json_string = u'{"title": "' + cuentas_tipo_movimiento_monedas + " " + cuentas_tipo_movimiento_monto[k] + '", "subtitle": "' + cuentas_tipo_movimiento_descripcion[k] + cuentas_tipo_movimiento_dias[k] +'","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/minus.png"}'
+                                        json_string = u'{"title": "' + cuentas_tipo_movimiento_monedas + " " + cuentas_tipo_movimiento_monto[k] + '", "subtitle": "' + cuentas_tipo_movimiento_descripcion[k] + cuentas_tipo_movimiento_dias[k] +'","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/minus_3.png"}'
 
                                     
                                     
@@ -875,7 +875,7 @@ def makeResponse(req):
                                 if float(cuentas_tipo_movimiento_monto[k]) > 0:
                                     json_string = u'{"title": "' + cuentas_tipo_movimiento_monedas + " " + cuentas_tipo_movimiento_monto[k] + '", "subtitle": "' + cuentas_tipo_movimiento_descripcion[k] + cuentas_tipo_movimiento_dias[k] +'","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/plus_2.png"}'
                                 else:
-                                    json_string = u'{"title": "' + cuentas_tipo_movimiento_monedas + " " + cuentas_tipo_movimiento_monto[k] + '", "subtitle": "' + cuentas_tipo_movimiento_descripcion[k] + cuentas_tipo_movimiento_dias[k] +'","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/minus.png"}'
+                                    json_string = u'{"title": "' + cuentas_tipo_movimiento_monedas + " " + cuentas_tipo_movimiento_monto[k] + '", "subtitle": "' + cuentas_tipo_movimiento_descripcion[k] + cuentas_tipo_movimiento_dias[k] +'","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/minus_3.png"}'
                                     
                                 objeto  = json.loads(json_string,strict=False)
                                 cuentas_tipo_movimiento_array.append(objeto)   
