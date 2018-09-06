@@ -1152,7 +1152,7 @@ def makeResponse(req):
                     "displayText": "heyo",
                     "source": "apiai-weather-webhook",
                     "messages": 
-                        cuentas_tipo_movimiento_array
+                        credito_movimiento_array
                 }
             else: 
                 return {
@@ -1160,10 +1160,10 @@ def makeResponse(req):
                 "displayText": "heyo",
                 "source": "apiai-weather-webhook",
                 "messages": [
-                    {"type": 0, "platform": "facebook", "speech": "Estos son los movimientos de tu cuenta " + debito_sueldo },
+                    {"type": 0, "platform": "facebook", "speech": "Estos son los movimientos de tu tarjeta " + credito },
                     {"type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "list", "top_element_style": "compact",
                   "elements": 
-                    cuentas_tipo_movimiento_array
+                    credito_movimiento_array
                   ,
                   "buttons": button_ver_mas
                     }}}}}
