@@ -1076,7 +1076,108 @@ def makeResponse(req):
             return verificacion_response
     
 
+    if intentName == "bytebot.avb.tarjeta.credito.movimientos":
+        #Verificación: ¿El estado de la tabla BBOTSEFAC es true o false?        
+        verificacion = verificacion()
         
+        
+        if int(verificacion) != 0:  
+            contexts = result.get("contexts")
+            last_context = contexts[len(contexts)-1] 
+            parameters_context = last_context["parameters"]
+            tarjeta_credito = parameters_context.get("credito")
+
+            r_query = requests.get('http://181.177.228.114:5000/query')
+            json_object_query = r_query.json()
+            documento = int(json_object_query["result"]["documento"])            
+        
+
+            r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
+            json_object = r.json()
+
+            
+            credito=json_object['result']['clientes']['credito']
+            credito_movimiento_array = []
+            #cuentas_tipo_movimiento_array.append(objeto_inicio)  
+            for i in range(0,len(credito)):
+                if credito[i]["nombre"] == tarjeta_credito:
+                    if len(credito[i]["movimientos_dias"]) == 1:
+                        numero_pantallas = 1
+                        solo_carrusel = True
+                        indice_final_pagina = 1
+                    elif len(credito[i]["movimientos_dias"])%2 == 0:
+                        solo_carrusel = False
+                        numero_pantallas = ceil(len(credito[i]["movimientos_dias"])/4)
+                        if len(credito[i]["movimientos_monto"]) > 4:
+                            indice_final_pagina = 0 + 4
+                        else:
+                            indice_final_pagina =  len(credito[i]["movimientos_monto"]) 
+                    else:
+                        numero_pantallas = ceil(len(credito[i]["movimientos_dias"])/3)
+                        solo_carrusel = False
+                        if len(credito[i]["movimientos_monto"]) > 3:
+                            indice_final_pagina = 0 + 3
+                        else:
+                            indice_final_pagina =  len(credito[i]["movimientos_monto"]) 
+                        
+                    moneda = credito[i]["moneda"]
+                    movimientos_dias = formatear_array_fechas(credito[i]["movimientos_dias"])
+                    movimientos_monto = credito[i]["movimientos_monto"]   
+                    movimientos_descripcion = credito[i]["movimientos_descripcion"]                            
+                    for k in range(0,indice_final_pagina):
+                        if float(movimientos_monto[k]) > 0:
+                            if solo_carrusel:
+                                json_string = u'{ "type": 1, "platform": "facebook", "title": "' + moneda + " " + movimientos_monto[k] + '", "subtitle": "' + movimientos_descripcion[k] + movimientos_dias[k] +'","imageUrl": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/plus_carrusel.png", "buttons": [] }'
+                            else: 
+                                json_string = u'{"title": "' + moneda + " " + movimientos_monto[k] + '", "subtitle": "' + movimientos_descripcion[k] + movimientos_dias[k] +'","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/plus_2.png"}'
+                        else:
+                            if solo_carrusel:
+                                json_string = u'{ "type": 1, "platform": "facebook", "title": "' + moneda + " " + movimientos_monto[k] + '", "subtitle": "' + movimientos_descripcion[k] + movimientos_dias[k] +'","imageUrl": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/minus_carrusel.png", "buttons": [] }'
+                            else: 
+                                json_string = u'{"title": "' + moneda + " " + movimientos_monto[k] + '", "subtitle": "' + movimientos_descripcion[k] + movimientos_dias[k] +'","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/minus_3.png"}'
+                            
+                            
+                        objeto  = json.loads(json_string,strict=False)
+                        credito_movimiento_array.append(objeto)   
+
+
+            if numero_pantallas == 1:
+                button_ver_mas = []
+            else: 
+                button_ver_mas = [{"title": "+ Movimientos", "type": "postback", "payload": "pagina2"} ]
+
+            if solo_carrusel:
+                return {
+                    "speech": "Cancelado :/",
+                    "displayText": "heyo",
+                    "source": "apiai-weather-webhook",
+                    "messages": 
+                        cuentas_tipo_movimiento_array
+                }
+            else: 
+                return {
+                "speech": "Cancelado :/",
+                "displayText": "heyo",
+                "source": "apiai-weather-webhook",
+                "messages": [
+                    {"type": 0, "platform": "facebook", "speech": "Estos son los movimientos de tu cuenta " + debito_sueldo },
+                    {"type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "list", "top_element_style": "compact",
+                  "elements": 
+                    cuentas_tipo_movimiento_array
+                  ,
+                  "buttons": button_ver_mas
+                    }}}}}
+                ]
+
+            } 
+
+
+            
+            
+
+        else:
+            return verificacion_response
+
         
         
             
