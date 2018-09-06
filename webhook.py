@@ -1160,7 +1160,7 @@ def makeResponse(req):
                 "displayText": "heyo",
                 "source": "apiai-weather-webhook",
                 "messages": [
-                    {"type": 0, "platform": "facebook", "speech": "Estos son los movimientos de tu tarjeta " + credito },
+                    {"type": 0, "platform": "facebook", "speech": "Estos son los movimientos de tu tarjeta " + tarjeta_credito },
                     {"type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "list", "top_element_style": "compact",
                   "elements": 
                     credito_movimiento_array
