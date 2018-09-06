@@ -395,6 +395,25 @@ def makeResponse(req):
                     "messages": cuentas_debito
                 }
 
+            if producto == "Tarjetas":
+                credito=json_object['result']['clientes']['credito']
+                tarjetas_credito = []
+                json_string_inicio = u'{"type": 0,"platform": "facebook","speech": "Estas son tus tarjetas de crédito"}'
+                objeto_inicio = json.loads(json_string_inicio)
+                tarjetas_credito.append(objeto_inicio)
+                objeto = ''
+                for i in range(0,len(credito)):
+                    json_string = u'{"type": 1,"platform": "facebook","title": "' + str(credito[i]["nombre"]) + '","imageUrl":  "' + str(credito[i]["imageUrl"]) + '","buttons": [{"text": "Consultar Saldo","postback": Consultar Saldo "' + str(credito[i]["nombre"]) + '"},{"text": "Información Próximo Pago","postback": Información Próximo Pago "' + str(credito[i]["nombre"]) + '"},{"text": "Análisis por Consumo","postback": Análisis por Consumo "' + str(credito[i]["nombre"]) + '"}]}'
+                    objeto  = json.loads(json_string)
+                    tarjetas_credito.append(objeto)
+
+                return {
+                    "speech": "hey",
+                    "displayText": "hey",
+                    "source": "apiai-weather-webhook",
+                    "messages": tarjetas_credito
+                }
+
         else:
             return verificacion_response
 
@@ -908,7 +927,7 @@ def makeResponse(req):
 
         
                  
-
+    '''
     if intentName == "bytebot.avb.consultar.tarjetas":        
         #verificar si puede consultar cuentas
         speech = "Todavía no me implementan la opción de verificación, así que no podrás consultar tus tarjetas 😢"
@@ -918,6 +937,7 @@ def makeResponse(req):
             "source": "bytebot-virtual-agent-webhook"
 
         }
+    '''
     if intentName == "bytebot.avb.consultar.tipo.de.cambio":        
         #verificar si puede consultar cuentas
         speech = "Todavía no me implementan la opción de verificación, así que no podrás consultar el tipo de cambio 😢"
