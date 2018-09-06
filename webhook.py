@@ -982,7 +982,7 @@ def makeResponse(req):
                     { "type": 0, "speech": "" }
                 ]
             }
-    '''
+    
     if intentName == "bytebot.avb.tarjeta.credito.saldo":
         #Verificación: ¿El estado de la tabla BBOTSEFAC es true o false?        
         verificacion = verificacion()
@@ -995,53 +995,42 @@ def makeResponse(req):
 
             r_saldos = requests.get('http://192.168.21.55:5000/credito/saldos/' + str(credito).replace(" ", "%20"))
             json_object_saldos = r_saldos.json()
-            documento = int(json_object_saldos["result"]["documento"])
+            documento = int(json_object_saldos["saldos_tarjeta"]["documento"])
+            tarjeta_credito_saldo = []
+            error = json_object_saldos["error"]
+            if  error == "0":
+                saldos_tarjeta = json_object_saldos["saldos_tarjeta"]
+                moneda = saldos_tarjeta["moneda"]
+                numero = saldos_tarjeta["numero"]
+                saldo = saldos_tarjeta["saldo"]
 
-            r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
-            json_object = r.json()
-
-
-            if producto == "Cuentas":
-                debito=json_object['result']['clientes']['debito']
-                cuentas_debito = []
-                json_string_inicio = u'{"type": 0,"platform": "facebook","speech": "Estos son todos tus tipos de cuenta, selecciona alguna :)"}'
-                objeto_inicio = json.loads(json_string_inicio)
-                cuentas_debito.append(objeto_inicio)
-                objeto = ''
-                for i in range(0,len(debito)):
-                    json_string = u'{"type": 1,"platform": "facebook","title": "' + str(debito[i]["nombre"]) + '","imageUrl":  "' + str(debito[i]["imageUrl"]) + '","buttons": [{"text": "Seleccionar Cuenta","postback": "' + str(debito[i]["nombre"]) + '"}]}'
-                    objeto  = json.loads(json_string)
-                    cuentas_debito.append(objeto)
-
+                speech = "Tu saldo actual es:"
+                speech_saldo_1 = moneda + " " + saldo
+                speech_saldo_2 = credito
+                speech_saldo_3 = numero                
+                json_string_0 = u'{"type": 0,"platform": "facebook","speech":"'+ speech +'"}'                
+                json_string = u'{ "type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "button", "text": "'+ speech_saldo_1 + "\n" + speech_saldo_2  + "\n" + speech_saldo_3 +'","buttons": [{ "type": "postback", "title": "Generar Reporte", "payload": "Generar Reporte ' + str(debito[i]['nombre']) + " " + str(cuentas_tipo_saldo_nombres[0]) + '" },{"type": "postback", "title": "Consultar Movimientos", "payload": "Consultar Movimientos ' + str(debito[i]['nombre']) + " " + str(cuentas_tipo_saldo_nombres[0])  +'"}]}}}} }'                
+                objeto_0 = json.loads(json_string_0)
+                objeto  = json.loads(json_string,strict=False)
+                tarjeta_credito_saldo.append(objeto_0) 
+                tarjeta_credito_saldo.append(objeto)   
                 return {
-                    "speech": "hey",
-                    "displayText": "hey",
+                    "speech": "Cancelado :/",
+                    "displayText": "Cancelado",
                     "source": "apiai-weather-webhook",
-                    "messages": cuentas_debito
-                }
+                    "messages": tarjeta_credito_saldo
+                } 
 
-            if producto == "Tarjetas":
-                credito=json_object['result']['clientes']['credito']
-                tarjetas_credito = []
-                json_string_inicio = u'{"type": 0,"platform": "facebook","speech": "Estas son tus tarjetas de crédito"}'
-                objeto_inicio = json.loads(json_string_inicio)
-                tarjetas_credito.append(objeto_inicio)
-                objeto = ''
-                for i in range(0,len(credito)):
-                    json_string = u'{"type": 1,"platform": "facebook","title": "' + str(credito[i]["nombre"]) + '","subtitle": "' + str(credito[i]["numero"])  +'","imageUrl": "' + str(credito[i]["imageUrl"]) + '","buttons": [{"text": "Consultar Saldo","postback": "Consultar Saldo ' + str(credito[i]["nombre"]) + '"},{"text": "Información Próximo Pago","postback": "Información Próximo Pago ' + str(credito[i]["nombre"]) + '"},{"text": "Análisis por Consumo","postback": "Análisis por Consumo ' + str(credito[i]["nombre"]) + '"}]}'
-                    objeto  = json.loads(json_string)
-                    tarjetas_credito.append(objeto)
-
+            else:
                 return {
-                    "speech": "hey",
-                    "displayText": "hey",
-                    "source": "apiai-weather-webhook",
-                    "messages": tarjetas_credito
+                    "speech": "Error, algo ocurrió :(",
+                    "displayText": "Error, algo ocurrió :(",
+                    "source": "apiai-weather-webhook"
                 }
 
         else:
             return verificacion_response
-    '''
+    
 
         
         
