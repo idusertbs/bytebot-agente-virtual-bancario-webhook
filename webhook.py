@@ -358,7 +358,7 @@ def makeResponse(req):
                 ]
             }
 
-    if intentName == "bytebot.avb.consultar.cuentas":
+    if intentName == "bytebot.avb.consultar":
         #Verificación: ¿El estado de la tabla BBOTSEFAC es true o false?        
         verificacion = verificacion()
         
