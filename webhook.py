@@ -1177,6 +1177,84 @@ def makeResponse(req):
 
         else:
             return verificacion_response
+    
+    if intentName == "bytebot.avb.tarjeta.credito.movimientos-next":
+        #Verificación: ¿El estado de la tabla BBOTSEFAC es true o false?        
+        verificacion = verificacion()
+        
+        
+        if int(verificacion) != 0:  
+            contexts = result.get("contexts")
+            last_context = contexts[len(contexts)-1] 
+            parameters_context = last_context["parameters"]
+            tarjeta_credito = parameters_context.get("credito")
+            pagina = int(parameters_context.get("paginas")[6:])
+
+
+            r_query = requests.get('http://181.177.228.114:5000/query')
+            json_object_query = r_query.json()
+            documento = int(json_object_query["result"]["documento"])            
+        
+
+            r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
+            json_object = r.json()
+
+            credito=json_object['result']['clientes']['credito']
+            credito_movimiento_array = []      
+            for j in range(0,len(credito)):
+                if credito[j]["nombre"] == tarjeta_credito:
+                    if len(credito[j]["movimientos_dias"])%2 == 0:
+                        numero_pantallas = ceil(len(credito[j]["movimientos_dias"])/4)
+                        indice_inicio_pagina = 5*(pagina-1)-(pagina-1)
+                        if len(credito[j]["movimientos_monto"]) - (indice_inicio_pagina+1) > 4:
+                            indice_final_pagina = indice_inicio_pagina + 4 
+                        else:
+                            indice_final_pagina =  len(credito[j]["movimientos_monto"]) 
+                    else:
+                        numero_pantallas = ceil(len(credito[j]["movimientos_dias"])/3) 
+                        indice_inicio_pagina = 4*(pagina-1)-(pagina-1)
+                        if len(credito[j]["movimientos_monto"]) - (indice_inicio_pagina+1) > 3:
+                            indice_final_pagina = indice_inicio_pagina + 3
+                        else:
+                            indice_final_pagina =  len(credito[j]["movimientos_monto"]) 
+
+                    moneda = credito[j]["moneda"]
+                    movimientos_dias = formatear_array_fechas(credito[j]["movimientos_dias"])
+                    movimientos_monto = credito[j]["movimientos_monto"]
+                    movimientos_descripcion = credito[j]["movimientos_descripcion"] 
+                    for k in range(indice_inicio_pagina,indice_final_pagina):
+                        if float(movimientos_monto[k]) > 0:
+                            json_string = u'{"title": "' + moneda + " " + movimientos_monto[k] + '", "subtitle": "' + movimientos_descripcion[k] + movimientos_dias[k] +'","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/minus_3.png"}'
+                        else:
+                            json_string = u'{"title": "' + moneda + " " + movimientos_monto[k] + '", "subtitle": "' + movimientos_descripcion[k] + movimientos_dias[k] +'","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/minus_3.png"}'
+                            
+                        objeto  = json.loads(json_string,strict=False)
+                        credito_movimiento_array.append(objeto)   
+
+
+            if numero_pantallas == pagina:
+                button_ver_mas = []
+            else: 
+                button_ver_mas = [{"title": "+ Movimientos", "type": "postback", "payload": "pagina" + str(pagina+1)} ]
+
+            return {
+                "speech": "Cancelado :/",
+                "displayText": "Cancelado :/",
+                "source": "apiai-weather-webhook",
+                "messages": [
+                    {"type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "list", "top_element_style": "compact",
+                  "elements": 
+                    credito_movimiento_array
+                  ,
+                  "buttons": button_ver_mas
+                    }}}}}
+                ]
+
+            } 
+            
+
+        else:
+            return verificacion_response
 
         
         
