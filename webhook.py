@@ -993,7 +993,7 @@ def makeResponse(req):
             parameters_context = last_context["parameters"]
             credito = parameters_context.get("credito")
 
-            r_saldos = requests.get('http://192.168.21.55:5000/credito/saldos/' + str(credito).replace(" ", "%20"))
+            r_saldos = requests.get('http://181.177.228.114:5000/credito/saldos/' + str(credito).replace(" ", "%20"))
             json_object_saldos = r_saldos.json()
             documento = int(json_object_saldos["saldos_tarjeta"]["documento"])
             tarjeta_credito_saldo = []
@@ -1003,7 +1003,6 @@ def makeResponse(req):
                 moneda = saldos_tarjeta["moneda"]
                 numero = saldos_tarjeta["numero"]
                 saldo = saldos_tarjeta["saldo"]
-
                 speech = "Tu saldo actual es:"
                 speech_saldo_1 = moneda + " " + saldo
                 speech_saldo_2 = credito
