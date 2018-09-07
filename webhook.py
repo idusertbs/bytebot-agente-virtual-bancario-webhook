@@ -1291,6 +1291,78 @@ def makeResponse(req):
 
         else:
             return verificacion_response
+
+    if intentName == "bytebot.avb.tarjeta.credito.analisis.consumo.grafica":
+        #Verificación: ¿El estado de la tabla BBOTSEFAC es true o false?        
+        verificacion = verificacion()
+        
+        
+        if int(verificacion) != 0:  
+            contexts = result.get("contexts")
+            last_context = contexts[len(contexts)-1] 
+            parameters_context = last_context["parameters"]
+            tarjeta_credito = parameters_context.get("credito")
+            consumo = parameters_context.get("consumo")     
+
+            r_query = requests.get('http://181.177.228.114:5000/query')
+            json_object_query = r_query.json()
+            documento = int(json_object_query["result"]["documento"])            
+        
+
+            r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
+            json_object = r.json()
+
+            credito=json_object['result']['clientes']['credito']
+            credito_movimiento_array = []      
+            for j in range(0,len(credito)):
+                if credito[j]["nombre"] == tarjeta_credito:
+                    moneda = credito[j]["moneda"]
+                    movimientos_dias = formatear_array_fechas(credito[j]["movimientos_dias"])
+                    movimientos_monto = credito[j]["movimientos_monto"]
+                    movimientos_descripcion = credito[j]["movimientos_descripcion"] 
+                    movimientos_concepto = credito[j]["movimientos_concepto"] 
+                    movimientos_comercio = credito[j]["movimientos_comercio"] 
+                    url = "http://181.177.228.114:5000/credito/grafica/" + str(movimientos_monto) + "/" + str(movimientos_concepto) + "/" + str(movimientos_comercio) + "/" + str(moneda) + "/" + str(tarjeta_credito) + "/" + str(consumo)
+                    url = url.replace(" ", "%20")
+                    r_grafica = requests.get(url)
+                    json_url_imagen = r_grafica.json()
+                    url_imagen = json_url_imagen["result"]["url"]
+  
+            
+            
+
+            ultima_fecha  = cuentas_tipo_saldo_movimientos_dias[0]
+            primera_fecha = cuentas_tipo_saldo_movimientos_dias[len(cuentas_tipo_saldo_movimientos_dias) - 1]
+            datetime_object = datetime.strptime(ultima_fecha, '%b %d %Y %I:%M%p')
+            datetime_object_2 = datetime.strptime(primera_fecha, '%b %d %Y %I:%M%p')
+            fecha_final_formateada = str(datetime_object.day).zfill(2) + "/" + str(datetime_object.month).zfill(2) + "/" + str(datetime_object.year)
+            fecha_inicial_formateada = str(datetime_object_2.day).zfill(2) + "/" + str(datetime_object_2.month).zfill(2) + "/" + str(datetime_object_2.year)
+            
+            
+
+            return {
+                "speech": "-",
+                "displayText": "-",
+                "source": "apiai-weather-webhook",
+                "messages": [
+                    {
+                        "type": 0,
+                        "platform": "facebook",
+                        "speech": "Esta es el consumo de tu tarjeta a lo largo del mes.\nDesde el " + fecha_inicial_formateada + " al " + fecha_final_formateada
+                    },
+                    {
+                        "type": 3,
+                        "platform": "facebook",
+                        "imageUrl": url_imagen
+                    }
+                ]
+
+            }
+                            
+            
+
+        else:
+            return verificacion_response
     
 
         
