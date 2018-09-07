@@ -1256,6 +1256,43 @@ def makeResponse(req):
         else:
             return verificacion_response
 
+    if intentName == "bytebot.avb.tarjeta.credito.analisis.consumo":
+        #Verificación: ¿El estado de la tabla BBOTSEFAC es true o false?        
+        verificacion = verificacion()
+        
+        
+        if int(verificacion) != 0:  
+            contexts = result.get("contexts")
+            last_context = contexts[len(contexts)-1] 
+            parameters_context = last_context["parameters"]
+            tarjeta_credito = parameters_context.get("credito")
+
+            r_query = requests.get('http://181.177.228.114:5000/query')
+            json_object_query = r_query.json()
+            documento = int(json_object_query["result"]["documento"])            
+        
+
+            r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
+            json_object = r.json()
+
+            return {
+                "speech": "análisis", "displayText": "análisis", "source": "bytebot-webhook",
+                "messages": [                    
+                    { "type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "button", "text": "Seleccione el tipo de Análisis: ",
+                                "buttons": [ 
+                                    { "type": "postback", "title": "Consumos por Concepto", "payload": "Consumos por Concepto " + tarjeta_credito},
+                                    {"type": "postback", "title": "Consumos por Comercio", "payload": "Consumos por Comercio " + tarjeta_credito}
+                                ]}}}}
+                    },
+                    { "type": 0, "speech": "" }
+                ]
+            }
+            
+
+        else:
+            return verificacion_response
+    
+
         
         
             
