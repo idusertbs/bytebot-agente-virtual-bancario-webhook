@@ -403,7 +403,7 @@ def makeResponse(req):
                 tarjetas_credito.append(objeto_inicio)
                 objeto = ''
                 for i in range(0,len(credito)):
-                    json_string = u'{"type": 1,"platform": "facebook","title": "' + str(credito[i]["nombre"]) + '","subtitle": "' + str(credito[i]["numero"])  +'","imageUrl": "' + str(credito[i]["imageUrl"]) + '","buttons": [{"text": "Consultar Saldo","postback": "Consultar Saldo ' + str(credito[i]["nombre"]) + '"},{"text": "Información Próximo Pago","postback": "Información Próximo Pago ' + str(credito[i]["nombre"]) + '"},{"text": "Análisis por Consumo","postback": "Análisis por Consumo ' + str(credito[i]["nombre"]) + '"}]}'
+                    json_string = u'{"type": 1,"platform": "facebook","title": "' + str(credito[i]["nombre"]) + '","subtitle": "' + str(credito[i]["numero"])  +'","imageUrl": "' + str(credito[i]["imageUrl"]) + '","buttons": [{"text": "Consultar Saldo","postback": "Consultar Saldo ' + str(credito[i]["nombre"]) + '"},{"text": "Próximo Pago","postback": "Información Próximo Pago ' + str(credito[i]["nombre"]) + '"},{"text": "Análisis por Consumo","postback": "Análisis por Consumo ' + str(credito[i]["nombre"]) + '"}]}'
                     objeto  = json.loads(json_string)
                     tarjetas_credito.append(objeto)
 
