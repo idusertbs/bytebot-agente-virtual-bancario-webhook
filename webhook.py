@@ -1331,8 +1331,8 @@ def makeResponse(req):
             
             
 
-            ultima_fecha  = cuentas_tipo_saldo_movimientos_dias[0]
-            primera_fecha = cuentas_tipo_saldo_movimientos_dias[len(cuentas_tipo_saldo_movimientos_dias) - 1]
+            ultima_fecha  = movimientos_dias[0]
+            primera_fecha = movimientos_dias[len(movimientos_dias) - 1]
             datetime_object = datetime.strptime(ultima_fecha, '%b %d %Y %I:%M%p')
             datetime_object_2 = datetime.strptime(primera_fecha, '%b %d %Y %I:%M%p')
             fecha_final_formateada = str(datetime_object.day).zfill(2) + "/" + str(datetime_object.month).zfill(2) + "/" + str(datetime_object.year)
