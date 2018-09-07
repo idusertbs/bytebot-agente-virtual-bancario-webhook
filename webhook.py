@@ -1280,8 +1280,8 @@ def makeResponse(req):
                 "messages": [                    
                     { "type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "button", "text": "Seleccione el tipo de Análisis: ",
                                 "buttons": [ 
-                                    { "type": "postback", "title": "Consumos por Concepto", "payload": "Consumo por Concepto " + tarjeta_credito},
-                                    {"type": "postback", "title": "Consumos por Comercio", "payload": "Consumo por Comercio " + tarjeta_credito}
+                                    { "type": "postback", "title": "Consumo por Concepto", "payload": "Consumo por Concepto " + tarjeta_credito},
+                                    {"type": "postback", "title": "Consumo por Comercio", "payload": "Consumo por Comercio " + tarjeta_credito}
                                 ]}}}}
                     },
                     { "type": 0, "speech": "" }
