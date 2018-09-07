@@ -1331,14 +1331,8 @@ def makeResponse(req):
             
             
 
-            ultima_fecha  = movimientos_dias[0]
-            primera_fecha = movimientos_dias[len(movimientos_dias) - 1]
-            datetime_object = datetime.strptime(ultima_fecha, '%b %d %Y %I:%M%p')
-            datetime_object_2 = datetime.strptime(primera_fecha, '%b %d %Y %I:%M%p')
-            fecha_final_formateada = str(datetime_object.day).zfill(2) + "/" + str(datetime_object.month).zfill(2) + "/" + str(datetime_object.year)
-            fecha_inicial_formateada = str(datetime_object_2.day).zfill(2) + "/" + str(datetime_object_2.month).zfill(2) + "/" + str(datetime_object_2.year)
-            
-            
+            fecha_final_formateada  = movimientos_dias[0]
+            fecha_inicial_formateada = movimientos_dias[len(movimientos_dias) - 1]
 
             return {
                 "speech": "-",
