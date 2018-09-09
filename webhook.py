@@ -513,7 +513,7 @@ def makeResponse(req):
             for i in range(0,len(debito_df)):
                 if debito_df[i]['nombre'] == debito:
                     cuentas_json = debito_df[i]['cuentas']
-                    speech = "Estas son tus  " + str(debito_df[i]['nombre']) + ". Puedes consultar las que desees :)"                    
+                    speech = "Estas son tus  " + str(debito_df[i]['nombre']).lower() + ". Puedes consultar las que desees :)"                    
                     json_string_0 = u'{"type": 0,"platform": "facebook","speech":"'+ speech +'"}'
                     objeto_0 = json.loads(json_string_0)
                     cuentas_sueldo_array.append(objeto_0)
@@ -897,9 +897,9 @@ def makeResponse(req):
                             #for k in range(0,len(cuentas_tipo_movimiento_monto)):
                             for k in range(indice_inicio_pagina,indice_final_pagina):
                                 if float(cuentas_tipo_movimiento_monto[k]) > 0:
-                                    json_string = u'{"title": "  ' + cuentas_tipo_movimiento_monedas + " " + format(abs(float(cuentas_tipo_movimiento_monto[k])),',')+ '", "subtitle": "' + cuentas_tipo_movimiento_descripcion[k] + cuentas_tipo_movimiento_dias[k] +'","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/setiembre/' + str(datetime.strptime(cuentas_tipo_movimiento_dias[k], '%b %d %Y %I:%M%p').day).zfill(2) + '_'+ str(datetime.strptime(cuentas_tipo_movimiento_dias[k], '%b %d %Y %I:%M%p').month).zfill(2)+'.png"}'
+                                    json_string = u'{"title": "  ' + cuentas_tipo_movimiento_monedas + " " + format(abs(float(cuentas_tipo_movimiento_monto[k])),',') + '", "subtitle": "' + cuentas_tipo_movimiento_descripcion[k] + '","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/setiembre/' + str(datetime.strptime(cuentas_tipo_movimiento_dias[k], '%b %d %Y %I:%M%p').day).zfill(2) + '_'+ str(datetime.strptime(cuentas_tipo_movimiento_dias[k], '%b %d %Y %I:%M%p').month).zfill(2)+'.png"}'                              
                                 else:
-                                    json_string = u'{"title": "- ' + cuentas_tipo_movimiento_monedas + " " + format(abs(float(cuentas_tipo_movimiento_monto[k])),',') + '", "subtitle": "' + cuentas_tipo_movimiento_descripcion[k] + cuentas_tipo_movimiento_dias[k] +'","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/setiembre/' + str(datetime.strptime(cuentas_tipo_movimiento_dias[k], '%b %d %Y %I:%M%p').day).zfill(2) + '_'+ str(datetime.strptime(cuentas_tipo_movimiento_dias[k], '%b %d %Y %I:%M%p').month).zfill(2)+'.png"}'
+                                    json_string = u'{"title": "- ' + cuentas_tipo_movimiento_monedas + " " + format(abs(float(cuentas_tipo_movimiento_monto[k])),',') + '", "subtitle": "' + cuentas_tipo_movimiento_descripcion[k] + '","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/setiembre/' + str(datetime.strptime(cuentas_tipo_movimiento_dias[k], '%b %d %Y %I:%M%p').day).zfill(2) + '_'+ str(datetime.strptime(cuentas_tipo_movimiento_dias[k], '%b %d %Y %I:%M%p').month).zfill(2)+'.png"}'
                                     
                                 objeto  = json.loads(json_string,strict=False)
                                 cuentas_tipo_movimiento_array.append(objeto)   
@@ -1126,20 +1126,21 @@ def makeResponse(req):
                             indice_final_pagina =  len(credito[i]["movimientos_monto"]) 
                         
                     moneda = credito[i]["moneda"]
-                    movimientos_dias = formatear_array_fechas(credito[i]["movimientos_dias"])
+                    #movimientos_dias = formatear_array_fechas(credito[i]["movimientos_dias"])
+                    movimientos_dias = credito[i]["movimientos_dias"]
                     movimientos_monto = credito[i]["movimientos_monto"]   
                     movimientos_descripcion = credito[i]["movimientos_descripcion"]                            
                     for k in range(0,indice_final_pagina):
                         if float(movimientos_monto[k]) > 0:
                             if solo_carrusel:
-                                json_string = u'{ "type": 1, "platform": "facebook", "title": "' + moneda + " " + movimientos_monto[k] + '", "subtitle": "' + movimientos_descripcion[k] + movimientos_dias[k] +'","imageUrl": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/minus_carrusel.png", "buttons": [] }'
+                                json_string = u'{ "type": 1, "platform": "facebook", "title": "  ' + moneda + " " + format(abs(float(movimientos_monto[k])),',') + '", "subtitle": "' + movimientos_descripcion[k] +'","imageUrl": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/setiembre/' + str(datetime.strptime(movimientos_dias[k], '%b %d %Y %I:%M%p').day).zfill(2) + '_'+ str(datetime.strptime(movimientos_dias[k], '%b %d %Y %I:%M%p').month).zfill(2)+'.png", "buttons": [] }'
                             else: 
-                                json_string = u'{"title": "' + moneda + " " + movimientos_monto[k] + '", "subtitle": "' + movimientos_descripcion[k] + movimientos_dias[k] +'","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/minus_3.png"}'
+                                json_string = u'{"title": "  ' + moneda + " " + format(abs(float(movimientos_monto[k])),',') + '", "subtitle": "' + movimientos_descripcion[k] + '","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/setiembre/' + str(datetime.strptime(movimientos_dias[k], '%b %d %Y %I:%M%p').day).zfill(2) + '_'+ str(datetime.strptime(movimientos_dias[k], '%b %d %Y %I:%M%p').month).zfill(2)+'.png"}'
                         else:
                             if solo_carrusel:
-                                json_string = u'{ "type": 1, "platform": "facebook", "title": "' + moneda + " " + movimientos_monto[k] + '", "subtitle": "' + movimientos_descripcion[k] + movimientos_dias[k] +'","imageUrl": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/minus_carrusel.png", "buttons": [] }'
+                                json_string = u'{ "type": 1, "platform": "facebook", "title": "- ' + moneda + " " + format(abs(float(movimientos_monto[k])),',') + '", "subtitle": "' + movimientos_descripcion[k] + '","imageUrl": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/setiembre/' + str(datetime.strptime(movimientos_dias[k], '%b %d %Y %I:%M%p').day).zfill(2) + '_'+ str(datetime.strptime(movimientos_dias[k], '%b %d %Y %I:%M%p').month).zfill(2)+'.png", "buttons": [] }'
                             else: 
-                                json_string = u'{"title": "' + moneda + " " + movimientos_monto[k] + '", "subtitle": "' + movimientos_descripcion[k] + movimientos_dias[k] +'","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/minus_3.png"}'
+                                json_string = u'{"title": "- ' + moneda + " " + format(abs(float(movimientos_monto[k])),',') + '", "subtitle": "' + movimientos_descripcion[k] + '","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/setiembre/' + str(datetime.strptime(movimientos_dias[k], '%b %d %Y %I:%M%p').day).zfill(2) + '_'+ str(datetime.strptime(movimientos_dias[k], '%b %d %Y %I:%M%p').month).zfill(2)+'.png"}'
                             
                             
                         objeto  = json.loads(json_string,strict=False)
