@@ -40,6 +40,9 @@ def makeResponse(req):
     metadata = result.get("metadata")
     intentName = metadata.get("intentName")
 
+    #Formatea a número con formato millar.
+    format_numero = lambda x:"{:,}".format(x)
+
     def verificacion():
         r_verificacion = requests.get('http://181.177.228.114:5000/query')
         json_object_verificacion = r_verificacion.json()
@@ -591,7 +594,7 @@ def makeResponse(req):
                             speech = "Tu saldo actual es:"
                             speech_saldo_1 = str(cuentas_tipo_saldo_monedas_array[0]) + " " + str(cuentas_tipo_saldo_saldos_array[0]) 
                             speech_saldo_2 = str(debito[i]['nombre']) + " - " + str(cuentas_tipo_saldo_nombres[0])
-                            speech_saldo_3 = str(cuentas_tipo_saldo_tarjetas_array[0])
+                            speech_saldo_3 = str(format_numero(cuentas_tipo_saldo_tarjetas_array[0]))
                             #json_string = u'{"type": 1,"platform": "facebook","title": "' + str(cuentas_tipo_saldo_nombres[j]) + '", "subtitle":"'+str(cuentas_tipo_saldo_tarjetas_array[j]) +'", "imageUrl":  "' + str(cuentas_tipo_saldo_url_array[j]) + '","buttons": [{"text": "Consultar saldos","postback": "Consultar Saldos ' + str(debito[i]["nombre"]) + '"},{"text": "Ver Movimientos","postback": "Consultar Movmientos ' + str(debito[i]["nombre"]) + '"},{"text": "Análisis","postback": "Análisis ' + str(debito[i]["nombre"]) + '"}]}'
                             json_string_0 = u'{"type": 0,"platform": "facebook","speech":"'+ speech +'"}'
                             #json_string = u'{"type": 0,"platform": "facebook","speech":"'+ speech_saldo_1 + "\n" + speech_saldo_2  + "\n" + speech_saldo_3 +'"}'
@@ -685,12 +688,12 @@ def makeResponse(req):
                                     if solo_carrusel:
                                         json_string = u'{ "type": 1, "platform": "facebook", "title": "' + cuentas_tipo_movimiento_monedas + " " + cuentas_tipo_movimiento_monto[k] + '", "subtitle": "' + cuentas_tipo_movimiento_descripcion[k] + cuentas_tipo_movimiento_dias[k] +'","imageUrl": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/plus_carrusel.png", "buttons": [] }'
                                     else: 
-                                        json_string = u'{"title": "' + cuentas_tipo_movimiento_monedas + " " + cuentas_tipo_movimiento_monto[k] + '", "subtitle": "' + cuentas_tipo_movimiento_descripcion[k] + cuentas_tipo_movimiento_dias[k] +'","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/plus_2.png"}'
+                                        json_string = u'{"title": "' + cuentas_tipo_movimiento_monedas + " " + format_numero(cuentas_tipo_movimiento_monto[k]) + '", "subtitle": "' + cuentas_tipo_movimiento_descripcion[k] + cuentas_tipo_movimiento_dias[k] +'","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/plus_2.png"}'
                                 else:
                                     if solo_carrusel:
                                         json_string = u'{ "type": 1, "platform": "facebook", "title": "' + cuentas_tipo_movimiento_monedas + " " + cuentas_tipo_movimiento_monto[k] + '", "subtitle": "' + cuentas_tipo_movimiento_descripcion[k] + cuentas_tipo_movimiento_dias[k] +'","imageUrl": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/minus_carrusel.png", "buttons": [] }'
                                     else: 
-                                        json_string = u'{"title": "' + cuentas_tipo_movimiento_monedas + " " + cuentas_tipo_movimiento_monto[k] + '", "subtitle": "' + cuentas_tipo_movimiento_descripcion[k] + cuentas_tipo_movimiento_dias[k] +'","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/minus_3.png"}'
+                                        json_string = u'{"title": "' + cuentas_tipo_movimiento_monedas + " " + format_numero(cuentas_tipo_movimiento_monto[k]) + '", "subtitle": "' + cuentas_tipo_movimiento_descripcion[k] + cuentas_tipo_movimiento_dias[k] +'","image_url": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/minus_3.png"}'
 
                                     
                                     
@@ -1004,7 +1007,7 @@ def makeResponse(req):
                 numero = saldos_tarjeta["numero"]
                 saldo = saldos_tarjeta["saldo"]
                 speech = "Tu saldo actual es:"
-                speech_saldo_1 = moneda + " " + saldo
+                speech_saldo_1 = moneda + " " + format_numero(saldo)
                 speech_saldo_2 = credito
                 speech_saldo_3 = numero                
                 json_string_0 = u'{"type": 0,"platform": "facebook","speech":"'+ speech +'"}'                
