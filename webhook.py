@@ -796,7 +796,7 @@ def makeResponse(req):
                             cuentas_tipo_saldo_saldos_array.append(cuentas_tipo_saldo_saldos)
                             cuentas_tipo_saldo_monedas_array.append(cuentas_tipo_saldo_monedas)
                             url_final = 'http://181.177.228.114:5000/grafica/' + str(cuentas_tipo_saldo_movimientos_dias) +'/'+ str(cuentas_tipo_saldo_movimientos_monto) +'/' + cuentas_tipo_saldo_saldos +'/'+ str(documento) + '/Cuentas/' + debito_context + '/' + debito_sueldo +'/' + cuentas_tipo_saldo_monedas
-                            url_final_final = url_final.replace(" ", "%20")
+                            url_final_final = url_final.replace(" ", "%20").replace("S/","S")
                             r_grafica = requests.get(url_final_final)
                             json_url_imagen = r_grafica.json()
                             url_imagen = json_url_imagen["result"]["url"]
@@ -1326,7 +1326,7 @@ def makeResponse(req):
                     movimientos_concepto = credito[j]["movimientos_concepto"] 
                     movimientos_comercio = credito[j]["movimientos_comercio"] 
                     url = "http://181.177.228.114:5000/credito/grafica/" + str(movimientos_monto) + "/" + str(movimientos_concepto) + "/" + str(movimientos_comercio) + "/" + str(moneda) + "/" + str(tarjeta_credito) + "/" + str(consumo)
-                    url = url.replace(" ", "%20")
+                    url = url.replace(" ", "%20").replace("S/","S")
                     r_grafica = requests.get(url)
                     json_url_imagen = r_grafica.json()
                     url_imagen = json_url_imagen["result"]["url"]
