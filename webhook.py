@@ -1058,7 +1058,7 @@ def makeResponse(req):
                 monto_minimo = proximo_pago["monto_minimo"]
                 monto_total = proximo_pago["monto_total"]
                 saldo_disponible = proximo_pago["saldo_disponible"]
-                speech = "Tarjeta " + credito + "\n\nLínea de Crédito: " + moneda + ". " + linea_credito + "\nSaldo Disponible: " + moneda + ". " + saldo_disponible  + "\n\nPagos" + "\n\nFecha de pago: " + fecha_pago + "\nMonto mínimo: " + moneda + ". " + monto_minimo + "\nMonto total: " + moneda + ". " + monto_total
+                speech = "Tarjeta " + credito + "\n\nLínea de Crédito: " + moneda + ". " + format(abs(float(linea_credito)),',') + "\nSaldo Disponible: " + moneda + ". " + format(abs(float(saldo_disponible)),',')  + "\n\nPagos" + "\n\nFecha de pago: " + fecha_pago + "\nMonto mínimo: " + moneda + ". " + format(abs(float(monto_minimo)),',') + "\nMonto total: " + moneda + ". " + format(abs(float(monto_total)),',')
                 json_string_0 = u'{"type": 0,"platform": "facebook","speech":"'+ speech +'"}'                
                 
                 objeto_0 = json.loads(json_string_0,strict=False)
