@@ -1008,7 +1008,7 @@ def makeResponse(req):
                 speech_saldo_2 = credito
                 speech_saldo_3 = numero                
                 json_string_0 = u'{"type": 0,"platform": "facebook","speech":"'+ speech +'"}'                
-                json_string = u'{ "type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "button", "text": "'+ speech_saldo_1 + "\n" + speech_saldo_2  + "\n" + speech_saldo_3 +'","buttons": [{ "type": "postback", "title": "Generar Reporte", "payload": "Generar Reporte ' + credito + '" },{"type": "postback", "title": "Ver Movimientos", "payload": "Consultar Movimientos ' + credito + '"}]}}}} }'                
+                json_string = u'{ "type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "button", "text": "'+ speech_saldo_2 + "\n" + speech_saldo_3  + "\n" + speech_saldo_1 +'","buttons": [{ "type": "postback", "title": "Generar Reporte", "payload": "Generar Reporte ' + credito + '" },{"type": "postback", "title": "Ver Movimientos", "payload": "Consultar Movimientos ' + credito + '"}]}}}} }'                
                 objeto_0 = json.loads(json_string_0)
                 objeto  = json.loads(json_string,strict=False)
                 tarjeta_credito_saldo.append(objeto_0) 
