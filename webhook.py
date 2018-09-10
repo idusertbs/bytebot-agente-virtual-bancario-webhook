@@ -1406,7 +1406,10 @@ def makeResponse(req):
             last_context = contexts[len(contexts)-1] 
             parameters_context = last_context["parameters"]
             tarjeta_credito = parameters_context.get("credito")
-            concepto = parameters_context.get("concepto")     
+            concepto = parameters_context.get("concepto")   
+
+            if tarjeta_credito == None:
+                tarjeta_credito == ""  
 
             r_query = requests.get('http://181.177.228.114:5000/query')
             json_object_query = r_query.json()
