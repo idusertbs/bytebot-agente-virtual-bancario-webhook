@@ -1387,7 +1387,7 @@ def makeResponse(req):
 
             credito=json_object['result']['clientes']['credito']
 
-            #if len(tarjeta_credito) == 0:
+            #if len(tarjeta_credito) == 0: 
             tarjetas_array = []  
             for j in range(0,len(credito)):            
                 json_string = u'{"content_type": "text","title": "' + credito[j]["nombre"] + '","payload": "'+credito[j]["nombre"]+'"}'
