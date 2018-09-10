@@ -1049,16 +1049,16 @@ def makeResponse(req):
                 tarjeta_credito_saldo.append(objeto_0) 
                 tarjeta_credito_saldo.append(objeto)   
                 return {
-                    "speech": "Cancelado :/",
-                    "displayText": "Cancelado",
+                    "speech": "?? ",
+                    "displayText": "??",
                     "source": "apiai-weather-webhook",
                     "messages": tarjeta_credito_saldo
                 } 
 
             else:
                 return {
-                    "speech": "Error, algo ocurrió :(",
-                    "displayText": "Error, algo ocurrió :(",
+                    "speech": "Al parecer no tienes esa tarjeta 😅",
+                    "displayText": "Al parecer no posees esa tarjeta 😅",
                     "source": "apiai-weather-webhook"
                 }
 
@@ -1102,8 +1102,8 @@ def makeResponse(req):
 
             else:
                 return {
-                    "speech": "Error, algo ocurrió :(",
-                    "displayText": "Error, algo ocurrió :(",
+                    "speech": "Al parecer no posees esa tarjeta 😅",
+                    "displayText": "Al parecer no posees esa tarjeta 😅",
                     "source": "apiai-weather-webhook"
                 }
 
