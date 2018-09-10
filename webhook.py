@@ -1403,10 +1403,14 @@ def makeResponse(req):
         
         if int(verificacion) != 0:  
             contexts = result.get("contexts")
-            last_context = contexts[len(contexts)-1] 
-            parameters_context = last_context["parameters"]
-            tarjeta_credito = parameters_context.get("credito")
-            concepto = parameters_context.get("concepto")   
+            if len(contexts) > 0:
+                last_context = contexts[len(contexts)-1] 
+                parameters_context = last_context["parameters"]
+                tarjeta_credito = parameters_context.get("credito")
+                concepto = parameters_context.get("concepto") 
+            else:
+                tarjeta_credito = ""
+                concepto = ""  
 
             if tarjeta_credito == None:
                 tarjeta_credito == ""  
