@@ -1134,9 +1134,9 @@ def makeResponse(req):
             credito=json_object['result']['clientes']['credito']
             credito_movimiento_array = []
             #cuentas_tipo_movimiento_array.append(objeto_inicio)  
-            for i in range(0,len(credito)):
-                hay_tarjeta = True
+            for i in range(0,len(credito)):                
                 if credito[i]["nombre"] == tarjeta_credito:
+                    hay_tarjeta = True
                     if len(credito[i]["movimientos_dias"]) == 1:
                         numero_pantallas = 1
                         solo_carrusel = True
