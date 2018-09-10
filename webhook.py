@@ -1412,10 +1412,10 @@ def makeResponse(req):
                 tarjeta_credito = ""
                 concepto = ""  
 
-            if tarjeta_credito == None:
+            if tarjeta_credito == None or tarjeta_credito == "":
                 tarjeta_credito = ""  
 
-            if concepto == "":
+            if concepto == "" or concepto == None:
                 concepto = "ese concepto"
 
             r_query = requests.get('http://181.177.228.114:5000/query')
@@ -1504,7 +1504,7 @@ def makeResponse(req):
             if tarjeta_credito == None:
                 tarjeta_credito = ""  
 
-            if comercio == "":
+            if comercio == "" or comercio == None:
                 comercio = "ese comercio"
 
             r_query = requests.get('http://181.177.228.114:5000/query')
