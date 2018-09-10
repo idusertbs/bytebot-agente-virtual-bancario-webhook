@@ -1439,8 +1439,10 @@ def makeResponse(req):
                     ]
                 }
             else:
+                hay_tarjeta = False
                 for j in range(0,len(credito)):
                     if credito[j]["nombre"] == tarjeta_credito:
+                        hay_tarjeta = True
                         moneda = credito[j]["moneda"]
                         movimientos_dias = credito[j]["movimientos_dias"]
                         movimientos_monto = credito[j]["movimientos_monto"]
@@ -1465,20 +1467,20 @@ def makeResponse(req):
                                 ]
 
                             }
-                    else:
-                        return {
-                                "speech": "-",
-                                "displayText": "-",
-                                "source": "bytebot-webhook",
-                                "messages": [
-                                    {
-                                        "type": 0,
-                                        "platform": "facebook",
-                                        "speech": "Usted no posee esa tarjeta 😅"
-                                    }
-                                ]
+                if not(hay_tarjeta):
+                    return {
+                            "speech": "-",
+                            "displayText": "-",
+                            "source": "bytebot-webhook",
+                            "messages": [
+                                {
+                                    "type": 0,
+                                    "platform": "facebook",
+                                    "speech": "Usted no posee esa tarjeta 😅"
+                                }
+                            ]
 
-                            }
+                        }
 
                         
 
