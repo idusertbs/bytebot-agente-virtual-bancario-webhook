@@ -1482,12 +1482,94 @@ def makeResponse(req):
 
                         }
 
-                        
+        else:
+            return verificacion_response
+    
+    if intentName == "bytebot.avb.tarjeta.sueltas.gastos.comercio" or intentName == "bytebot.avb.tarjeta.sueltas.gastos.comercio-tarjeta":
+        #Verificación: ¿El estado de la tabla BBOTSEFAC es true o false?        
+        verificacion = verificacion()
+        
+        
+        if int(verificacion) != 0:  
+            contexts = result.get("contexts")
+            if len(contexts) > 0:
+                last_context = contexts[len(contexts)-1] 
+                parameters_context = last_context["parameters"]
+                tarjeta_credito = parameters_context.get("credito")
+                comercio = parameters_context.get("comercio") 
+            else:
+                tarjeta_credito = ""
+                comercio = ""  
 
-            
+            if tarjeta_credito == None:
+                tarjeta_credito = ""  
 
-                            
-            
+            if comercio == "":
+                comercio = "ese comercio"
+
+            r_query = requests.get('http://181.177.228.114:5000/query')
+            json_object_query = r_query.json()
+            documento = int(json_object_query["result"]["documento"])
+        
+            r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
+            json_object = r.json()
+
+            credito=json_object['result']['clientes']['credito']
+
+            if len(tarjeta_credito) == 0: 
+                tarjetas_array = []  
+                for j in range(0,len(credito)):            
+                    json_string = u'{"content_type": "text","title": "' + credito[j]["nombre"] + '","payload": "'+credito[j]["nombre"] + " " + comercio +'"  }'
+                    objeto  = json.loads(json_string,strict=False)
+                    tarjetas_array.append(objeto)
+                return { "speech": "","messages": [ 
+                        { "type": 4, "platform": "facebook", "payload": { "facebook": { "text": "¿Para qué tarjeta de crédito deseas consultar tus gastos? 🤔", "quick_replies": tarjetas_array }}},
+                        { "type": 0, "speech": ""}
+                    ]
+                }
+            else:
+                hay_tarjeta = False
+                for j in range(0,len(credito)):
+                    if credito[j]["nombre"] == tarjeta_credito:
+                        hay_tarjeta = True
+                        moneda = credito[j]["moneda"]
+                        movimientos_dias = credito[j]["movimientos_dias"]
+                        movimientos_monto = credito[j]["movimientos_monto"]
+                        movimientos_comercio = credito[j]["movimientos_comercio"] 
+                        group_comercio, group_gastos = group_two_lists_by_first_list(movimientos_comercio, movimientos_monto)
+                        for i in range(0,len(group_comercio)):
+                            if group_comercio[i] == comercio:
+                                speech1 = "Esto es lo que gastó durante el mes en " + comercio + " con su tarjeta " + tarjeta_credito + ": " + moneda + ". " + "{0:.2f}".format(float(group_gastos[i]))                                                            
+                                break
+                            else:
+                                speech1 = "Usted no hizo ningún gasto referente a " + comercio + " con su tarjeta " + tarjeta_credito + " :)"
+                        return {
+                                "speech": "-",
+                                "displayText": "-",
+                                "source": "bytebot-webhook",
+                                "messages": [
+                                    {
+                                        "type": 0,
+                                        "platform": "facebook",
+                                        "speech": speech1
+                                    }
+                                ]
+
+                            }
+                if not(hay_tarjeta):
+                    return {
+                            "speech": "-",
+                            "displayText": "-",
+                            "source": "bytebot-webhook",
+                            "messages": [
+                                {
+                                    "type": 0,
+                                    "platform": "facebook",
+                                    "speech": "Usted no posee esa tarjeta 😅"
+                                }
+                            ]
+
+                        }
 
         else:
             return verificacion_response
