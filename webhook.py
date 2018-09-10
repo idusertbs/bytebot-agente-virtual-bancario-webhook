@@ -1465,6 +1465,21 @@ def makeResponse(req):
                                 ]
 
                             }
+                    else:
+                        return {
+                                "speech": "-",
+                                "displayText": "-",
+                                "source": "bytebot-webhook",
+                                "messages": [
+                                    {
+                                        "type": 0,
+                                        "platform": "facebook",
+                                        "speech": "Usted no posee esa tarjeta 😅"
+                                    }
+                                ]
+
+                            }
+
                         
 
             
