@@ -1430,7 +1430,7 @@ def makeResponse(req):
             if len(tarjeta_credito) == 0: 
                 tarjetas_array = []  
                 for j in range(0,len(credito)):            
-                    json_string = u'{"content_type": "text","title": "' + credito[j]["nombre"] + '","payload": "'+credito[j]["nombre"]+'"}'
+                    json_string = u'{"content_type": "text","title": "' + credito[j]["nombre"] + '","payload": "'+credito[j]["nombre"] + " " + concepto +'"  }'
                     objeto  = json.loads(json_string,strict=False)
                     tarjetas_array.append(objeto)
                 return { "speech": "","messages": [ 
@@ -1449,6 +1449,7 @@ def makeResponse(req):
                         for i in range(0,len(group_conceptos)):
                             if group_conceptos[i] == concepto:
                                 speech1 = "Esto es lo que gastó durante el mes en " + concepto + " con su tarjeta " + tarjeta_credito + ": " + moneda + ". " + "{0:.2f}".format(float(group_gastos[i]))                                                            
+                                break
                             else:
                                 speech1 = "Usted no hizo ningún gasto referente a " + concepto + " con su tarjeta " + tarjeta_credito + " :)"
                         return {
