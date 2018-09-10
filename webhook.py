@@ -57,6 +57,36 @@ def makeResponse(req):
             formato_fechas_movimientos.append(final)
         return formato_fechas_movimientos
 
+    def group_two_lists_by_first_list(keys, values):
+        values = list(map(float,values))
+        #dictionary = dict(zip(keys, values))
+
+        class DictList(dict):
+            def __setitem__(self, key, value):
+                try:
+                    # Assumes there is a list on the key
+                    self[key].append(value) 
+                except KeyError: # if fails because there is no key
+                    super(DictList, self).__setitem__(key, value)
+                except AttributeError: # if fails because it is not a list
+                    super(DictList, self).__setitem__(key, [self[key], value])
+
+        data = DictList()
+        for i in range(0, len(keys)):
+            data[keys[i]] = values[i]
+
+        values_group = list(data.values())
+        keys = list(data.keys())
+
+        values_sum = []
+        for i in range(0,len(values_group)):
+            if type(values_group[i]) == float or type(values_group[i]) == int:
+                values_sum.append(values_group[i])
+            else:
+                values_sum.append(sum(values_group[i]))
+        return keys, list(map(str,values_sum))
+
+
     verificacion_response = {
                 "speech": "verificación", "displayText": "verificación", "source": "apiai-weather-webhook",
                 "messages": [
@@ -1387,32 +1417,45 @@ def makeResponse(req):
 
             credito=json_object['result']['clientes']['credito']
 
-            #if len(tarjeta_credito) == 0: 
-            tarjetas_array = []  
-            for j in range(0,len(credito)):            
-                json_string = u'{"content_type": "text","title": "' + credito[j]["nombre"] + '","payload": "'+credito[j]["nombre"]+'"}'
-                objeto  = json.loads(json_string,strict=False)
-                tarjetas_array.append(objeto)
-            return {
-                "speech": "",
-                "messages": [
-                    {
-                    "type": 4,
-                    "platform": "facebook",
-                    "payload": {
-                        "facebook": {
-                        "text": "¿Para qué tarjeta de crédito deseas consultar tus gastos? 🤔",
-                        "quick_replies": 
-                            tarjetas_array
-                        }
-                    }
-                    },
-                    {
-                    "type": 0,
-                    "speech": ""
-                    }
-                ]
-            }
+            if len(tarjeta_credito) == 0: 
+                tarjetas_array = []  
+                for j in range(0,len(credito)):            
+                    json_string = u'{"content_type": "text","title": "' + credito[j]["nombre"] + '","payload": "'+credito[j]["nombre"]+'"}'
+                    objeto  = json.loads(json_string,strict=False)
+                    tarjetas_array.append(objeto)
+                return { "speech": "","messages": [ 
+                        { "type": 4, "platform": "facebook", "payload": { "facebook": { "text": "¿Para qué tarjeta de crédito deseas consultar tus gastos? 🤔", "quick_replies": tarjetas_array }}},
+                        { "type": 0, "speech": ""}
+                    ]
+                }
+            else:
+                for j in range(0,len(credito)):
+                    if credito[j]["nombre"] == tarjeta_credito:
+                        moneda = credito[j]["moneda"]
+                        movimientos_dias = credito[j]["movimientos_dias"]
+                        movimientos_monto = credito[j]["movimientos_monto"]
+                        movimientos_concepto = credito[j]["movimientos_concepto"] 
+                        group_conceptos, group_gastos = group_two_lists_by_first_list(movimientos_concepto, movimientos_monto)
+                        for i in range(0,len(group_conceptos)):
+                            if group_conceptos[i] == concepto:
+                                speech1 = "Esto es lo que gastó durante el mes en " + concepto + " con su tarjeta " + tarjeta_credito + ": " + moneda + ". " + "{0:.2f}".format(float(group_gastos[i]))                                                            
+                            else:
+                                speech1 = "Usted no hizo ningún gasto referente a " + concepto + " con su tarjeta " + tarjeta_credito + " :)"
+                        return {
+                                "speech": "-",
+                                "displayText": "-",
+                                "source": "bytebot-webhook",
+                                "messages": [
+                                    {
+                                        "type": 0,
+                                        "platform": "facebook",
+                                        "speech": speech1
+                                    }
+                                ]
+
+                            }
+                        
+
             
 
                             
