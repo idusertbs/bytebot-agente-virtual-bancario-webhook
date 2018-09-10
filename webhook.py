@@ -1396,7 +1396,7 @@ def makeResponse(req):
             return verificacion_response
 
     
-    if intentName == "bytebot.avb.tarjeta.sueltas.gastos.concepto":
+    if intentName == "bytebot.avb.tarjeta.sueltas.gastos.concepto" or intentName == "bytebot.avb.tarjeta.sueltas.gastos.concepto-tarjeta":
         #Verificación: ¿El estado de la tabla BBOTSEFAC es true o false?        
         verificacion = verificacion()
         
