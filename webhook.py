@@ -1130,11 +1130,12 @@ def makeResponse(req):
             r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
             json_object = r.json()
 
-            
+            hay_tarjeta = False
             credito=json_object['result']['clientes']['credito']
             credito_movimiento_array = []
             #cuentas_tipo_movimiento_array.append(objeto_inicio)  
             for i in range(0,len(credito)):
+                hay_tarjeta = True
                 if credito[i]["nombre"] == tarjeta_credito:
                     if len(credito[i]["movimientos_dias"]) == 1:
                         numero_pantallas = 1
@@ -1176,36 +1177,50 @@ def makeResponse(req):
                         objeto  = json.loads(json_string,strict=False)
                         credito_movimiento_array.append(objeto)
 
+            if not(hay_tarjeta):
+                    return {
+                            "speech": "-",
+                            "displayText": "-",
+                            "source": "bytebot-webhook",
+                            "messages": [
+                                {
+                                    "type": 0,
+                                    "platform": "facebook",
+                                    "speech": "Usted no posee esa tarjeta 😅"
+                                }
+                            ]
 
-            if numero_pantallas == 1:
-                button_ver_mas = []
-            else: 
-                button_ver_mas = [{"title": "+ Movimientos", "type": "postback", "payload": "pagina2"} ]
+                        }
+            else:
+                if numero_pantallas == 1:
+                    button_ver_mas = []
+                else: 
+                    button_ver_mas = [{"title": "+ Movimientos", "type": "postback", "payload": "pagina2"} ]
 
-            if solo_carrusel:
-                return {
+                if solo_carrusel:
+                    return {
+                        "speech": "Cancelado :/",
+                        "displayText": "heyo",
+                        "source": "apiai-weather-webhook",
+                        "messages": 
+                            credito_movimiento_array
+                    }
+                else: 
+                    return {
                     "speech": "Cancelado :/",
                     "displayText": "heyo",
                     "source": "apiai-weather-webhook",
-                    "messages": 
+                    "messages": [
+                        {"type": 0, "platform": "facebook", "speech": "Estos son los movimientos de tu tarjeta " + tarjeta_credito },
+                        {"type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "list", "top_element_style": "compact",
+                    "elements": 
                         credito_movimiento_array
-                }
-            else: 
-                return {
-                "speech": "Cancelado :/",
-                "displayText": "heyo",
-                "source": "apiai-weather-webhook",
-                "messages": [
-                    {"type": 0, "platform": "facebook", "speech": "Estos son los movimientos de tu tarjeta " + tarjeta_credito },
-                    {"type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "list", "top_element_style": "compact",
-                  "elements": 
-                    credito_movimiento_array
-                  ,
-                  "buttons": button_ver_mas
-                    }}}}}
-                ]
+                    ,
+                    "buttons": button_ver_mas
+                        }}}}}
+                    ]
 
-            } 
+                } 
 
 
             
