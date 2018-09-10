@@ -1415,6 +1415,9 @@ def makeResponse(req):
             if tarjeta_credito == None:
                 tarjeta_credito == ""  
 
+            if concepto == "":
+                concepto = "ese concepto"
+
             r_query = requests.get('http://181.177.228.114:5000/query')
             json_object_query = r_query.json()
             documento = int(json_object_query["result"]["documento"])
