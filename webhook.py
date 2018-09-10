@@ -1413,7 +1413,7 @@ def makeResponse(req):
                 concepto = ""  
 
             if tarjeta_credito == None:
-                tarjeta_credito == ""  
+                tarjeta_credito = ""  
 
             if concepto == "":
                 concepto = "ese concepto"
