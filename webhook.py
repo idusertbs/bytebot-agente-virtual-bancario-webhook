@@ -1401,7 +1401,7 @@ def makeResponse(req):
                     "platform": "facebook",
                     "payload": {
                         "facebook": {
-                        "text": "Seleccione su tarjeta de crédito: ",
+                        "text": "¿Para qué tarjeta de crédito deseas consultar tus gastos? 🤔",
                         "quick_replies": 
                             tarjetas_array
                         }
