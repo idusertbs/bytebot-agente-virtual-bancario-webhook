@@ -1425,6 +1425,20 @@ def makeResponse(req):
                             ]
 
                         }
+                if not(hay_tarjeta):
+                    return {
+                            "speech": "-",
+                            "displayText": "-",
+                            "source": "bytebot-webhook",
+                            "messages": [
+                                {
+                                    "type": 0,
+                                    "platform": "facebook",
+                                    "speech": "Al parecer usted no posee esa tarjeta 😅"
+                                }
+                            ]
+
+                        }
                             
             
 
