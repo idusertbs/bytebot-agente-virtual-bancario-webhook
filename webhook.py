@@ -1065,47 +1065,69 @@ def makeResponse(req):
         else:
             return verificacion_response
 
-    if intentName == "bytebot.avb.tarjeta.credito.proximo.pago":
+    if intentName == "bytebot.avb.tarjeta.credito.proximo.pago" or intentName == "bytebot.avb.tarjeta.credito.proximo.pago-tarjeta":
         #Verificación: ¿El estado de la tabla BBOTSEFAC es true o false?        
         verificacion = verificacion()
         
         if int(verificacion) != 0:  
             contexts = result.get("contexts")
-            last_context = contexts[len(contexts)-1] 
-            parameters_context = last_context["parameters"]
-            credito = parameters_context.get("credito")
-
-            r_proximo_pago = requests.get('http://181.177.228.114:5000/credito/proximo_pago/' + str(credito).replace(" ", "%20"))
-            json_object_proximo_pago = r_proximo_pago.json()
-            documento = int(json_object_proximo_pago["proximo_pago"]["documento"])
-            tarjeta_credito_proximo_pago = []
-            error = json_object_proximo_pago["error"]
-            if  error == "0":
-                proximo_pago = json_object_proximo_pago["proximo_pago"]
-                fecha_pago = proximo_pago["fecha_pago"]
-                linea_credito = proximo_pago["linea_credito"]
-                moneda = proximo_pago["moneda"]
-                monto_minimo = proximo_pago["monto_minimo"]
-                monto_total = proximo_pago["monto_total"]
-                saldo_disponible = proximo_pago["saldo_disponible"]
-                speech = "Tarjeta " + credito + "\n\nLínea de Crédito: " + moneda + ". " + format(abs(float('{0:.2f}'.format(float(linea_credito)))),',') + "\nSaldo Disponible: " + moneda + ". " + format(abs(float('{0:.2f}'.format(float(saldo_disponible)))),',')  + "\n\nPagos" + "\n\nFecha de pago: " + fecha_pago + "\nMonto mínimo: " + moneda + ". " + format(abs(float('{0:.2f}'.format(float(monto_minimo)))),',') + "\nMonto total: " + moneda + ". " + format(abs(float('{0:.2f}'.format(float(monto_total)))),',')
-                json_string_0 = u'{"type": 0,"platform": "facebook","speech":"'+ speech +'"}'                
-                
-                objeto_0 = json.loads(json_string_0,strict=False)
-                tarjeta_credito_proximo_pago.append(objeto_0) 
-                return {
-                    "speech": "Cancelado :/",
-                    "displayText": "Cancelado",
-                    "source": "apiai-weather-webhook",
-                    "messages": tarjeta_credito_proximo_pago
-                } 
-
+            if len(contexts) > 0:
+                last_context = contexts[len(contexts)-1] 
+                parameters_context = last_context["parameters"]
+                tarjeta_credito = parameters_context.get("credito")
             else:
-                return {
-                    "speech": "Al parecer no posees esa tarjeta 😅",
-                    "displayText": "Al parecer no posees esa tarjeta 😅",
-                    "source": "apiai-weather-webhook"
+                tarjeta_credito = ""
+            
+            if tarjeta_credito == None or tarjeta_credito == "":
+                tarjeta_credito = "" 
+
+            r_query = requests.get('http://181.177.228.114:5000/query')
+            json_object_query = r_query.json()
+            documento = int(json_object_query["result"]["documento"])    
+            credito=json_object['result']['clientes']['credito']
+            if len(tarjeta_credito) == 0: 
+                tarjetas_array = []  
+                for j in range(0,len(credito)):            
+                    json_string = u'{"content_type": "text","title": "' + credito[j]["nombre"] + '","payload": "'+credito[j]["nombre"] + '"}'
+                    objeto  = json.loads(json_string,strict=False)
+                    tarjetas_array.append(objeto)
+                return { "speech": "","messages": [ 
+                        { "type": 4, "platform": "facebook", "payload": { "facebook": { "text": "¿Para qué tarjeta de crédito deseas saber aquella información? 🤔", "quick_replies": tarjetas_array }}},
+                        { "type": 0, "speech": ""}
+                    ]
                 }
+            else:
+                r_proximo_pago = requests.get('http://181.177.228.114:5000/credito/proximo_pago/' + str(tarjeta_credito).replace(" ", "%20"))
+                json_object_proximo_pago = r_proximo_pago.json()
+                documento = int(json_object_proximo_pago["proximo_pago"]["documento"])
+                tarjeta_credito_proximo_pago = []
+                error = json_object_proximo_pago["error"]
+                if  error == "0":
+                    proximo_pago = json_object_proximo_pago["proximo_pago"]
+                    fecha_pago = proximo_pago["fecha_pago"]
+                    linea_credito = proximo_pago["linea_credito"]
+                    moneda = proximo_pago["moneda"]
+                    monto_minimo = proximo_pago["monto_minimo"]
+                    monto_total = proximo_pago["monto_total"]
+                    saldo_disponible = proximo_pago["saldo_disponible"]
+                    speech = "Tarjeta " + tarjeta_credito + "\n\nLínea de Crédito: " + moneda + ". " + format(abs(float('{0:.2f}'.format(float(linea_credito)))),',') + "\nSaldo Disponible: " + moneda + ". " + format(abs(float('{0:.2f}'.format(float(saldo_disponible)))),',')  + "\n\nPagos" + "\n\nFecha de pago: " + fecha_pago + "\nMonto mínimo: " + moneda + ". " + format(abs(float('{0:.2f}'.format(float(monto_minimo)))),',') + "\nMonto total: " + moneda + ". " + format(abs(float('{0:.2f}'.format(float(monto_total)))),',')
+                    json_string_0 = u'{"type": 0,"platform": "facebook","speech":"'+ speech +'"}'                
+                    
+                    objeto_0 = json.loads(json_string_0,strict=False)
+                    tarjeta_credito_proximo_pago.append(objeto_0) 
+                    return {
+                        "speech": "Cancelado :/",
+                        "displayText": "Cancelado",
+                        "source": "apiai-weather-webhook",
+                        "messages": tarjeta_credito_proximo_pago
+                    } 
+
+                else:
+                    return {
+                        "speech": "Al parecer no posees esa tarjeta 😅",
+                        "displayText": "Al parecer no posees esa tarjeta 😅",
+                        "source": "apiai-weather-webhook"
+                    }
 
         else:
             return verificacion_response
