@@ -1403,31 +1403,28 @@ def makeResponse(req):
                         r_grafica = requests.get(url)
                         json_url_imagen = r_grafica.json()
                         url_imagen = json_url_imagen["result"]["url"]
-    
-                
-                
 
-                fecha_final_formateada  = movimientos_dias[0]
-                fecha_inicial_formateada = movimientos_dias[len(movimientos_dias) - 1]
+                        fecha_final_formateada  = movimientos_dias[0]
+                        fecha_inicial_formateada = movimientos_dias[len(movimientos_dias) - 1]
 
-                return {
-                    "speech": "-",
-                    "displayText": "-",
-                    "source": "apiai-weather-webhook",
-                    "messages": [
-                        {
-                            "type": 0,
-                            "platform": "facebook",
-                            "speech": "Esta es el consumo de tu tarjeta a lo largo del mes.\nDesde el " + fecha_inicial_formateada + " al " + fecha_final_formateada
-                        },
-                        {
-                            "type": 3,
-                            "platform": "facebook",
-                            "imageUrl": url_imagen
+                        return {
+                            "speech": "-",
+                            "displayText": "-",
+                            "source": "apiai-weather-webhook",
+                            "messages": [
+                                {
+                                    "type": 0,
+                                    "platform": "facebook",
+                                    "speech": "Esta es el consumo de tu tarjeta a lo largo del mes.\nDesde el " + fecha_inicial_formateada + " al " + fecha_final_formateada
+                                },
+                                {
+                                    "type": 3,
+                                    "platform": "facebook",
+                                    "imageUrl": url_imagen
+                                }
+                            ]
+
                         }
-                    ]
-
-                }
                             
             
 
