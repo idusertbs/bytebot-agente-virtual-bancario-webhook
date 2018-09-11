@@ -1084,6 +1084,9 @@ def makeResponse(req):
             r_query = requests.get('http://181.177.228.114:5000/query')
             json_object_query = r_query.json()
             documento = int(json_object_query["result"]["documento"])    
+            r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
+            json_object = r.json()
+
             credito=json_object['result']['clientes']['credito']
             if len(tarjeta_credito) == 0: 
                 tarjetas_array = []  
