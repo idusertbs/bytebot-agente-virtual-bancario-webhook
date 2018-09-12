@@ -1649,11 +1649,71 @@ def makeResponse(req):
         else:
             return verificacion_response
     
+    if intentName == "bytebot.avb.sueltas.tipo.de.cambio" or intentName == "bytebot.avb.sueltas.tipo.de.cambio-canal":        
+        contexts = result.get("contexts")
+        if len(contexts) > 0:
+            last_context = contexts[len(contexts)-1] 
+            parameters_context = last_context["parameters"]            
+            canal_tipo_cambio = parameters_context.get("canal_tipo_cambio")
+            cambio = parameters_context.get("cambio") 
+        else:
+            canal_tipo_cambio = ""  
+            cambio = ""          
 
+        if canal_tipo_cambio == "" or canal_tipo_cambio == None:
+            canal_tipo_cambio = "ese canal"
         
         
+        if len(canal_tipo_cambio) == 0: 
+            canales = ["Agencias", "Cajeros"]
+            canal_tipo_cambio_array = []
+            for j in range(0,len(canal_tipo_cambio_array)):            
+                json_string = u'{"content_type": "text","title": "' + canales[j] + '","payload": "' + canales[j] + '"  }'
+                objeto  = json.loads(json_string,strict=False)
+                canal_tipo_cambio_array.append(objeto)
+            return { "speech": "","messages": [ 
+                    { "type": 4, "platform": "facebook", "payload": { "facebook": { "text": "¿Para qué canal desea saber el tipo de cambio? 🤔", "quick_replies": canal_tipo_cambio_array }}},
+                    { "type": 0, "speech": ""}
+                ]
+            }
+        else:
+            hay_canal = False
+            r_query = requests.get('http://181.177.228.114:5000/tipo_de_cambio/')
+            json_object_query = r_query.json()
+            if cambio == "SolesDolares":
+                monto_cambio = json_object_query["result"]["soles_to_dolares"]
+            elif cambio == "DolaresSoles":
+                monto_cambio = json_object_query["result"]["dolares_to_soles"]
+            else:
+                monto_cambio = "0.00"
             
+            speech1 = "El tipo de cambio solicitado en "+ canal_tipo_cambio +" es" + monto_cambio
             
+            return {
+                        "speech": "-",
+                        "displayText": "-",
+                        "source": "bytebot-webhook",
+                        "messages": [
+                        {
+                        "type": 0,
+                        "platform": "facebook",
+                        "speech": speech1
+                    }
+                ]
+            }
+            if not(hay_tarjeta):
+                return {
+                        "speech": "-",
+                        "displayText": "-",
+                        "source": "bytebot-webhook",
+                        "messages": [
+                            {
+                                "type": 0,
+                                "platform": "facebook",
+                                "speech": "Usted no posee esa tarjeta 😅"
+                            }
+                        ]
+                    }
 
         
     
