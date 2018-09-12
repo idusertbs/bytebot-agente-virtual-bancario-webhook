@@ -1677,7 +1677,7 @@ def makeResponse(req):
                 ]
             }
         else:
-            hay_canal = False
+            #hay_canal = False
             r_query = requests.get('http://181.177.228.114:5000/tipo_de_cambio/')
             json_object_query = r_query.json()
             if cambio == "SolesDolares":
@@ -1701,29 +1701,19 @@ def makeResponse(req):
                     }
                 ]
             }
-            if not(hay_tarjeta):
-                return {
-                        "speech": "-",
-                        "displayText": "-",
-                        "source": "bytebot-webhook",
-                        "messages": [
-                            {
-                                "type": 0,
-                                "platform": "facebook",
-                                "speech": "Usted no posee esa tarjeta 😅"
-                            }
-                        ]
-                    }
-
-        
-    
-    
-
-
-        
-    
-    
-    
+            #if not(hay_tarjeta):
+            #    return {
+            #            "speech": "-",
+            #            "displayText": "-",
+            #            "source": "bytebot-webhook",
+            #            "messages": [
+            #                {
+            #                    "type": 0,
+            #                    "platform": "facebook",
+            #                    "speech": "Usted no posee esa tarjeta 😅"
+            #                }
+            #            ]
+            #        }
     
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
