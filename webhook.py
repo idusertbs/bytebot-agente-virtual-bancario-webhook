@@ -1680,12 +1680,22 @@ def makeResponse(req):
             #hay_canal = False
             r_query = requests.get('http://181.177.228.114:5000/tipo_de_cambio/')
             json_object_query = r_query.json()
-            if cambio == "SolesDolares":
-                monto_cambio = json_object_query["result"]["soles_to_dolares"]
-            elif cambio == "DolaresSoles":
-                monto_cambio = json_object_query["result"]["dolares_to_soles"]
-            else:
-                monto_cambio = "0.00"
+
+            if canal_tipo_cambio == "Agencia":
+                if cambio == "SolesDolares":
+                    monto_cambio = json_object_query["result"]["agencia"]["soles_to_dolares"]
+                elif cambio == "DolaresSoles":
+                    monto_cambio = json_object_query["result"]["agencia"]["dolares_to_soles"]
+                else:
+                    monto_cambio = "0.00"
+            elif canal_tipo_cambio == "Cajero":    
+                if cambio == "SolesDolares":
+                    monto_cambio = json_object_query["result"]["cajero"]["soles_to_dolares"]
+                elif cambio == "DolaresSoles":
+                    monto_cambio = json_object_query["result"]["cajero"]["dolares_to_soles"]
+                else:
+                    monto_cambio = "0.00"
+
             
             speech1 = "El tipo de cambio solicitado en "+ canal_tipo_cambio +" es " + str(monto_cambio)
             
