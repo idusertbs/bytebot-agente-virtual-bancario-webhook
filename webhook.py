@@ -1661,7 +1661,7 @@ def makeResponse(req):
             cambio = ""          
 
         if canal_tipo_cambio == "" or canal_tipo_cambio == None:
-            canal_tipo_cambio = "ese canal"
+            canal_tipo_cambio = ""
         
         
         if len(canal_tipo_cambio) == 0: 
@@ -1687,7 +1687,7 @@ def makeResponse(req):
             else:
                 monto_cambio = "0.00"
             
-            speech1 = "El tipo de cambio solicitado en "+ canal_tipo_cambio +" es" + str(monto_cambio)
+            speech1 = "El tipo de cambio solicitado en "+ canal_tipo_cambio +" es " + str(monto_cambio)
             
             return {
                         "speech": "-",
