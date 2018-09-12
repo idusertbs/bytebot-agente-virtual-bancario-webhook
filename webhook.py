@@ -1667,7 +1667,7 @@ def makeResponse(req):
         if len(canal_tipo_cambio) == 0: 
             canales = ["Agencias", "Cajeros"]
             canal_tipo_cambio_array = []
-            for j in range(0,len(canal_tipo_cambio_array)):            
+            for j in range(0,len(canales)):            
                 json_string = u'{"content_type": "text","title": "' + canales[j] + '","payload": "' + canales[j] + '"  }'
                 objeto  = json.loads(json_string,strict=False)
                 canal_tipo_cambio_array.append(objeto)
