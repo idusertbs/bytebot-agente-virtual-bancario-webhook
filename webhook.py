@@ -228,7 +228,7 @@ def makeResponse(req):
         }
         else:
             speech = "Estoy enviando el código de verificación al celular (******" + str(telefono[9:]) + ")"
-            r_token=requests.get('http://181.177.228.114:5000/enviatoken/' + str(telefono))
+            #r_token=requests.get('http://181.177.228.114:5000/enviatoken/' + str(telefono))
             return{
                 "speech": speech,
                 "messages": [                    
@@ -343,7 +343,7 @@ def makeResponse(req):
                 cuentas_debito.append(objeto_inicio)
                 objeto = ''
                 for i in range(0,len(debito)):
-                    json_string = u'{"type": 1,"platform": "facebook","title": "' + str(debito[i]["nombre"]) + '","imageUrl":  "' + str(debito[i]["imageUrl"]) + '","buttons": [{"text": "Seleccionar Cuenta","postback": "' + str(debito[i]["nombre"]) + '"}]}'
+                    json_string = u'{"type": 1,"platform": "facebook","title": "' + str(debito[i]["nombre"]) + '","subtitle":  "' + str(debito[i]["descripcion"]) + '","imageUrl":  "' + str(debito[i]["imageUrl"]) + '","buttons": [{"text": "Seleccionar Cuenta","postback": "' + str(debito[i]["nombre"]) + '"}]}'
                     objeto  = json.loads(json_string)
                     cuentas_debito.append(objeto)
 
@@ -394,7 +394,7 @@ def makeResponse(req):
         }
         elif respuesta == "Si":
             speech = "Ok! Estoy enviando el código de verificación al celular (******" + str(telefono[9:]) + ")"
-            r_token=requests.get('http://181.177.228.114:5000/enviatoken/' + str(telefono))
+            #r_token=requests.get('http://181.177.228.114:5000/enviatoken/' + str(telefono))
             return{
                 "speech": speech,
                 "messages": [                    
