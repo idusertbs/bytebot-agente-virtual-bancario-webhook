@@ -855,7 +855,8 @@ def makeResponse(req):
                             cuentas_tipo_saldo_url = cuentas_json[j]["imageUrl"]
                             cuentas_tipo_saldo_saldos = cuentas_json[j]["saldo"]
                             cuentas_tipo_saldo_monedas = cuentas_json[j]["moneda"]
-                            cuentas_tipo_saldo_movimientos_dias = cuentas_json[j]["movimientos_dias"]
+                            #cuentas_tipo_saldo_movimientos_dias = cuentas_json[j]["movimientos_dias"]
+                            cuentas_tipo_saldo_movimientos_dias = past_days_from_current_day(8)
                             cuentas_tipo_saldo_movimientos_monto = cuentas_json[j]["movimientos_monto"]
                             cuentas_tipo_saldo_nombres.append(cuentas_tipo_saldo)
                             cuentas_tipo_saldo_tarjetas_array.append(cuentas_tipo_saldo_tarjetas)
@@ -1487,7 +1488,8 @@ def makeResponse(req):
                     if credito[j]["nombre"] == tarjeta_credito:
                         hay_tarjeta = True
                         moneda = credito[j]["moneda"]
-                        movimientos_dias = formatear_array_fechas(credito[j]["movimientos_dias"])
+                        #movimientos_dias = formatear_array_fechas(credito[j]["movimientos_dias"])
+                        movimientos_dias = formatear_array_fechas(past_days_from_current_day(8))
                         movimientos_monto = credito[j]["movimientos_monto"]
                         movimientos_descripcion = credito[j]["movimientos_descripcion"] 
                         movimientos_concepto = credito[j]["movimientos_concepto"] 
