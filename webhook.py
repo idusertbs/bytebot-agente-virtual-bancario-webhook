@@ -16,7 +16,7 @@ from flask import make_response
 from math import ceil
 
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # Flask app should start in global layout
 app = Flask(__name__)
@@ -56,6 +56,14 @@ def makeResponse(req):
             final = str(datetime_object.day).zfill(2) + "/" + str(datetime_object.month).zfill(2) + "/" + str(datetime_object.year)
             formato_fechas_movimientos.append(final)
         return formato_fechas_movimientos
+
+    def past_days_from_current_day(number_of_days):
+        now = datetime.today()
+        movimiento_dias = []
+        for i in range(0,number_of_days):
+            past = now - timedelta(days=i)    
+            movimiento_dias.append(past.strftime("%b %d %Y  %H:%MPM"))
+        return(movimiento_dias)
 
     def group_two_lists_by_first_list(keys, values):
         values = list(map(float,values))
@@ -735,7 +743,8 @@ def makeResponse(req):
                             #numero_pantallas = ceil(len(cuentas_json[j]["movimientos_dias"])/4)
                             cuentas_tipo_movimiento_monedas = cuentas_json[j]["moneda"]
                             #cuentas_tipo_movimiento_dias = formatear_array_fechas(cuentas_json[j]["movimientos_dias"])
-                            cuentas_tipo_movimiento_dias = cuentas_json[j]["movimientos_dias"]
+                            #cuentas_tipo_movimiento_dias = cuentas_json[j]["movimientos_dias"]
+                            cuentas_tipo_movimiento_dias = past_days_from_current_day(8)
                             cuentas_tipo_movimiento_monto = cuentas_json[j]["movimientos_monto"]   
                             cuentas_tipo_movimiento_descripcion = cuentas_json[j]["movimientos_comercio"]                            
                             for k in range(0,indice_final_pagina):
@@ -951,7 +960,8 @@ def makeResponse(req):
 
                             cuentas_tipo_movimiento_monedas = cuentas_json[j]["moneda"]
                             cuentas_tipo_movimiento_dias = formatear_array_fechas(cuentas_json[j]["movimientos_dias"])
-                            cuentas_tipo_movimiento_dias = cuentas_json[j]["movimientos_dias"]
+                            #cuentas_tipo_movimiento_dias = cuentas_json[j]["movimientos_dias"]
+                            cuentas_tipo_movimiento_dias = past_days_from_current_day(8)
                             cuentas_tipo_movimiento_monto = cuentas_json[j]["movimientos_monto"]
                             cuentas_tipo_movimiento_descripcion = cuentas_json[j]["movimientos_comercio"] 
                             #for k in range(0,len(cuentas_tipo_movimiento_monto)):
@@ -1198,31 +1208,41 @@ def makeResponse(req):
             credito=json_object['result']['clientes']['credito']
             credito_movimiento_array = []
             #cuentas_tipo_movimiento_array.append(objeto_inicio)  
+            movimientos_dias = past_days_from_current_day(6)
             for i in range(0,len(credito)):                
                 if credito[i]["nombre"] == tarjeta_credito:
                     hay_tarjeta = True
-                    if len(credito[i]["movimientos_dias"]) == 1:
+                    #if len(credito[i]["movimientos_dias"]) == 1:
+                    if len(movimientos_dias) == 1:
                         numero_pantallas = 1
                         solo_carrusel = True
                         indice_final_pagina = 1
-                    elif len(credito[i]["movimientos_dias"])%2 == 0:
+                    #elif len(credito[i]["movimientos_dias"])%2 == 0:
+                    elif len(movimientos_dias)%2 == 0:
                         solo_carrusel = False
-                        numero_pantallas = ceil(len(credito[i]["movimientos_dias"])/4)
-                        if len(credito[i]["movimientos_monto"]) > 4:
+                        #numero_pantallas = ceil(len(credito[i]["movimientos_dias"])/4)
+                        numero_pantallas = ceil(len(movimientos_dias)/4)
+                        #if len(credito[i]["movimientos_monto"]) > 4:
+                        if len(movimientos_dias) > 4:
                             indice_final_pagina = 0 + 4
                         else:
-                            indice_final_pagina =  len(credito[i]["movimientos_monto"]) 
+                            #indice_final_pagina =  len(credito[i]["movimientos_monto"]) 
+                            indice_final_pagina =  len(movimientos_dias) 
                     else:
-                        numero_pantallas = ceil(len(credito[i]["movimientos_dias"])/3)
+                        #numero_pantallas = ceil(len(credito[i]["movimientos_dias"])/3)
+                        numero_pantallas = ceil(len(movimientos_dias)/3)
                         solo_carrusel = False
-                        if len(credito[i]["movimientos_monto"]) > 3:
+                        #if len(credito[i]["movimientos_monto"]) > 3:
+                        if len(movimientos_dias) > 3:
                             indice_final_pagina = 0 + 3
                         else:
-                            indice_final_pagina =  len(credito[i]["movimientos_monto"]) 
+                            #indice_final_pagina =  len(credito[i]["movimientos_monto"]) 
+                            indice_final_pagina =  len(movimientos_dias) 
                         
                     moneda = credito[i]["moneda"]
                     #movimientos_dias = formatear_array_fechas(credito[i]["movimientos_dias"])
-                    movimientos_dias = credito[i]["movimientos_dias"]
+                    #movimientos_dias = credito[i]["movimientos_dias"]
+                    movimientos_dias = past_days_from_current_day(6)
                     movimientos_monto = credito[i]["movimientos_monto"]   
                     movimientos_descripcion = credito[i]["movimientos_comercio"]                            
                     for k in range(0,indice_final_pagina):
@@ -1319,26 +1339,27 @@ def makeResponse(req):
 
             credito=json_object['result']['clientes']['credito']
             credito_movimiento_array = []      
+            movimientos_dias = past_days_from_current_day(6)
             for j in range(0,len(credito)):
                 if credito[j]["nombre"] == tarjeta_credito:
-                    if len(credito[j]["movimientos_dias"])%2 == 0:
-                        numero_pantallas = ceil(len(credito[j]["movimientos_dias"])/4)
+                    if len(movimientos_dias)%2 == 0:
+                        numero_pantallas = ceil(len(movimientos_dias)/4)
                         indice_inicio_pagina = 5*(pagina-1)-(pagina-1)
-                        if len(credito[j]["movimientos_monto"]) - (indice_inicio_pagina+1) > 4:
+                        if len(movimientos_dias) - (indice_inicio_pagina+1) > 4:
                             indice_final_pagina = indice_inicio_pagina + 4 
                         else:
-                            indice_final_pagina =  len(credito[j]["movimientos_monto"]) 
+                            indice_final_pagina =  len(movimientos_dias) 
                     else:
-                        numero_pantallas = ceil(len(credito[j]["movimientos_dias"])/3) 
+                        numero_pantallas = ceil(len(movimientos_dias)/3) 
                         indice_inicio_pagina = 4*(pagina-1)-(pagina-1)
-                        if len(credito[j]["movimientos_monto"]) - (indice_inicio_pagina+1) > 3:
+                        if len(movimientos_dias) - (indice_inicio_pagina+1) > 3:
                             indice_final_pagina = indice_inicio_pagina + 3
                         else:
-                            indice_final_pagina =  len(credito[j]["movimientos_monto"]) 
+                            indice_final_pagina =  len(movimientos_dias) 
 
-                    moneda = credito[j]["moneda"]
-                    movimientos_dias = formatear_array_fechas(credito[j]["movimientos_dias"])
-                    movimientos_dias = credito[j]["movimientos_dias"]
+                    moneda = credito[j]["moneda"]                    
+                    #movimientos_dias = credito[j]["movimientos_dias"]
+                    movimientos_dias = past_days_from_current_day(6)
                     movimientos_monto = credito[j]["movimientos_monto"]
                     movimientos_descripcion = credito[j]["movimientos_comercio"] 
                     for k in range(indice_inicio_pagina,indice_final_pagina):
