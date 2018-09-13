@@ -114,6 +114,9 @@ def makeResponse(req):
     if intentName == "bytebot.avb.seleccion.documento":  
         contexts = result.get("contexts")
         last_context = contexts[len(contexts)-1] 
+        name_context = last_context["name"]
+        if name_context == "generic":
+            last_context = contexts[len(contexts)-2]  
         parameters_context = last_context["parameters"]
         documento_tipo = parameters_context.get("documento")  
         verificacion = verificacion()      
@@ -192,7 +195,10 @@ def makeResponse(req):
     if intentName == "bytebot.avb.seleccion.documento-doc.digitado-canal.digitado":   
         #Parámetros del contexto
         contexts = result.get("contexts")
-        last_context = contexts[len(contexts)-1] 
+        last_context = contexts[len(contexts)-1]
+        name_context = last_context["name"]
+        if name_context == "generic":
+            last_context = contexts[len(contexts)-2]  
         parameters_context = last_context["parameters"]
         documento = parameters_context.get("phone-number")
 
@@ -246,7 +252,10 @@ def makeResponse(req):
     if intentName == "bytebot.avb.seleccion.documento-doc.digitado-canal.digitado-token":      
         #Parámetros del contexto
         contexts = result.get("contexts")
-        last_context = contexts[len(contexts)-1] 
+        last_context = contexts[len(contexts)-1]
+        name_context = last_context["name"]
+        if name_context == "generic":
+            last_context = contexts[len(contexts)-2]   
         parameters_context = last_context["parameters"]
         producto = parameters_context.get("producto")  
         debito_context = parameters_context.get("debito")
@@ -351,7 +360,10 @@ def makeResponse(req):
     if intentName == "bytebot.avb.seleccion.documento-doc.digitado-canal.digitado-respuesta":  
         #Parámetros del contexto
         contexts = result.get("contexts")
-        last_context = contexts[len(contexts)-1] 
+        last_context = contexts[len(contexts)-1]
+        name_context = last_context["name"]
+        if name_context == "generic":
+            last_context = contexts[len(contexts)-2]   
         parameters_context = last_context["parameters"]        
         documento = parameters_context.get("phone-number")
 
@@ -397,7 +409,10 @@ def makeResponse(req):
         
         if int(verificacion) != 0:  
             contexts = result.get("contexts")
-            last_context = contexts[len(contexts)-1] 
+            last_context = contexts[len(contexts)-1]
+            name_context = last_context["name"]
+            if name_context == "generic":
+                last_context = contexts[len(contexts)-2]   
             parameters_context = last_context["parameters"]
             producto = parameters_context.get("producto")
 
@@ -458,6 +473,9 @@ def makeResponse(req):
         if int(verificacion) != 0:  
             contexts = result.get("contexts")
             last_context = contexts[len(contexts)-1] 
+            name_context = last_context["name"]
+            if name_context == "generic":
+                last_context = contexts[len(contexts)-2]  
             parameters_context = last_context["parameters"]
             debito = parameters_context.get("debito")
 
@@ -575,6 +593,9 @@ def makeResponse(req):
         if int(verificacion) != 0:  
             contexts = result.get("contexts")
             last_context = contexts[len(contexts)-1] 
+            name_context = last_context["name"]
+            if name_context == "generic":
+                last_context = contexts[len(contexts)-2]  
             parameters_context = last_context["parameters"]
             debito_context = parameters_context.get("debito")
             debito_sueldo = parameters_context.get("debito_sueldo")
@@ -652,7 +673,10 @@ def makeResponse(req):
         
         if int(verificacion) != 0:  
             contexts = result.get("contexts")
-            last_context = contexts[len(contexts)-1] 
+            last_context = contexts[len(contexts)-1]
+            name_context = last_context["name"]
+            if name_context == "generic":
+                last_context = contexts[len(contexts)-2]   
             parameters_context = last_context["parameters"]
             debito_context = parameters_context.get("debito")
             debito_sueldo = parameters_context.get("debito_sueldo")
@@ -777,7 +801,10 @@ def makeResponse(req):
         
         if int(verificacion) != 0:  
             contexts = result.get("contexts")
-            last_context = contexts[len(contexts)-1] 
+            last_context = contexts[len(contexts)-1]
+            name_context = last_context["name"]
+            if name_context == "generic":
+                last_context = contexts[len(contexts)-2]   
             parameters_context = last_context["parameters"]
             debito_context = parameters_context.get("debito")
             debito_sueldo = parameters_context.get("debito_sueldo")      
@@ -872,7 +899,10 @@ def makeResponse(req):
         
         if int(verificacion) != 0:  
             contexts = result.get("contexts")
-            last_context = contexts[len(contexts)-1] 
+            last_context = contexts[len(contexts)-1]
+            name_context = last_context["name"]
+            if name_context == "generic":
+                last_context = contexts[len(contexts)-2]   
             parameters_context = last_context["parameters"]
             debito_context = parameters_context.get("debito")
             debito_sueldo = parameters_context.get("debito_sueldo")
@@ -1024,7 +1054,10 @@ def makeResponse(req):
         
         if int(verificacion) != 0:  
             contexts = result.get("contexts")
-            last_context = contexts[len(contexts)-1] 
+            last_context = contexts[len(contexts)-1]
+            name_context = last_context["name"]
+            if name_context == "generic":
+                last_context = contexts[len(contexts)-2]  
             parameters_context = last_context["parameters"]
             credito = parameters_context.get("credito")
 
@@ -1072,7 +1105,10 @@ def makeResponse(req):
         if int(verificacion) != 0:  
             contexts = result.get("contexts")
             if len(contexts) > 0:
-                last_context = contexts[len(contexts)-1] 
+                last_context = contexts[len(contexts)-1]
+                name_context = last_context["name"]
+                if name_context == "generic":
+                    last_context = contexts[len(contexts)-2]   
                 parameters_context = last_context["parameters"]
                 tarjeta_credito = parameters_context.get("credito")
             else:
@@ -1143,7 +1179,10 @@ def makeResponse(req):
         
         if int(verificacion) != 0:  
             contexts = result.get("contexts")
-            last_context = contexts[len(contexts)-1] 
+            last_context = contexts[len(contexts)-1]
+            name_context = last_context["name"]
+            if name_context == "generic":
+                last_context = contexts[len(contexts)-2]   
             parameters_context = last_context["parameters"]
             tarjeta_credito = parameters_context.get("credito")
 
@@ -1261,7 +1300,10 @@ def makeResponse(req):
         
         if int(verificacion) != 0:  
             contexts = result.get("contexts")
-            last_context = contexts[len(contexts)-1] 
+            last_context = contexts[len(contexts)-1]
+            name_context = last_context["name"]
+            if name_context == "generic":
+                last_context = contexts[len(contexts)-2]            
             parameters_context = last_context["parameters"]
             tarjeta_credito = parameters_context.get("credito")
             pagina = int(parameters_context.get("paginas")[6:])
@@ -1341,6 +1383,9 @@ def makeResponse(req):
         if int(verificacion) != 0:  
             contexts = result.get("contexts")
             last_context = contexts[len(contexts)-1] 
+            name_context = last_context["name"]
+            if name_context == "generic":
+                last_context = contexts[len(contexts)-2]  
             parameters_context = last_context["parameters"]
             tarjeta_credito = parameters_context.get("credito")
 
@@ -1378,6 +1423,9 @@ def makeResponse(req):
             contexts = result.get("contexts")
             if len(contexts) > 0:
                 last_context = contexts[len(contexts)-1] 
+                name_context = last_context["name"]
+                if name_context == "generic":
+                    last_context = contexts[len(contexts)-2]  
                 parameters_context = last_context["parameters"]
                 tarjeta_credito = parameters_context.get("credito")
                 consumo = parameters_context.get("consumo")     
@@ -1479,7 +1527,10 @@ def makeResponse(req):
         if int(verificacion) != 0:  
             contexts = result.get("contexts")
             if len(contexts) > 0:
-                last_context = contexts[len(contexts)-1] 
+                last_context = contexts[len(contexts)-1]
+                name_context = last_context["name"]
+                if name_context == "generic":
+                    last_context = contexts[len(contexts)-2]   
                 parameters_context = last_context["parameters"]
                 tarjeta_credito = parameters_context.get("credito")
                 concepto = parameters_context.get("concepto") 
@@ -1569,6 +1620,9 @@ def makeResponse(req):
             contexts = result.get("contexts")
             if len(contexts) > 0:
                 last_context = contexts[len(contexts)-1] 
+                name_context = last_context["name"]
+                if name_context == "generic":
+                    last_context = contexts[len(contexts)-2]  
                 parameters_context = last_context["parameters"]
                 tarjeta_credito = parameters_context.get("credito")
                 comercio = parameters_context.get("comercio") 
@@ -1653,6 +1707,9 @@ def makeResponse(req):
         contexts = result.get("contexts")
         if len(contexts) > 0:
             last_context = contexts[len(contexts)-1] 
+            name_context = last_context["name"]
+            if name_context == "generic":
+                last_context = contexts[len(contexts)-2]  
             parameters_context = last_context["parameters"]            
             canal_tipo_cambio = parameters_context.get("canal_tipo_cambio")
             cambio = parameters_context.get("cambio") 
