@@ -62,7 +62,7 @@ def makeResponse(req):
         movimiento_dias = []
         for i in range(0,number_of_days):
             past = now - timedelta(days=i)    
-            movimiento_dias.append(past.strftime("%b %d %Y  %H:%MPM"))
+            movimiento_dias.append(past.strftime("%b %d %Y  10:22PM"))
         return(movimiento_dias)
 
     def group_two_lists_by_first_list(keys, values):
