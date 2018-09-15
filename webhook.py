@@ -658,7 +658,7 @@ def makeResponse(req):
                             json_string_0 = u'{"type": 0,"platform": "facebook","speech":"'+ speech +'"}'
                             #json_string = u'{"type": 0,"platform": "facebook","speech":"'+ speech_saldo_1 + "\n" + speech_saldo_2  + "\n" + speech_saldo_3 +'"}'
                             #json_string = u'{ "type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "button", "text": "'+ speech_saldo_1 + "\n" + speech_saldo_2  + "\n" + speech_saldo_3 +'","buttons": [{ "type": "postback", "title": "Generar Gráfica", "payload": "Generar Grafica ' + str(debito[i]['nombre']) + " " + str(cuentas_tipo_saldo_nombres[0]) + '" },{"type": "postback", "title": "Consultar Movimientos", "payload": "Consultar Movimientos ' + str(debito[i]['nombre']) + " " + str(cuentas_tipo_saldo_nombres[0])  +'"}]}}}} }'
-                            json_string = u'{ "type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "button", "text": "'+ speech_saldo_2 + "\n" + speech_saldo_3  + "\n" + speech_saldo_1 +'","buttons": [{"type": "postback", "title": "Ver Movimientos", "payload": "Consultar Movimientos ' + str(debito[i]['nombre']) + " " + str(cuentas_tipo_saldo_nombres[0])  +'"}]}}}} }'
+                            json_string = u'{ "type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "button", "text": "'+ speech_saldo_2 + "\n" + speech_saldo_3  + "\n" + speech_saldo_1 +'","buttons": [{"type": "postback", "title": "Generar Reporte", "payload": "Generar Reporte ' + str(debito[i]['nombre']) + " " + str(cuentas_tipo_saldo_nombres[0])  +'"},{"type": "postback", "title": "Ver Movimientos", "payload": "Consultar Movimientos ' + str(debito[i]['nombre']) + " " + str(cuentas_tipo_saldo_nombres[0])  +'"}]}}}} }'
                             objeto_0 = json.loads(json_string_0)
                             objeto  = json.loads(json_string,strict=False)
                             cuentas_tipo_saldo_array.append(objeto_0) 
@@ -669,6 +669,67 @@ def makeResponse(req):
                 "source": "apiai-weather-webhook",
                 "messages": cuentas_tipo_saldo_array
             } 
+            
+
+        else:
+            return verificacion_response
+
+    if intentName == "bytebot.avb.cuenta.debito.tipos.movimientos":
+        #Verificación: ¿El estado de la tabla BBOTSEFAC es true o false?        
+        verificacion = verificacion()
+        
+        
+        if int(verificacion) != 0:  
+            contexts = result.get("contexts")
+            last_context = contexts[len(contexts)-1]
+            name_context = last_context["name"]
+            if name_context == "generic":
+                last_context = contexts[len(contexts)-2]   
+            parameters_context = last_context["parameters"]
+            debito_context = parameters_context.get("debito")
+            debito_sueldo = parameters_context.get("debito_sueldo")
+
+            r_query = requests.get('http://181.177.228.114:5000/query')
+            json_object_query = r_query.json()
+            documento = int(json_object_query["result"]["documento"])
+
+            #Generando reporte
+            r_reporte = requests.get('http://181.177.228.114:5000/bypass_reporte/'+ str(documento) + '/' + str(debito_context).replace(' ', '%20') + '/' + str(debito_sueldo).replace(' ', '%20') )
+
+            speech = "-"
+            return{
+                    "speech": speech,
+                    "messages": [
+                        {
+                        "type": 0,
+                        "platform": "facebook",
+                        "speech": "Te generaré un reporte para que tengas el detalle de tus movimientos siempre a tu alcance :)"
+                        },
+                        {
+                        "type": 0,
+                        "platform": "facebook",
+                        "speech": "Espera un momento porfavor"
+                        },
+                        {
+                        "type": 4,
+                        "platform": "facebook",
+                        "payload": {
+                            "facebook": {
+                            "attachment": {
+                                "type": "file",
+                                "payload": {
+                                "url": "http://181.177.228.114:81/reporte/reporte_" + str(documento) + ".pdf"
+                                }
+                            }
+                            }
+                        }
+                        },
+                        {
+                        "type": 0,
+                        "speech": ""
+                        }
+                    ]
+            }
             
 
         else:
