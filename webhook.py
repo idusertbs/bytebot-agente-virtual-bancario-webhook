@@ -674,7 +674,7 @@ def makeResponse(req):
         else:
             return verificacion_response
 
-    if intentName == "bytebot.avb.cuenta.debito.tipos.movimientos":
+    if intentName == "bytebot.avb.cuentas.generar.grafica":
         #Verificación: ¿El estado de la tabla BBOTSEFAC es true o false?        
         verificacion = verificacion()
         
