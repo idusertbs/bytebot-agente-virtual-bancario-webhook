@@ -228,7 +228,7 @@ def makeResponse(req):
         }
         else:
             speech = "Estoy enviando el código de verificación al celular (******" + str(telefono[9:]) + ")"
-            r_token=requests.get('http://181.177.228.114:5000/enviatoken/' + str(telefono))
+            r_token=requests.get('http://181.177.228.114:5400/enviatoken/' + str(telefono))
             return{
                 "speech": speech,
                 "messages": [                    
@@ -276,7 +276,7 @@ def makeResponse(req):
         r_clientes=requests.get('http://181.177.228.114:5401/clientes/' + str(documento))
         json_object_clientes = r_clientes.json()
         nombre = json_object_clientes["result"]["clientes"]["cliente"]
-        r=requests.get('http://181.177.228.114:5000/validatoken/' + str(token))
+        r=requests.get('http://181.177.228.114:5400/validatoken/' + str(token))
         json_object = r.json()
         acceso = json_object["result"]["codigo"]
 
@@ -301,7 +301,7 @@ def makeResponse(req):
             speech3 = "¿Qué deseas hacer?" 
             r=requests.get('http://181.177.228.114:5400/login/' + str(documento))
             #Recuperando la opción presionada al inicio:
-            #r_context = requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
+            #r_context = requests.get('http://181.177.228.114:5401/clientes/' + str(documento))
 
             if producto == None:
                 debito=json_object_clientes['result']['clientes']['debito']
@@ -424,11 +424,11 @@ def makeResponse(req):
             parameters_context = last_context["parameters"]
             producto = parameters_context.get("producto")
 
-            r_query = requests.get('http://181.177.228.114:5000/query')
+            r_query = requests.get('http://181.177.228.114:5400/query')
             json_object_query = r_query.json()
             documento = int(json_object_query["result"]["documento"])
 
-            r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
+            r=requests.get('http://181.177.228.114:5401/clientes/' + str(documento))
             json_object = r.json()
 
 
@@ -487,7 +487,7 @@ def makeResponse(req):
             parameters_context = last_context["parameters"]
             debito = parameters_context.get("debito")
 
-            r_query = requests.get('http://181.177.228.114:5000/query')
+            r_query = requests.get('http://181.177.228.114:5400/query')
             json_object_query = r_query.json()
             documento = int(json_object_query["result"]["documento"])            
         
@@ -689,7 +689,7 @@ def makeResponse(req):
             debito_context = parameters_context.get("debito")
             debito_sueldo = parameters_context.get("debito_sueldo")
 
-            r_query = requests.get('http://181.177.228.114:5000/query')
+            r_query = requests.get('http://181.177.228.114:5400/query')
             json_object_query = r_query.json()
             documento = int(json_object_query["result"]["documento"])
 
@@ -924,7 +924,7 @@ def makeResponse(req):
                             cuentas_tipo_saldo_url_array.append(cuentas_tipo_saldo_url)
                             cuentas_tipo_saldo_saldos_array.append(cuentas_tipo_saldo_saldos)
                             cuentas_tipo_saldo_monedas_array.append(cuentas_tipo_saldo_monedas)
-                            url_final = 'http://181.177.228.114:5000/grafica/' + str(cuentas_tipo_saldo_movimientos_dias) +'/'+ str(cuentas_tipo_saldo_movimientos_monto) +'/' + cuentas_tipo_saldo_saldos +'/'+ str(documento) + '/Cuentas/' + debito_context + '/' + debito_sueldo +'/' + cuentas_tipo_saldo_monedas
+                            url_final = 'http://181.177.228.114:5400/grafica/' + str(cuentas_tipo_saldo_movimientos_dias) +'/'+ str(cuentas_tipo_saldo_movimientos_monto) +'/' + cuentas_tipo_saldo_saldos +'/'+ str(documento) + '/Cuentas/' + debito_context + '/' + debito_sueldo +'/' + cuentas_tipo_saldo_monedas
                             url_final_final = url_final.replace(" ", "%20").replace("S/","S")
                             r_grafica = requests.get(url_final_final)
                             json_url_imagen = r_grafica.json()
@@ -1192,7 +1192,7 @@ def makeResponse(req):
             r_query = requests.get('http://181.177.228.114:5400/query')
             json_object_query = r_query.json()
             documento = int(json_object_query["result"]["documento"])    
-            r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
+            r=requests.get('http://181.177.228.114:5401/clientes/' + str(documento))
             json_object = r.json()
 
             credito=json_object['result']['clientes']['credito']
@@ -1396,7 +1396,7 @@ def makeResponse(req):
             documento = int(json_object_query["result"]["documento"])            
         
 
-            r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
+            r=requests.get('http://181.177.228.114:5401/clientes/' + str(documento))
             json_object = r.json()
 
             credito=json_object['result']['clientes']['credito']
@@ -1477,7 +1477,7 @@ def makeResponse(req):
             documento = int(json_object_query["result"]["documento"])            
         
 
-            r=requests.get('http://181.177.228.114:5001/clientes/' + str(documento))
+            r=requests.get('http://181.177.228.114:5401/clientes/' + str(documento))
             json_object = r.json()
 
             return {
@@ -1555,7 +1555,7 @@ def makeResponse(req):
                         movimientos_descripcion = credito[j]["movimientos_descripcion"] 
                         movimientos_concepto = credito[j]["movimientos_concepto"] 
                         movimientos_comercio = credito[j]["movimientos_comercio"] 
-                        url = "http://181.177.228.114:5000/credito/grafica/" + str(movimientos_monto) + "/" + str(movimientos_concepto) + "/" + str(movimientos_comercio) + "/" + str(moneda) + "/" + str(tarjeta_credito) + "/" + str(consumo)
+                        url = "http://181.177.228.114:5400/credito/grafica/" + str(movimientos_monto) + "/" + str(movimientos_concepto) + "/" + str(movimientos_comercio) + "/" + str(moneda) + "/" + str(tarjeta_credito) + "/" + str(consumo)
                         url = url.replace(" ", "%20").replace("S/","S")
                         r_grafica = requests.get(url)
                         json_url_imagen = r_grafica.json()
