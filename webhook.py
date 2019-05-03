@@ -44,7 +44,7 @@ def makeResponse(req):
     #format_numero = lambda x:'{:,}'.format(x)
 
     def verificacion():
-        r_verificacion = requests.get('http://200.123.7.44:5400/query')
+        r_verificacion = requests.get('http://200.123.7.44:55400/query')
         json_object_verificacion = r_verificacion.json()
         verificacion = json_object_verificacion['result']['codigo']
         return verificacion
@@ -173,7 +173,7 @@ def makeResponse(req):
     if intentName == "bytebot.avb.seleccion.documento-doc.digitado":        
         parameters = result.get("parameters")
         documento = parameters.get("phone-number")
-        r=requests.get('http://200.123.7.44:5401/clientes/' + str(documento))
+        r=requests.get('http://200.123.7.44:55401/clientes/' + str(documento))
         json_object = r.json()
         es_cliente = json_object["result"]["codigo"]
 
@@ -213,7 +213,7 @@ def makeResponse(req):
         #Parámetros normales
         parameters = result.get("parameters")
         canal = parameters.get("canal")
-        r=requests.get('http://200.123.7.44:5401/clientes/' + str(documento))
+        r=requests.get('http://200.123.7.44:55401/clientes/' + str(documento))
         json_object = r.json()
         telefono = json_object["result"]["clientes"]["telefono"]
 
@@ -228,7 +228,7 @@ def makeResponse(req):
         }
         else:
             speech = "Estoy enviando el código de verificación al celular (******" + str(telefono[9:]) + ")"
-            r_token=requests.get('http://200.123.7.44:5400/enviatoken/' + str(telefono))
+            r_token=requests.get('http://200.123.7.44:55400/enviatoken/' + str(telefono))
             return{
                 "speech": speech,
                 "messages": [                    
@@ -273,10 +273,10 @@ def makeResponse(req):
         #Parámetros normales
         parameters = result.get("parameters")
         token = parameters.get("number")        
-        r_clientes=requests.get('http://200.123.7.44:5401/clientes/' + str(documento))
+        r_clientes=requests.get('http://200.123.7.44:55401/clientes/' + str(documento))
         json_object_clientes = r_clientes.json()
         nombre = json_object_clientes["result"]["clientes"]["cliente"]
-        r=requests.get('http://200.123.7.44:5400/validatoken/' + str(token))
+        r=requests.get('http://200.123.7.44:55400/validatoken/' + str(token))
         json_object = r.json()
         acceso = json_object["result"]["codigo"]
 
@@ -299,9 +299,9 @@ def makeResponse(req):
             speech1 = "Autenticación realizada con éxito ✌"
             speech2 = "¡Bienvenido " + primer_nombre + "!" 
             speech3 = "¿Qué deseas hacer?" 
-            r=requests.get('http://200.123.7.44:5400/login/' + str(documento))
+            r=requests.get('http://200.123.7.44:55400/login/' + str(documento))
             #Recuperando la opción presionada al inicio:
-            #r_context = requests.get('http://200.123.7.44:5401/clientes/' + str(documento))
+            #r_context = requests.get('http://200.123.7.44:55401/clientes/' + str(documento))
 
             if producto == None:
                 debito=json_object_clientes['result']['clientes']['debito']
@@ -379,7 +379,7 @@ def makeResponse(req):
         parameters = result.get("parameters")
         respuesta = parameters.get("respuesta")
         
-        r=requests.get('http://200.123.7.44:5401/clientes/' + str(documento))
+        r=requests.get('http://200.123.7.44:55401/clientes/' + str(documento))
         json_object = r.json()
         telefono = json_object["result"]["clientes"]["telefono"]
 
@@ -394,7 +394,7 @@ def makeResponse(req):
         }
         elif respuesta == "Si":
             speech = "Ok! Estoy enviando el código de verificación al celular (******" + str(telefono[9:]) + ")"
-            r_token=requests.get('http://200.123.7.44:5400/enviatoken/' + str(telefono))
+            r_token=requests.get('http://200.123.7.44:55400/enviatoken/' + str(telefono))
             return{
                 "speech": speech,
                 "messages": [                    
@@ -424,11 +424,11 @@ def makeResponse(req):
             parameters_context = last_context["parameters"]
             producto = parameters_context.get("producto")
 
-            r_query = requests.get('http://200.123.7.44:5400/query')
+            r_query = requests.get('http://200.123.7.44:55400/query')
             json_object_query = r_query.json()
             documento = int(json_object_query["result"]["documento"])
 
-            r=requests.get('http://200.123.7.44:5401/clientes/' + str(documento))
+            r=requests.get('http://200.123.7.44:55401/clientes/' + str(documento))
             json_object = r.json()
 
 
@@ -487,12 +487,12 @@ def makeResponse(req):
             parameters_context = last_context["parameters"]
             debito = parameters_context.get("debito")
 
-            r_query = requests.get('http://200.123.7.44:5400/query')
+            r_query = requests.get('http://200.123.7.44:55400/query')
             json_object_query = r_query.json()
             documento = int(json_object_query["result"]["documento"])            
         
 
-            r=requests.get('http://200.123.7.44:5401/clientes/' + str(documento))
+            r=requests.get('http://200.123.7.44:55401/clientes/' + str(documento))
             json_object = r.json()
 
             '''
@@ -620,12 +620,12 @@ def makeResponse(req):
                 debito_context = "Cuenta Ahorros"
             
 
-            r_query = requests.get('http://200.123.7.44:5400/query')
+            r_query = requests.get('http://200.123.7.44:55400/query')
             json_object_query = r_query.json()
             documento = int(json_object_query["result"]["documento"])            
         
 
-            r=requests.get('http://200.123.7.44:5401/clientes/' + str(documento))
+            r=requests.get('http://200.123.7.44:55401/clientes/' + str(documento))
             json_object = r.json()
 
             debito=json_object['result']['clientes']['debito']
@@ -689,12 +689,12 @@ def makeResponse(req):
             debito_context = parameters_context.get("debito")
             debito_sueldo = parameters_context.get("debito_sueldo")
 
-            r_query = requests.get('http://200.123.7.44:5400/query')
+            r_query = requests.get('http://200.123.7.44:55400/query')
             json_object_query = r_query.json()
             documento = int(json_object_query["result"]["documento"])
 
             #Generando reporte
-            r_reporte = requests.get('http://200.123.7.44:5400/bypass_reporte/'+ str(documento) + '/' + str(debito_context).replace(' ', '%20') + '/' + str(debito_sueldo).replace(' ', '%20') )
+            r_reporte = requests.get('http://200.123.7.44:55400/bypass_reporte/'+ str(documento) + '/' + str(debito_context).replace(' ', '%20') + '/' + str(debito_sueldo).replace(' ', '%20') )
 
             speech = "-"
             return{
@@ -718,7 +718,7 @@ def makeResponse(req):
                             "attachment": {
                                 "type": "file",
                                 "payload": {
-                                "url": "http://200.123.7.44:81/reporte/reporte_" + str(documento) + ".pdf"
+                                "url": "http://200.123.7.44:59080/reporte/reporte_" + str(documento) + ".pdf"
                                 }
                             }
                             }
@@ -761,12 +761,12 @@ def makeResponse(req):
             else:
                 debito_context = "Cuenta Ahorros"
 
-            r_query = requests.get('http://200.123.7.44:5400/query')
+            r_query = requests.get('http://200.123.7.44:55400/query')
             json_object_query = r_query.json()
             documento = int(json_object_query["result"]["documento"])            
         
 
-            r=requests.get('http://200.123.7.44:5401/clientes/' + str(documento))
+            r=requests.get('http://200.123.7.44:55401/clientes/' + str(documento))
             json_object = r.json()
 
             #speech = "Estos son los movimientos de tu cuenta " + debito_sueldo
@@ -890,12 +890,12 @@ def makeResponse(req):
             else:
                 debito_context = "Cuenta Ahorros"      
 
-            r_query = requests.get('http://200.123.7.44:5400/query')
+            r_query = requests.get('http://200.123.7.44:55400/query')
             json_object_query = r_query.json()
             documento = int(json_object_query["result"]["documento"])            
         
 
-            r=requests.get('http://200.123.7.44:5401/clientes/' + str(documento))
+            r=requests.get('http://200.123.7.44:55401/clientes/' + str(documento))
             json_object = r.json()
 
             debito=json_object['result']['clientes']['debito']
@@ -924,7 +924,7 @@ def makeResponse(req):
                             cuentas_tipo_saldo_url_array.append(cuentas_tipo_saldo_url)
                             cuentas_tipo_saldo_saldos_array.append(cuentas_tipo_saldo_saldos)
                             cuentas_tipo_saldo_monedas_array.append(cuentas_tipo_saldo_monedas)
-                            url_final = 'http://200.123.7.44:5400/grafica/' + str(cuentas_tipo_saldo_movimientos_dias) +'/'+ str(cuentas_tipo_saldo_movimientos_monto) +'/' + cuentas_tipo_saldo_saldos +'/'+ str(documento) + '/Cuentas/' + debito_context + '/' + debito_sueldo +'/' + cuentas_tipo_saldo_monedas
+                            url_final = 'http://200.123.7.44:55400/grafica/' + str(cuentas_tipo_saldo_movimientos_dias) +'/'+ str(cuentas_tipo_saldo_movimientos_monto) +'/' + cuentas_tipo_saldo_saldos +'/'+ str(documento) + '/Cuentas/' + debito_context + '/' + debito_sueldo +'/' + cuentas_tipo_saldo_monedas
                             url_final_final = url_final.replace(" ", "%20").replace("S/","S")
                             r_grafica = requests.get(url_final_final)
                             json_url_imagen = r_grafica.json()
@@ -990,12 +990,12 @@ def makeResponse(req):
             else:
                 debito_context = "Cuenta Ahorros"
 
-            r_query = requests.get('http://200.123.7.44:5400/query')
+            r_query = requests.get('http://200.123.7.44:55400/query')
             json_object_query = r_query.json()
             documento = int(json_object_query["result"]["documento"])            
         
 
-            r=requests.get('http://200.123.7.44:5401/clientes/' + str(documento))
+            r=requests.get('http://200.123.7.44:55401/clientes/' + str(documento))
             json_object = r.json()
 
             debito=json_object['result']['clientes']['debito']
@@ -1086,7 +1086,7 @@ def makeResponse(req):
         }
 
     if intentName == "bytebot.avb.consultar.cerrar.sesion":             
-        r_query = requests.get('http://200.123.7.44:5400/query')
+        r_query = requests.get('http://200.123.7.44:55400/query')
         json_object_query = r_query.json()
         haysesion = int(json_object_query["result"]["codigo"])
 
@@ -1095,7 +1095,7 @@ def makeResponse(req):
         else:
             documento = int(json_object_query["result"]["documento"])
 
-        r=requests.get('http://200.123.7.44:5400/logout/' + str(documento))
+        r=requests.get('http://200.123.7.44:55400/logout/' + str(documento))
         json_object = r.json()
         sesion = json_object["result"]["codigo"]
 
@@ -1133,7 +1133,7 @@ def makeResponse(req):
             parameters_context = last_context["parameters"]
             credito = parameters_context.get("credito")
 
-            r_saldos = requests.get('http://200.123.7.44:5400/credito/saldos/' + str(credito).replace(" ", "%20"))
+            r_saldos = requests.get('http://200.123.7.44:55400/credito/saldos/' + str(credito).replace(" ", "%20"))
             json_object_saldos = r_saldos.json()
             documento = int(json_object_saldos["saldos_tarjeta"]["documento"])
             tarjeta_credito_saldo = []
@@ -1189,10 +1189,10 @@ def makeResponse(req):
             if tarjeta_credito == None or tarjeta_credito == "":
                 tarjeta_credito = "" 
 
-            r_query = requests.get('http://200.123.7.44:5400/query')
+            r_query = requests.get('http://200.123.7.44:55400/query')
             json_object_query = r_query.json()
             documento = int(json_object_query["result"]["documento"])    
-            r=requests.get('http://200.123.7.44:5401/clientes/' + str(documento))
+            r=requests.get('http://200.123.7.44:55401/clientes/' + str(documento))
             json_object = r.json()
 
             credito=json_object['result']['clientes']['credito']
@@ -1208,7 +1208,7 @@ def makeResponse(req):
                     ]
                 }
             else:
-                r_proximo_pago = requests.get('http://200.123.7.44:5400/credito/proximo_pago/' + str(tarjeta_credito).replace(" ", "%20"))
+                r_proximo_pago = requests.get('http://200.123.7.44:55400/credito/proximo_pago/' + str(tarjeta_credito).replace(" ", "%20"))
                 json_object_proximo_pago = r_proximo_pago.json()
                 documento = int(json_object_proximo_pago["proximo_pago"]["documento"])
                 tarjeta_credito_proximo_pago = []
@@ -1258,12 +1258,12 @@ def makeResponse(req):
             parameters_context = last_context["parameters"]
             tarjeta_credito = parameters_context.get("credito")
 
-            r_query = requests.get('http://200.123.7.44:5400/query')
+            r_query = requests.get('http://200.123.7.44:55400/query')
             json_object_query = r_query.json()
             documento = int(json_object_query["result"]["documento"])            
         
 
-            r=requests.get('http://200.123.7.44:5401/clientes/' + str(documento))
+            r=requests.get('http://200.123.7.44:55401/clientes/' + str(documento))
             json_object = r.json()
 
             hay_tarjeta = False
@@ -1391,12 +1391,12 @@ def makeResponse(req):
             pagina = int(parameters_context.get("paginas")[6:])
 
 
-            r_query = requests.get('http://200.123.7.44:5400/query')
+            r_query = requests.get('http://200.123.7.44:55400/query')
             json_object_query = r_query.json()
             documento = int(json_object_query["result"]["documento"])            
         
 
-            r=requests.get('http://200.123.7.44:5401/clientes/' + str(documento))
+            r=requests.get('http://200.123.7.44:55401/clientes/' + str(documento))
             json_object = r.json()
 
             credito=json_object['result']['clientes']['credito']
@@ -1472,12 +1472,12 @@ def makeResponse(req):
             parameters_context = last_context["parameters"]
             tarjeta_credito = parameters_context.get("credito")
 
-            r_query = requests.get('http://200.123.7.44:5400/query')
+            r_query = requests.get('http://200.123.7.44:55400/query')
             json_object_query = r_query.json()
             documento = int(json_object_query["result"]["documento"])            
         
 
-            r=requests.get('http://200.123.7.44:5401/clientes/' + str(documento))
+            r=requests.get('http://200.123.7.44:55401/clientes/' + str(documento))
             json_object = r.json()
 
             return {
@@ -1521,12 +1521,12 @@ def makeResponse(req):
             if consumo == "" or consumo == None:
                 consumo = "ese consumo"
 
-            r_query = requests.get('http://200.123.7.44:5400/query')
+            r_query = requests.get('http://200.123.7.44:55400/query')
             json_object_query = r_query.json()
             documento = int(json_object_query["result"]["documento"])            
         
 
-            r=requests.get('http://200.123.7.44:5401/clientes/' + str(documento))
+            r=requests.get('http://200.123.7.44:55401/clientes/' + str(documento))
             json_object = r.json()
 
             credito=json_object['result']['clientes']['credito']
@@ -1555,7 +1555,7 @@ def makeResponse(req):
                         movimientos_descripcion = credito[j]["movimientos_descripcion"] 
                         movimientos_concepto = credito[j]["movimientos_concepto"] 
                         movimientos_comercio = credito[j]["movimientos_comercio"] 
-                        url = "http://200.123.7.44:5400/credito/grafica/" + str(movimientos_monto) + "/" + str(movimientos_concepto) + "/" + str(movimientos_comercio) + "/" + str(moneda) + "/" + str(tarjeta_credito) + "/" + str(consumo)
+                        url = "http://200.123.7.44:55400/credito/grafica/" + str(movimientos_monto) + "/" + str(movimientos_concepto) + "/" + str(movimientos_comercio) + "/" + str(moneda) + "/" + str(tarjeta_credito) + "/" + str(consumo)
                         url = url.replace(" ", "%20").replace("S/","S")
                         r_grafica = requests.get(url)
                         json_url_imagen = r_grafica.json()
@@ -1628,11 +1628,11 @@ def makeResponse(req):
             if concepto == "" or concepto == None:
                 concepto = "ese concepto"
 
-            r_query = requests.get('http://200.123.7.44:5400/query')
+            r_query = requests.get('http://200.123.7.44:55400/query')
             json_object_query = r_query.json()
             documento = int(json_object_query["result"]["documento"])
         
-            r=requests.get('http://200.123.7.44:5401/clientes/' + str(documento))
+            r=requests.get('http://200.123.7.44:55401/clientes/' + str(documento))
             json_object = r.json()
 
             credito=json_object['result']['clientes']['credito']
@@ -1720,11 +1720,11 @@ def makeResponse(req):
             if comercio == "" or comercio == None:
                 comercio = "ese comercio"
 
-            r_query = requests.get('http://200.123.7.44:5400/query')
+            r_query = requests.get('http://200.123.7.44:55400/query')
             json_object_query = r_query.json()
             documento = int(json_object_query["result"]["documento"])
         
-            r=requests.get('http://200.123.7.44:5401/clientes/' + str(documento))
+            r=requests.get('http://200.123.7.44:55401/clientes/' + str(documento))
             json_object = r.json()
 
             credito=json_object['result']['clientes']['credito']
@@ -1819,7 +1819,7 @@ def makeResponse(req):
             }
         else:
             #hay_canal = False
-            r_query = requests.get('http://200.123.7.44:5400/tipo_de_cambio/')
+            r_query = requests.get('http://200.123.7.44:55400/tipo_de_cambio/')
             json_object_query = r_query.json()
 
             if canal_tipo_cambio == "Agencia":
