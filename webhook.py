@@ -718,7 +718,7 @@ def makeResponse(req):
                             "attachment": {
                                 "type": "file",
                                 "payload": {
-                                "url": "http://200.123.7.44:59080/reporte/reporte_" + str(documento) + ".pdf"
+                                "url": "http://200.123.7.44:8181/reporte/reporte_" + str(documento) + ".pdf"
                                 }
                             }
                             }
