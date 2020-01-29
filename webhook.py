@@ -123,7 +123,7 @@ def makeResponse(req):
         contexts = result.get("contexts")
         last_context = contexts[len(contexts)-1] 
         name_context = last_context["name"]
-        if name_context == "generic":
+        if name_context == "generic" or name_context == "__system_counters__":
             last_context = contexts[len(contexts)-2]  
         parameters_context = last_context["parameters"]
         documento_tipo = parameters_context.get("documento")  
@@ -205,7 +205,7 @@ def makeResponse(req):
         contexts = result.get("contexts")
         last_context = contexts[len(contexts)-1]
         name_context = last_context["name"]
-        if name_context == "generic":
+        if name_context == "generic" or name_context == "__system_counters__":
             last_context = contexts[len(contexts)-2]  
         parameters_context = last_context["parameters"]
         documento = parameters_context.get("phone-number")
@@ -271,7 +271,7 @@ def makeResponse(req):
         contexts = result.get("contexts")
         last_context = contexts[len(contexts)-1]
         name_context = last_context["name"]
-        if name_context == "generic":
+        if name_context == "generic" or name_context == "__system_counters__":
             last_context = contexts[len(contexts)-2]   
         parameters_context = last_context["parameters"]
         producto = parameters_context.get("producto")  
@@ -379,7 +379,7 @@ def makeResponse(req):
         contexts = result.get("contexts")
         last_context = contexts[len(contexts)-1]
         name_context = last_context["name"]
-        if name_context == "generic":
+        if name_context == "generic" or name_context == "__system_counters__":
             last_context = contexts[len(contexts)-2]   
         parameters_context = last_context["parameters"]        
         documento = parameters_context.get("phone-number")
@@ -428,7 +428,7 @@ def makeResponse(req):
             contexts = result.get("contexts")
             last_context = contexts[len(contexts)-1]
             name_context = last_context["name"]
-            if name_context == "generic":
+            if name_context == "generic" or name_context == "__system_counters__":
                 last_context = contexts[len(contexts)-2]   
             parameters_context = last_context["parameters"]
             producto = parameters_context.get("producto")
@@ -491,7 +491,7 @@ def makeResponse(req):
             contexts = result.get("contexts")
             last_context = contexts[len(contexts)-1] 
             name_context = last_context["name"]
-            if name_context == "generic":
+            if name_context == "generic" or name_context == "__system_counters__":
                 last_context = contexts[len(contexts)-2]  
             parameters_context = last_context["parameters"]
             debito = parameters_context.get("debito")
@@ -611,7 +611,7 @@ def makeResponse(req):
             contexts = result.get("contexts")
             last_context = contexts[len(contexts)-1] 
             name_context = last_context["name"]
-            if name_context == "generic":
+            if name_context == "generic" or name_context == "__system_counters__":
                 last_context = contexts[len(contexts)-2]  
             parameters_context = last_context["parameters"]
             debito_context = parameters_context.get("debito")
@@ -692,7 +692,7 @@ def makeResponse(req):
             contexts = result.get("contexts")
             last_context = contexts[len(contexts)-1]
             name_context = last_context["name"]
-            if name_context == "generic":
+            if name_context == "generic" or name_context == "__system_counters__":
                 last_context = contexts[len(contexts)-2]   
             parameters_context = last_context["parameters"]
             debito_context = parameters_context.get("debito")
@@ -753,7 +753,7 @@ def makeResponse(req):
             contexts = result.get("contexts")
             last_context = contexts[len(contexts)-1]
             name_context = last_context["name"]
-            if name_context == "generic":
+            if name_context == "generic" or name_context == "__system_counters__":
                 last_context = contexts[len(contexts)-2]   
             parameters_context = last_context["parameters"]
             debito_context = parameters_context.get("debito")
@@ -882,7 +882,7 @@ def makeResponse(req):
             contexts = result.get("contexts")
             last_context = contexts[len(contexts)-1]
             name_context = last_context["name"]
-            if name_context == "generic":
+            if name_context == "generic" or name_context == "__system_counters__":
                 last_context = contexts[len(contexts)-2]   
             parameters_context = last_context["parameters"]
             debito_context = parameters_context.get("debito")
@@ -981,7 +981,7 @@ def makeResponse(req):
             contexts = result.get("contexts")
             last_context = contexts[len(contexts)-1]
             name_context = last_context["name"]
-            if name_context == "generic":
+            if name_context == "generic" or name_context == "__system_counters__":
                 last_context = contexts[len(contexts)-2]   
             parameters_context = last_context["parameters"]
             debito_context = parameters_context.get("debito")
@@ -1137,7 +1137,7 @@ def makeResponse(req):
             contexts = result.get("contexts")
             last_context = contexts[len(contexts)-1]
             name_context = last_context["name"]
-            if name_context == "generic":
+            if name_context == "generic" or name_context == "__system_counters__":
                 last_context = contexts[len(contexts)-2]  
             parameters_context = last_context["parameters"]
             credito = parameters_context.get("credito")
@@ -1188,7 +1188,7 @@ def makeResponse(req):
             if len(contexts) > 0:
                 last_context = contexts[len(contexts)-1]
                 name_context = last_context["name"]
-                if name_context == "generic":
+                if name_context == "generic" or name_context == "__system_counters__":
                     last_context = contexts[len(contexts)-2]   
                 parameters_context = last_context["parameters"]
                 tarjeta_credito = parameters_context.get("credito")
@@ -1262,7 +1262,7 @@ def makeResponse(req):
             contexts = result.get("contexts")
             last_context = contexts[len(contexts)-1]
             name_context = last_context["name"]
-            if name_context == "generic":
+            if name_context == "generic" or name_context == "__system_counters__":
                 last_context = contexts[len(contexts)-2]   
             parameters_context = last_context["parameters"]
             tarjeta_credito = parameters_context.get("credito")
@@ -1393,7 +1393,7 @@ def makeResponse(req):
             contexts = result.get("contexts")
             last_context = contexts[len(contexts)-1]
             name_context = last_context["name"]
-            if name_context == "generic":
+            if name_context == "generic" or name_context == "__system_counters__":
                 last_context = contexts[len(contexts)-2]            
             parameters_context = last_context["parameters"]
             tarjeta_credito = parameters_context.get("credito")
@@ -1476,7 +1476,7 @@ def makeResponse(req):
             contexts = result.get("contexts")
             last_context = contexts[len(contexts)-1] 
             name_context = last_context["name"]
-            if name_context == "generic":
+            if name_context == "generic" or name_context == "__system_counters__":
                 last_context = contexts[len(contexts)-2]  
             parameters_context = last_context["parameters"]
             tarjeta_credito = parameters_context.get("credito")
@@ -1516,7 +1516,7 @@ def makeResponse(req):
             if len(contexts) > 0:
                 last_context = contexts[len(contexts)-1] 
                 name_context = last_context["name"]
-                if name_context == "generic":
+                if name_context == "generic" or name_context == "__system_counters__":
                     last_context = contexts[len(contexts)-2]  
                 parameters_context = last_context["parameters"]
                 tarjeta_credito = parameters_context.get("credito")
@@ -1622,7 +1622,7 @@ def makeResponse(req):
             if len(contexts) > 0:
                 last_context = contexts[len(contexts)-1]
                 name_context = last_context["name"]
-                if name_context == "generic":
+                if name_context == "generic" or name_context == "__system_counters__":
                     last_context = contexts[len(contexts)-2]   
                 parameters_context = last_context["parameters"]
                 tarjeta_credito = parameters_context.get("credito")
@@ -1714,7 +1714,7 @@ def makeResponse(req):
             if len(contexts) > 0:
                 last_context = contexts[len(contexts)-1] 
                 name_context = last_context["name"]
-                if name_context == "generic":
+                if name_context == "generic" or name_context == "__system_counters__":
                     last_context = contexts[len(contexts)-2]  
                 parameters_context = last_context["parameters"]
                 tarjeta_credito = parameters_context.get("credito")
@@ -1801,7 +1801,7 @@ def makeResponse(req):
         if len(contexts) > 0:
             last_context = contexts[len(contexts)-1] 
             name_context = last_context["name"]
-            if name_context == "generic":
+            if name_context == "generic" or name_context == "__system_counters__":
                 last_context = contexts[len(contexts)-2]  
             parameters_context = last_context["parameters"]            
             canal_tipo_cambio = parameters_context.get("canal_tipo_cambio")
