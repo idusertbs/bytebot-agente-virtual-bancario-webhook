@@ -213,6 +213,9 @@ def makeResponse(req):
         #Parámetros normales
         parameters = result.get("parameters")
         canal = parameters.get("canal")
+        print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+        print(str(documento))
+        print('http://200.123.7.44:55401/clientes/' + str(documento))
         r=requests.get('http://200.123.7.44:55401/clientes/' + str(documento))
         json_object = r.json()
         telefono = json_object["result"]["clientes"]["telefono"]
