@@ -852,25 +852,59 @@ def makeResponse(req):
                 }
             else: 
                 return {
-                "speech": "Cancelado :/",
-                "displayText": "heyo",
-                "source": "apiai-weather-webhook",
-                "messages": [
-                    {"type": 0, "platform": "facebook", "speech": "Estos son los movimientos de tu cuenta " + debito_sueldo },
-                    {"type": 0, "platform": "facebook", "card": {
-                        "title": "Title: this is a title",
-                        "subtitle": "This is an subtitle.  Text can include unicode characters including emoji 📱.",
-                        "imageUri": "https://developers.google.com/actions/images/badges/XPM_BADGING_GoogleAssistant_VER.png",
-                        "buttons": [
-                          {
-                            "text": "This is a button",
-                            "postback": "https://assistant.google.com/"
-                          }
-                        ]
-                      }}
-                ]
-
-            }
+     "speech": "Cuenta Ahorros",
+     "displayText": "Cancelado",
+     "source": "apiai-weather-webhook",
+     "messages": [
+         {
+             "type": 0,
+             "platform": "facebook",
+             "speech": "Estas son tus  cuenta ahorros. Puedes consultar las que desees :)"
+         },
+         {
+             "type": 1,
+             "platform": "facebook",
+             "title": "Cuenta Ahorros - Ahorros Depa",
+             "subtitle": "0011-0486-23-010037299499",
+             "imageUrl": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/cuenta_ahorro.jpg",
+             "buttons": [
+                 {
+                     "text": "Consultar saldos",
+                     "postback": "Consultar Saldos Cuenta Ahorros Ahorros Depa"
+                 },
+                 {
+                     "text": "Ver Movimientos",
+                     "postback": "Consultar Movimientos Cuenta Ahorros Ahorros Depa"
+                 },
+                 {
+                     "text": "An\u00e1lisis",
+                     "postback": "Generar Grafica Cuenta Ahorros Ahorros Depa"
+                 }
+             ]
+         },
+         {
+             "type": 1,
+             "platform": "facebook",
+             "title": "Cuenta Ahorros - Ahorros Auto",
+             "subtitle": "0011-0486-23-010037299488",
+             "imageUrl": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/cuenta_ahorro.jpg",
+             "buttons": [
+                 {
+                     "text": "Consultar saldos",
+                     "postback": "Consultar Saldos Cuenta Ahorros Ahorros Auto"
+                 },
+                 {
+                     "text": "Ver Movimientos",
+                     "postback": "Consultar Movimientos Cuenta Ahorros Ahorros Auto"
+                 },
+                 {
+                     "text": "An\u00e1lisis",
+                     "postback": "Generar Grafica Cuenta Ahorros Ahorros Auto"
+                 }
+             ]
+         }
+     ]
+ }
 
 
             
