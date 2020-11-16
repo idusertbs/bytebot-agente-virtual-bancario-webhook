@@ -852,18 +852,12 @@ def makeResponse(req):
                 }
             else: 
                 return {
-                "speech": "Cancelado :/",
-                "displayText": "heyo",
-                "source": "apiai-weather-webhook",
-                "messages": [
-                    {"type": 0, "platform": "facebook", "speech": "Estos son los movimientos de tu cuenta " + debito_sueldo },
-                    {"type": 0, "platform": "facebook",  "facebook": { "attachment": { "type": "template", "payload": { "template_type": "list", "top_element_style": "compact",
+                "facebook": { "attachment": { "type": "template", "payload": { "template_type": "list", "top_element_style": "compact",
                   "elements": 
                     cuentas_tipo_movimiento_array
                   ,
                   "buttons": button_ver_mas
-                    }}}}
-                ]
+                    }}}
 
             } 
 
