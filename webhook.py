@@ -857,7 +857,12 @@ def makeResponse(req):
                 "source": "apiai-weather-webhook",
                 "messages": [
                     {"type": 0, "platform": "facebook", "speech": "Estos son los movimientos de tu cuenta " + debito_sueldo },
-                    {"type": 0, "platform": "facebook", "speech":"Solo funciona el speech"}
+                    {"type": 0, "platform": "facebook", "payload": {  "attachment": { "type": "template", "payload": { "template_type": "list", "top_element_style": "compact",
+                  "elements": 
+                    cuentas_tipo_movimiento_array
+                  ,
+                  "buttons": button_ver_mas
+                    }}}}
                 ]
 
             }
