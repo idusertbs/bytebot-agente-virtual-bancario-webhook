@@ -857,12 +857,17 @@ def makeResponse(req):
                 "source": "apiai-weather-webhook",
                 "messages": [
                     {"type": 0, "platform": "facebook", "speech": "Estos son los movimientos de tu cuenta " + debito_sueldo },
-                    {"type": 0, "platform": "facebook", "payload": {  "attachment": { "type": "template", "payload": { "template_type": "list", "top_element_style": "compact",
-                  "elements": 
-                    cuentas_tipo_movimiento_array
-                  ,
-                  "buttons": button_ver_mas
-                    }}}}
+                    {"type": 0, "platform": "facebook", "card": {
+                        "title": "Title: this is a title",
+                        "subtitle": "This is an subtitle.  Text can include unicode characters including emoji 📱.",
+                        "imageUri": "https://developers.google.com/actions/images/badges/XPM_BADGING_GoogleAssistant_VER.png",
+                        "buttons": [
+                          {
+                            "text": "This is a button",
+                            "postback": "https://assistant.google.com/"
+                          }
+                        ]
+                      }}
                 ]
 
             }
