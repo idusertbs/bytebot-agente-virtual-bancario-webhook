@@ -857,7 +857,7 @@ def makeResponse(req):
                 "source": "apiai-weather-webhook",
                 "messages": [
                     {"type": 0, "platform": "facebook", "speech": "Estos son los movimientos de tu cuenta " + debito_sueldo },
-                    {"type": 1, "platform": "facebook", "title": "- S/ 12,000.32", "subtitle": "NEOAUTO "}
+                    {"type": 1, "platform": "facebook", "title": "- S/ 12,000.32", "subtitle": "NEOAUTO ","imageUrl": "https://raw.githubusercontent.com/idusertbs/bytebot-agente-virtual-bancario-webhook/master/bytebot_agente_bancario_assets/cuenta_ahorro.jpg","buttons": []}
                 ]
 
             }
