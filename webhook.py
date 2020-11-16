@@ -669,7 +669,7 @@ def makeResponse(req):
                             json_string_0 = u'{"type": 0,"platform": "facebook","speech":"'+ speech +'"}'
                             #json_string = u'{"type": 0,"platform": "facebook","speech":"'+ speech_saldo_1 + "\n" + speech_saldo_2  + "\n" + speech_saldo_3 +'"}'
                             #json_string = u'{ "type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "button", "text": "'+ speech_saldo_1 + "\n" + speech_saldo_2  + "\n" + speech_saldo_3 +'","buttons": [{ "type": "postback", "title": "Generar Gráfica", "payload": "Generar Grafica ' + str(debito[i]['nombre']) + " " + str(cuentas_tipo_saldo_nombres[0]) + '" },{"type": "postback", "title": "Consultar Movimientos", "payload": "Consultar Movimientos ' + str(debito[i]['nombre']) + " " + str(cuentas_tipo_saldo_nombres[0])  +'"}]}}}} }'
-                            json_string = u'{ "type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "button", "text": "'+ speech_saldo_2 + "\n" + speech_saldo_3  + "\n" + speech_saldo_1 +'","buttons": [{"type": "postback", "title": "Generar Reporte", "payload": "Generar Reporte ' + str(debito[i]['nombre']) + " " + str(cuentas_tipo_saldo_nombres[0])  +'"},{"type": "postback", "title": "Ver Movimientos", "payload": "Consultar Movimientos ' + str(debito[i]['nombre']) + " " + str(cuentas_tipo_saldo_nombres[0])  +'"}]}}}} }'
+                            json_string = u'{ "type": 0, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "button", "text": "'+ speech_saldo_2 + "\n" + speech_saldo_3  + "\n" + speech_saldo_1 +'","buttons": [{"type": "postback", "title": "Generar Reporte", "payload": "Generar Reporte ' + str(debito[i]['nombre']) + " " + str(cuentas_tipo_saldo_nombres[0])  +'"},{"type": "postback", "title": "Ver Movimientos", "payload": "Consultar Movimientos ' + str(debito[i]['nombre']) + " " + str(cuentas_tipo_saldo_nombres[0])  +'"}]}}}} }'
                             objeto_0 = json.loads(json_string_0)
                             objeto  = json.loads(json_string,strict=False)
                             cuentas_tipo_saldo_array.append(objeto_0) 
@@ -857,7 +857,7 @@ def makeResponse(req):
                 "source": "apiai-weather-webhook",
                 "messages": [
                     {"type": 0, "platform": "facebook", "speech": "Estos son los movimientos de tu cuenta " + debito_sueldo },
-                    {"type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "list", "top_element_style": "compact",
+                    {"type": 0, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "list", "top_element_style": "compact",
                   "elements": 
                     cuentas_tipo_movimiento_array
                   ,
@@ -1058,7 +1058,7 @@ def makeResponse(req):
                 "displayText": "Cancelado :/",
                 "source": "apiai-weather-webhook",
                 "messages": [
-                    {"type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "list", "top_element_style": "compact",
+                    {"type": 0, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "list", "top_element_style": "compact",
                   "elements": 
                     cuentas_tipo_movimiento_array
                   ,
@@ -1494,7 +1494,7 @@ def makeResponse(req):
             return {
                 "speech": "análisis", "displayText": "análisis", "source": "bytebot-webhook",
                 "messages": [                    
-                    { "type": 4, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "button", "text": "Seleccione el tipo de Análisis: ",
+                    { "type": 0, "platform": "facebook", "payload": { "facebook": { "attachment": { "type": "template", "payload": { "template_type": "button", "text": "Seleccione el tipo de Análisis: ",
                                 "buttons": [ 
                                     { "type": "postback", "title": "Consumo por Concepto", "payload": "Consumo por Concepto " + tarjeta_credito},
                                     {"type": "postback", "title": "Consumo por Comercio", "payload": "Consumo por Comercio " + tarjeta_credito}
